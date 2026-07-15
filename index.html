@@ -5521,6 +5521,34 @@ html.is-scrolling nav{box-shadow:0 10px 30px rgba(0,0,0,.18),inset 0 1px 0 rgba(
 @keyframes sectionBodyIn{from{opacity:0;transform:translate3d(0,16px,0)}to{opacity:1;transform:translate3d(0,0,0)}}
 @media(max-width:760px){.hero-glow{filter:blur(54px)!important}.portfolio-piece,.work-card{contain-intrinsic-size:280px 350px}}
 
+/* Repertoire: preserve the 3D stack without keeping seven filtered layers alive. */
+#experience .exp-grid{
+  contain:layout paint style;
+  transform:translateZ(0);
+  isolation:isolate;
+}
+#experience .exp-card,
+#experience .exp-card:nth-child(n){
+  filter:none!important;
+  will-change:transform,opacity;
+  contain:layout style;
+  transition:transform .72s var(--human-spring),opacity .42s ease,border-color .28s ease,box-shadow .34s ease!important;
+}
+#experience .exp-card.carousel-hidden{
+  visibility:hidden!important;
+  pointer-events:none!important;
+  will-change:auto!important;
+  transition:none!important;
+}
+html.is-scrolling #experience .exp-card{
+  transition:none!important;
+}
+html.is-scrolling #experience .advm-exp-btn,
+html.is-scrolling #experience .advm-exp-dots{
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+
 /* About collage: compact, evenly spaced frames with no photo overlap. */
 #about{padding-bottom:5.25rem}
 #about .about-photo-stage{
@@ -7906,15 +7934,15 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeExperienceModal
       const rotateZ=offset*(mobile?.8:1.1);
       const scale=Math.max(mobile?.76:.72,1-abs*(mobile?.09:.075));
       const opacity=abs===0?1:abs===1?.72:abs===2?.36:0;
-      const blur=abs===0?0:Math.min(3.2,abs*.85);
-      const saturation=abs===0?1.08:Math.max(.72,1-abs*.11);
+      const hidden=abs>2;
       card.style.setProperty('--advm-card-transform',`translate3d(-50%,-50%,0) translate3d(${x}px,${y}px,${z}px) rotateY(${rotateY}deg) rotateZ(${rotateZ}deg) scale(${scale})`);
       card.style.setProperty('--advm-card-opacity',opacity);
       card.style.setProperty('--advm-card-z',String(50-abs));
-      card.style.setProperty('--advm-card-filter',`blur(${blur}px) saturate(${saturation})`);
+      card.style.willChange=hidden?'auto':'transform, opacity';
       card.classList.toggle('active',abs===0);
       card.classList.toggle('is-far',abs>1);
-      card.setAttribute('aria-hidden',abs>2?'true':'false');
+      card.classList.toggle('carousel-hidden',hidden);
+      card.setAttribute('aria-hidden',hidden?'true':'false');
       card.tabIndex=abs===0?0:-1;
     });
     updateContext(cards[active]);
@@ -8082,6 +8110,12 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeExperienceModal
   document.addEventListener('visibilitychange',()=>{
     if(document.hidden) pauseAuto();
     else startAuto();
+  });
+  let pageScrollResumeTimer=0;
+  portfolioScrollCallbacks.add(()=>{
+    pauseAuto();
+    window.clearTimeout(pageScrollResumeTimer);
+    pageScrollResumeTimer=window.setTimeout(startAuto,240);
   });
 
   render(active);
@@ -9261,18 +9295,6 @@ if(contactMailbox){
     if(note) note.textContent='Opening your email app with the message filled in...';
     window.location.href=mailto;
   });
-}
-
-
-
-/* V57: floating repertoire cursor glow */
-const experienceCardsWrap=document.getElementById('experienceCards');
-if(experienceCardsWrap){
-  experienceCardsWrap.addEventListener('pointermove',e=>{
-    const r=experienceCardsWrap.getBoundingClientRect();
-    experienceCardsWrap.style.setProperty('--mx',`${e.clientX-r.left}px`);
-    experienceCardsWrap.style.setProperty('--my',`${e.clientY-r.top}px`);
-  },{passive:true});
 }
 
 </script>
