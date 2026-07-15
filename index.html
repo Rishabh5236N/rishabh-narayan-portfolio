@@ -4352,6 +4352,8 @@ html.cursor-ready #cursor-ring{
   background:linear-gradient(90deg,transparent,rgba(244,239,248,.035),transparent),repeating-linear-gradient(0deg,rgba(244,239,248,.026) 0 1px,transparent 1px 72px)
 }
 .about-number{font-weight:800;color:var(--a3);background:linear-gradient(90deg,var(--a1),var(--a3),var(--a4));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-shadow:0 0 22px rgba(63,196,247,.16);font-variant-numeric:tabular-nums}
+.about-social-link{color:var(--a3);font:inherit;font-weight:600;text-decoration-color:rgba(63,196,247,.58);text-decoration-thickness:1px;text-underline-offset:.22em;transition:color .2s ease,text-decoration-color .2s ease}
+.about-social-link:hover,.about-social-link:focus-visible{color:var(--cream);text-decoration-color:var(--a1)}
 .research-intro{max-width:760px;color:var(--muted);line-height:1.82;margin-bottom:2rem}
 .research-shell{display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);gap:1rem;align-items:stretch}
 .research-lead,.research-card{position:relative;overflow:hidden;border:1px solid rgba(244,239,248,.10);background:linear-gradient(150deg,rgba(255,255,255,.055),rgba(255,255,255,.018) 48%,rgba(7,6,14,.62));box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 28px 80px rgba(0,0,0,.22)}
@@ -6136,7 +6138,7 @@ html.is-scrolling #experience .advm-exp-dots{
       <p class="section-label">About Me</p>
       <h2 class="section-title">Making brands<br><em class="grad-text move-people-glow-target">Building Audiences</em></h2>
       <p>I'm Rishabh Narayan, an aspiring Creative Advertiser &amp; Brand Marketer with a significant interest in entertainment &amp; content creation. I am a Junior at Penn State studying Advertising &amp; Psychology and am building the bridge between consumer behavior &amp; creative marketing strategy through research &amp; internship experiences within audience analysis, KPI strategy, and pattern behavior. My work spans all aspects of creative media, from campus content creation, music, non-profit livestream management, UGC social media, Campaign analysis, Radio &amp; Film development, Media/Neuro Research, and Brand-side consumer strategy.</p>
-      <p>I have led social and publicity systems for SASA, 46LIVE, CommRadio, Adobe, American Press Institute, and Penn State Music Group, pairing content production with measurable growth: <strong class="about-number">3.5M+</strong> SASA impressions, a <strong class="about-number">200%</strong> following increase, <strong class="about-number">207,000+</strong> THON livestream viewers, and reels averaging <strong class="about-number">17,000+</strong> views.</p>
+      <p>From content creation to campaign strategy, I have held marketing and advertising roles ranging from student organizations like The South Asian Student Association and 46LIVE to high-valued corporations such as J.M Smucker &amp; Adobe with content strategies across all channels: <strong class="about-number">3.5M+</strong> impressions and a <strong class="about-number">200%</strong> following increase across SASA, <strong class="about-number">207,000+</strong> THON livestream viewers through 46LIVE, and reels averaging <strong class="about-number">30,000-40,000+</strong> views across all content platforms including The Coda Conduct, SASA, and 46LIVE. Specific details can be found <a class="about-social-link playable" href="#social-media-content">here</a>.</p>
       <p>The throughline is simple: I turn cultural moments into clear creative, platform-native content, and campaigns that make people want to watch, share, attend, and remember.</p>
       <div class="skills-grid">
         <span class="skill-pill">Entertainment Marketing</span><span class="skill-pill">Brand Strategy</span>
@@ -6503,7 +6505,7 @@ html.is-scrolling #experience .advm-exp-dots{
       </a>
 
     </div>
-    <div class="social-portfolio-showcase reveal filtered-out" data-category="social">
+    <div class="social-portfolio-showcase reveal filtered-out" id="social-media-content" data-category="social">
       <div class="social-showcase-header">
         <div>
           <div class="social-kicker">Instagram Showcase</div>
@@ -8346,6 +8348,16 @@ portfolioTabs.forEach(tab=>tab.addEventListener('click',()=>{
   if(tab.dataset.filter==='social') spawnSocialReelCue(tab);
 }));
 applyPortfolioFilter('graphic');
+
+document.querySelector('.about-social-link')?.addEventListener('click',event=>{
+  event.preventDefault();
+  const socialTab=[...portfolioTabs].find(tab=>tab.dataset.filter==='social');
+  const showcase=document.getElementById('social-media-content');
+  applyPortfolioFilter('social');
+  if(socialTab) spawnSocialReelCue(socialTab);
+  setActiveNav('work');
+  window.setTimeout(()=>scrollPortfolioTarget(showcase,{hash:'social-media-content'}),70);
+});
 
 /* Brand marquee navigation and animated client metrics. */
 (function initBrandMarqueeNavigation(){
