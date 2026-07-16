@@ -5553,6 +5553,39 @@ html.is-scrolling #experience .advm-exp-dots{
   -webkit-backdrop-filter:none!important;
 }
 
+/* Repertoire readability: dense smoked glass keeps overlapping copy separated. */
+#experience .exp-grid{
+  background:
+    linear-gradient(145deg,rgba(26,21,38,.94),rgba(9,8,17,.96) 48%,rgba(16,20,31,.94)),
+    repeating-linear-gradient(90deg,rgba(244,239,248,.026) 0 1px,transparent 1px 88px)!important;
+  border-color:rgba(244,239,248,.18)!important;
+  box-shadow:0 34px 100px rgba(0,0,0,.36),inset 0 1px 0 rgba(255,255,255,.09)!important;
+}
+#experience .exp-card,
+#experience .exp-card:nth-child(n){
+  background:
+    linear-gradient(155deg,rgba(45,38,60,.98),rgba(20,17,32,.99) 48%,rgba(9,8,17,.995) 100%),
+    linear-gradient(120deg,rgba(181,123,238,.14),transparent 44%,rgba(63,196,247,.09))!important;
+  border-color:rgba(244,239,248,.25)!important;
+  box-shadow:0 34px 88px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.15)!important;
+}
+#experience .exp-card.active{
+  background:
+    linear-gradient(155deg,rgba(53,44,68,.995),rgba(21,18,34,.998) 46%,rgba(9,8,17,1) 100%),
+    linear-gradient(120deg,rgba(181,123,238,.18),transparent 44%,rgba(63,196,247,.12))!important;
+  border-color:rgba(244,239,248,.5)!important;
+  box-shadow:0 42px 118px rgba(0,0,0,.58),0 0 0 1px rgba(181,123,238,.12),inset 0 1px 0 rgba(255,255,255,.2)!important;
+}
+#experience .exp-date{color:rgba(244,239,248,.82)!important}
+#experience .exp-role{color:rgba(250,247,252,.98)!important;text-shadow:0 2px 16px rgba(0,0,0,.42)}
+#experience .exp-org{color:rgb(93,211,250)!important;text-shadow:0 2px 14px rgba(0,0,0,.5)}
+#experience .exp-desc{color:rgba(244,239,248,.9)!important;text-shadow:0 1px 12px rgba(0,0,0,.4)}
+#experience .exp-pill{
+  background:rgba(13,11,23,.9)!important;
+  border-color:rgba(244,239,248,.23)!important;
+  color:rgba(244,239,248,.88)!important;
+}
+
 /* About collage: compact, evenly spaced frames with no photo overlap. */
 #about{padding-bottom:5.25rem}
 #about .about-photo-stage{
@@ -8036,7 +8069,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeExperienceModal
       const rotateY=offset*(mobile?-5:-8.5);
       const rotateZ=offset*(mobile?.8:1.1);
       const scale=Math.max(mobile?.76:.72,1-abs*(mobile?.09:.075));
-      const opacity=abs===0?1:abs===1?.72:abs===2?.36:0;
+      const opacity=abs===0?1:abs===1?.86:abs===2?.5:0;
       const hidden=abs>2;
       card.style.setProperty('--advm-card-transform',`translate3d(-50%,-50%,0) translate3d(${x}px,${y}px,${z}px) rotateY(${rotateY}deg) rotateZ(${rotateZ}deg) scale(${scale})`);
       card.style.setProperty('--advm-card-opacity',opacity);
