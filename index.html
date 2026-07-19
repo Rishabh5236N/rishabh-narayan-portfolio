@@ -5677,6 +5677,30 @@ html.is-scrolling #experience .advm-exp-dots{
   #about .about-photo-bustelo{right:0;bottom:9%;width:55%;height:43%;transform:rotate(-.55deg)}
 }
 
+/* Hero metrics: quiet trailing note aligned with the final statistic. */
+#hero .client-proof-foot{
+  justify-self:end!important;
+  width:max-content!important;
+  margin:.08rem clamp(.35rem,1.35vw,1rem) 0 0!important;
+  color:rgba(207,187,225,.46)!important;
+  font-family:"Cormorant Garamond",serif!important;
+  font-size:.76rem!important;
+  font-style:italic!important;
+  font-weight:400!important;
+  line-height:1!important;
+  letter-spacing:.02em!important;
+  text-align:right!important;
+  opacity:.72;
+}
+@media(max-width:720px){
+  #hero .client-proof-foot{
+    margin-top:.14rem!important;
+    margin-right:.2rem!important;
+    font-size:.68rem!important;
+    opacity:.66;
+  }
+}
+
 /* Live performance archive: lightweight editorial grid inside the music chapter. */
 .live-performance-feature{
   margin-top:clamp(5rem,9vh,7rem);
@@ -6141,7 +6165,7 @@ html.is-scrolling #experience .advm-exp-dots{
         <span class="client-proof-sr">350 plus posts published</span>
       </div>
     </div>
-    <p class="client-proof-foot">And counting</p>
+    <p class="client-proof-foot">and counting...</p>
     <p class="client-proof-hint"><span aria-hidden="true">&#8593;</span> Click any logo above for more details</p>
   </aside>
   <p class="hero-title">Digital Brand Advertising &amp; Social Behavioral Marketing</p>
