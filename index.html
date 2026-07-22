@@ -4911,10 +4911,10 @@ html.motion-paused *,html.motion-paused *::before,html.motion-paused *::after{an
 #hero .hero-logo-label{padding-left:.2rem;color:rgba(244,239,248,.48);font-family:"DM Sans",sans-serif;font-size:.58rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;white-space:nowrap}
 #hero .hero-logo-viewport{position:relative;min-width:0;overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
 #hero .hero-logo-track{display:flex;width:max-content;will-change:transform;animation:heroLogoRail 34s linear infinite}
-#hero .hero-logo-marquee:hover .hero-logo-track{animation-play-state:paused}
+#hero .hero-logo-marquee:hover .hero-logo-track{animation-play-state:running}
 #hero .hero-logo-group{display:flex;align-items:center;gap:clamp(1.35rem,2.5vw,2.7rem);flex-shrink:0;padding-right:clamp(1.35rem,2.5vw,2.7rem)}
 #hero .brand-lockup{display:inline-flex;align-items:center;gap:.42rem;min-width:max-content;color:rgba(244,239,248,.68);filter:grayscale(.16);opacity:.82;transition:opacity .25s ease,filter .25s ease,transform .25s ease}
-#hero .brand-lockup:hover{opacity:1;filter:none;transform:translateY(-1px)}
+#hero .brand-lockup:hover{z-index:2;opacity:1;filter:none;transform:translateY(-1px) scale(1.08)}
 #hero .brand-lockup b{font-family:"DM Sans",sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.01em;white-space:nowrap}
 #hero .brand-lockup img{width:24px;height:24px;display:block;object-fit:contain;border-radius:5px}
 #hero .brand-adobe img{background:#ef2a2a}
