@@ -5415,25 +5415,27 @@ html.motion-paused *,html.motion-paused *::before,html.motion-paused *::after{an
   #hero>.hero-photo-ghost-left{display:none!important}
 }
 
-/* Live Instagram reel inside the custom phone. */
-.instagram-reel-embed{
+/* Native, muted reels inside the custom phone. */
+.native-reel-video{
   display:none;
   position:absolute;
   inset:0;
   width:100%;
   height:100%;
   border:0;
-  background:#fff;
+  background:#050507;
+  object-fit:cover;
+  object-position:center;
   z-index:8;
 }
-.reel-browser-media.reel-live-embed{
+.reel-browser-media.reel-live-video{
   min-height:560px!important;
-  background:#fff!important;
+  background:#050507!important;
   isolation:isolate;
 }
-.reel-browser-media.reel-live-embed::before{display:none!important}
-.reel-browser-media.reel-live-embed>.instagram-reel-embed{display:block}
-.reel-browser-media.reel-live-embed>:not(.instagram-reel-embed){display:none!important}
+.reel-browser-media.reel-live-video::before{display:none!important}
+.reel-browser-media.reel-live-video>.native-reel-video{display:block}
+.reel-browser-media.reel-live-video>:not(.native-reel-video){display:none!important}
 .reel-metric-note{
   min-height:.72rem;
   margin:-.05rem .1rem .08rem;
@@ -5447,7 +5449,7 @@ html.motion-paused *,html.motion-paused *::before,html.motion-paused *::after{an
 }
 .reel-mini-stat strong{font-variant-numeric:lining-nums tabular-nums}
 @media(max-width:620px){
-  .reel-browser-media.reel-live-embed{min-height:530px!important}
+  .reel-browser-media.reel-live-video{min-height:530px!important}
   .reel-metric-note{font-size:.44rem}
 }
 
@@ -5463,17 +5465,17 @@ html.motion-paused *,html.motion-paused *::before,html.motion-paused *::after{an
   font-weight:700!important;
 }
 
-/* Simplified first phone: profile, reel, and quiet reel navigation only. */
-.reel-browser-phone{min-height:590px!important}
-.reel-browser-phone .phone-body{min-height:570px!important}
-.reel-browser-phone .phone-screen{min-height:550px!important}
+/* Simplified first phone: profile, full-height reel, and quiet navigation only. */
+.reel-browser-phone{min-height:720px!important}
+.reel-browser-phone .phone-body{min-height:700px!important}
+.reel-browser-phone .phone-screen{min-height:680px!important}
 .reel-browser-phone .phone-screen{display:flex!important;flex-direction:column!important;gap:.5rem!important;overflow:hidden!important}
-.reel-browser-phone .ig-post-minimal{flex:0 0 auto;min-height:0;gap:0!important;border-radius:20px!important}
+.reel-browser-phone .ig-post-minimal{display:flex!important;flex:1 1 auto;flex-direction:column;min-height:0;gap:0!important;border-radius:20px!important}
 .reel-browser-phone .ig-post-minimal .ig-post-top{flex:0 0 auto;min-height:50px;padding:.55rem .68rem!important;border-bottom:1px solid rgba(17,18,23,.08)}
 .reel-browser-phone .ig-post-minimal .ig-avatar{width:34px;height:34px}
 .reel-browser-phone .ig-post-minimal .ig-account-copy strong{color:#15151a;font-size:.76rem;letter-spacing:0}
-.reel-browser-phone .ig-post-minimal .reel-browser-media{flex:0 0 auto;min-height:0!important;width:100%;height:auto;aspect-ratio:5/6;margin:0;border:0;border-radius:0!important;padding:0!important}
-.reel-browser-phone .ig-post-minimal .instagram-reel-embed{inset:-54px 0 auto!important;height:calc(100% + 110px)!important;border-radius:0}
+.reel-browser-phone .ig-post-minimal .reel-browser-media{flex:1 1 auto;min-height:0!important;width:100%;height:auto;aspect-ratio:auto;margin:0;border:0;border-radius:0!important;padding:0!important;overflow:hidden}
+.reel-browser-phone .ig-post-minimal .native-reel-video{border-radius:0}
 .reel-browser-phone .reel-controls-minimal{display:grid!important;grid-template-columns:34px 1fr 34px!important;align-items:center;gap:.5rem;margin-top:0;padding:.18rem .32rem!important;border:0!important;background:transparent!important;box-shadow:none!important}
 .reel-browser-phone .reel-controls-minimal .reel-nav-btn{width:34px;height:34px;padding:0;border:0!important;border-radius:50%!important;background:rgba(17,18,23,.045)!important;color:rgba(17,18,23,.66)!important;font-size:.82rem}
 .reel-browser-phone .reel-controls-minimal .reel-nav-btn:hover{background:rgba(181,123,238,.12)!important;color:#15151a!important;transform:translateY(-1px)}
@@ -5481,7 +5483,7 @@ html.motion-paused *,html.motion-paused *::before,html.motion-paused *::after{an
 .reel-browser-phone .reel-dot-picker .reel-thumb{display:block;width:7px;height:7px;min-height:0!important;padding:0!important;border:0!important;border-radius:999px!important;background:rgba(17,18,23,.2)!important;box-shadow:none!important;transform:none!important;transition:width .28s ease,background .28s ease!important}
 .reel-browser-phone .reel-dot-picker .reel-thumb::after{display:none!important}
 .reel-browser-phone .reel-dot-picker .reel-thumb.active{width:22px;background:linear-gradient(90deg,var(--a1),var(--a3))!important}
-@media(max-width:620px){.reel-browser-phone{min-height:530px!important}.reel-browser-phone .phone-body{min-height:510px!important}.reel-browser-phone .phone-screen{min-height:490px!important}.reel-browser-phone .ig-post-minimal .reel-browser-media.reel-live-embed{min-height:0!important}}
+@media(max-width:620px){.reel-browser-phone{min-height:660px!important}.reel-browser-phone .phone-body{min-height:640px!important}.reel-browser-phone .phone-screen{min-height:620px!important}.reel-browser-phone .ig-post-minimal .reel-browser-media.reel-live-video{min-height:0!important}}
 
 /* Performance: pause decorative motion when its section cannot be seen. */
 html.perf-managed main>section:not(.perf-active) *,
@@ -6600,7 +6602,7 @@ html.is-scrolling #experience .advm-exp-dots{
                 </div>
 
                 <div class="ig-post-media reel-browser-media" id="reelMedia">
-                  <iframe class="instagram-reel-embed" id="reelEmbed" src="about:blank" data-src="https://www.instagram.com/reel/DQKdTn5EfBI/embed/" title="PSU SASA Diwali Instagram reel" loading="lazy" scrolling="no" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                  <video class="native-reel-video" id="reelVideo" muted autoplay loop playsinline preload="metadata" disablepictureinpicture controlslist="nodownload noplaybackrate noremoteplayback" aria-label="Selected PSU SASA Instagram reel"></video>
                   <div class="reel-media-art" id="reelMediaArt"></div>
                 </div>
               </div>
@@ -6610,7 +6612,6 @@ html.is-scrolling #experience .advm-exp-dots{
                 <div class="reel-dot-picker" aria-label="Choose reel">
                   <button class="reel-thumb active playable" type="button" data-reel="0" aria-label="Show Diwali reel"></button>
                   <button class="reel-thumb playable" type="button" data-reel="1" aria-label="Show Kupid Dating reel"></button>
-                  <button class="reel-thumb playable" type="button" data-reel="2" aria-label="Show Holi reel"></button>
                 </div>
                 <button class="reel-nav-btn playable" type="button" data-reel-step="1" aria-label="Next reel">&rarr;</button>
               </div>
@@ -8399,8 +8400,12 @@ function applyPortfolioFilter(filter){
     if(typeof setReel==='function') setReel(0);
   }else if(socialEmbedEnabled){
     socialEmbedEnabled=false;
-    const embed=document.getElementById('reelEmbed');
-    if(embed&&embed.getAttribute('src')!=='about:blank') embed.setAttribute('src','about:blank');
+    const video=document.getElementById('reelVideo');
+    if(video){
+      video.pause();
+      video.removeAttribute('src');
+      video.load();
+    }
   }
 }
 portfolioTabs.forEach(tab=>tab.addEventListener('click',()=>{
@@ -8539,34 +8544,61 @@ tiltPhones.forEach(phone=>{
 const reelData=[
   {
     title:'Diwali<br>Tomorrow', subtitle:'event push - ticket CTA - trend-led reel', caption:'PULL UP TO DIWALI TOMORROW. BUY TICKETS NOW - link in bio.',
-    views:'Private', reach:'Private', saves:'Private', shares:'Private', likes:'49,969', comments:'292', time:'Oct 23, 2025', location:'@psusasa', cls:'', color:'#d4aee7', embedUrl:'https://www.instagram.com/reel/DQKdTn5EfBI/embed/',
+    views:'Private', reach:'Private', saves:'Private', shares:'Private', likes:'49,969', comments:'292', time:'Oct 23, 2025', location:'@psusasa', cls:'', color:'#d4aee7', videoUrl:'assets/social-reels/psu-sasa-diwali.mp4',
     metricLabels:['Views','Impressions','Likes','Comments'], metricValues:['Private','Private','49,969','292'], metricsNote:'Public engagement shown. Views and impressions require account Insights.'
   },
   {
     title:'Kupid<br>Dating', subtitle:'dating show promo - campus humor - event CTA', caption:"Would you ask a girl if they're garbage? KUPID X PSU SASA dating show tomorrow at 6 PM. Tickets in bio.",
-    views:'Private', reach:'Private', saves:'Private', shares:'Private', likes:'848', comments:'25', time:'Nov 13, 2025', location:'@psusasa x @kupiddating', cls:'', color:'#e2a5b3', embedUrl:'https://www.instagram.com/reel/DRAjBRHEWTN/embed/',
+    views:'Private', reach:'Private', saves:'Private', shares:'Private', likes:'848', comments:'25', time:'Nov 13, 2025', location:'@psusasa x @kupiddating', cls:'', color:'#e2a5b3', videoUrl:'assets/social-reels/psu-sasa-kupid.mp4',
     metricLabels:['Views','Impressions','Likes','Comments'], metricValues:['Private','Private','848','25'], metricsNote:'Public engagement shown. Views and impressions require account Insights.'
-  },
+  }
+];
+/* Retained as source reference until a Holi reel file is supplied.
   {
     title:'Holi<br>Color Drop', subtitle:'F&B partnership • color festival • campus launch', caption:'Holi Color Me Chai reel — built to make the Starbucks collab feel colorful, cultural, and instantly shareable.',
     views:'41.3K', reach:'27.8K', saves:'328', shares:'317', likes:'7.6K', comments:'144', time:'1d', location:'HUB Starbucks', cls:'reel-holi', color:'#36d6a4'
   }
-];
+*/
 const reelButtons=document.querySelectorAll('.reel-thumb');
 const reelMedia=document.getElementById('reelMedia');
-const reelEmbed=document.getElementById('reelEmbed');
+const reelVideo=document.getElementById('reelVideo');
+const syncReelVideo=(data,shouldPlay)=>{
+  if(!reelVideo) return;
+  reelVideo.muted=true;
+  reelVideo.defaultMuted=true;
+  reelVideo.volume=0;
+  reelVideo.loop=true;
+  reelVideo.playsInline=true;
+  reelVideo.setAttribute('muted','');
+  reelVideo.setAttribute('playsinline','');
+  reelVideo.style.objectPosition=data.videoPosition||'center';
+  reelVideo.setAttribute('aria-label',`${String(data.title).replace('<br>',' ')} Instagram reel, muted`);
+  const nextSource=shouldPlay&&data.videoUrl?data.videoUrl:'';
+  if(!nextSource){
+    reelVideo.pause();
+    if(reelVideo.hasAttribute('src')){
+      reelVideo.removeAttribute('src');
+      reelVideo.load();
+    }
+    return;
+  }
+  if(reelVideo.getAttribute('src')!==nextSource){
+    reelVideo.pause();
+    reelVideo.setAttribute('src',nextSource);
+    reelVideo.load();
+  }
+  const playPromise=reelVideo.play();
+  if(playPromise&&typeof playPromise.catch==='function') playPromise.catch(()=>{});
+};
 setReel=function(index){
   const data=reelData[index]||reelData[0];
   reelButtons.forEach(btn=>btn.classList.toggle('active',Number(btn.dataset.reel)===index));
   if(reelMedia){
     reelMedia.classList.remove('reel-kupid','reel-holi');
-    reelMedia.classList.toggle('reel-live-embed',Boolean(data.embedUrl));
+    reelMedia.classList.toggle('reel-live-video',Boolean(data.videoUrl));
     if(data.cls) reelMedia.classList.add(data.cls);
   }
-  if(reelEmbed){
-    const nextSource=socialEmbedEnabled&&data.embedUrl?data.embedUrl:'about:blank';
-    if(reelEmbed.getAttribute('src')!==nextSource) reelEmbed.setAttribute('src',nextSource);
-  }
+  syncReelVideo(data,socialEmbedEnabled);
   const set=(id,val)=>{const el=document.getElementById(id); if(el) el.innerHTML=val;};
   set('reelTitle',data.title);
   set('reelSubtitle',data.subtitle);
@@ -8596,8 +8628,7 @@ setReel(0);
 /* v55 reel interaction upgrade */
 const reelExtras=[
   {audio:'original audio - psusasa',commentOne:'This reel reached me immediately.',commentTwo:'The trend and event CTA work together.',engagement:'49,969',engagementP:90,reachP:0,followers:'Private',visits:'Private',note:'Public post counts show 49,969 likes and 292 comments. Views, impressions, saves, and shares require account Insights.',engagementLabel:'Likes',reachLabel:'Impressions',trendLabel:'Public engagement snapshot',noteTitle:'Public Instagram data'},
-  {audio:'original audio - psusasa x kupiddating',commentOne:'The dating-show hook lands immediately.',commentTwo:'Campus humor makes the event promotion feel native.',engagement:'848',engagementP:72,reachP:0,followers:'Private',visits:'Private',note:'Public post counts show 848 likes and 25 comments. Views, impressions, saves, and shares require account Insights.',engagementLabel:'Likes',reachLabel:'Impressions',trendLabel:'Public engagement snapshot',noteTitle:'Public Instagram data'},
-  {audio:'original audio - holi color drop - cafe edit',commentOne:'Need this drink back immediately.',commentTwo:'The color wipe makes the collab feel real.',engagement:'8.2%',engagementP:78,reachP:61,followers:'+310',visits:'501',note:'Partnership reel. Best brand-fit signal and highest share rate from non-followers.'}
+  {audio:'original audio - psusasa x kupiddating',commentOne:'The dating-show hook lands immediately.',commentTwo:'Campus humor makes the event promotion feel native.',engagement:'848',engagementP:72,reachP:0,followers:'Private',visits:'Private',note:'Public post counts show 848 likes and 25 comments. Views, impressions, saves, and shares require account Insights.',engagementLabel:'Likes',reachLabel:'Impressions',trendLabel:'Public engagement snapshot',noteTitle:'Public Instagram data'}
 ];
 reelData.forEach((item,i)=>Object.assign(item,reelExtras[i]));
 const reelStepButtons=document.querySelectorAll('[data-reel-step]');
@@ -8614,13 +8645,10 @@ setReel=function(index){
     reelMedia.classList.add('switching');
     window.setTimeout(()=>reelMedia.classList.remove('switching'),220);
     reelMedia.classList.remove('reel-kupid','reel-holi');
-    reelMedia.classList.toggle('reel-live-embed',Boolean(data.embedUrl));
+    reelMedia.classList.toggle('reel-live-video',Boolean(data.videoUrl));
     if(data.cls) reelMedia.classList.add(data.cls);
   }
-  if(reelEmbed){
-    const nextSource=socialEmbedEnabled&&data.embedUrl?data.embedUrl:'about:blank';
-    if(reelEmbed.getAttribute('src')!==nextSource) reelEmbed.setAttribute('src',nextSource);
-  }
+  syncReelVideo(data,socialEmbedEnabled);
   document.querySelectorAll('[data-progress]').forEach((bar,i)=>bar.style.setProperty('--fill',i<activeReelIndex?'100%':i===activeReelIndex?'68%':'0%'));
   setReelHTML('reelTitle',data.title);
   setReelHTML('reelSubtitle',String(data.subtitle).replaceAll('â€¢','-'));
