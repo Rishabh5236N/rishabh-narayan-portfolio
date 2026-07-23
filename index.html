@@ -5995,6 +5995,60 @@ body::before{display:none!important}
   background:radial-gradient(circle at var(--chapter-x) var(--chapter-y),var(--chapter-a),transparent 28%),radial-gradient(circle at calc(100% - var(--chapter-x)) calc(12% + var(--chapter-y)),var(--chapter-b),transparent 26%),linear-gradient(115deg,rgba(255,255,255,.018),transparent 38%,var(--chapter-c));
   opacity:.9;transition:background .65s ease,opacity .65s ease;
 }
+
+/* Final social and marquee cleanup. */
+#hero .brand-lockup::after,
+#hero .brand-lockup:hover::after,
+#hero .brand-lockup:focus-visible::after{content:none!important;display:none!important}
+.social-showcase-header{grid-template-columns:minmax(250px,.72fr) minmax(0,1.28fr);align-items:end}
+.social-showcase-title{max-width:19ch;margin:0}
+.reel-browser-phone .ig-statusbar{display:none!important}
+.sasa-profile-avatar{position:relative;isolation:isolate;background:linear-gradient(135deg,#f9ce34,#ee2a7b,#6228d7)!important}
+.sasa-profile-avatar::after{display:none!important}
+.sasa-profile-avatar .sasa-profile-mark{
+  position:relative;z-index:2;display:block;width:100%;height:100%;box-sizing:border-box;
+  border-radius:50%;padding:4px;object-fit:contain;background:#fff;
+}
+.analytics-phone .phone-screen{gap:.8rem!important}
+.analytics-phone .analytics-profile-row{padding-bottom:.78rem!important}
+.analytics-phone .analytics-profile-row span{letter-spacing:.04em;text-transform:uppercase}
+.analytics-kpi-performance{
+  position:relative;z-index:1;padding:1rem;border:1px solid rgba(244,239,248,.09);
+  border-radius:6px;background:linear-gradient(135deg,rgba(63,196,247,.055),rgba(181,123,238,.04));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.045);
+}
+.analytics-kpi-heading{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:.8rem}
+.analytics-kpi-heading span{color:rgba(244,239,248,.56);font-size:.55rem;letter-spacing:.16em;text-transform:uppercase}
+.analytics-kpi-heading strong{color:#8ee8ff;font-size:.58rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+.analytics-kpi-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.65rem}
+.analytics-kpi-cell{
+  position:relative;min-width:0;padding:.85rem .8rem;border-left:2px solid rgba(63,196,247,.62);
+  background:rgba(255,255,255,.025);overflow:hidden;
+}
+.analytics-kpi-cell:nth-child(2){border-left-color:rgba(181,123,238,.68)}
+.analytics-kpi-cell::after{
+  content:'';position:absolute;right:.72rem;top:.72rem;width:8px;height:8px;
+  border-top:1px solid currentColor;border-right:1px solid currentColor;
+  color:rgba(142,232,255,.5);transform:rotate(-45deg);
+}
+.analytics-kpi-cell span{display:block;padding-right:1rem;color:rgba(244,239,248,.5);font-size:.52rem;letter-spacing:.1em;text-transform:uppercase}
+.analytics-kpi-cell strong{display:block;margin-top:.28rem;color:#f4eff8;font-size:clamp(1.15rem,2.5vw,1.72rem);font-variant-numeric:tabular-nums;line-height:1}
+.analytics-kpi-cell small{display:block;margin-top:.35rem;color:rgba(244,239,248,.42);font-size:.52rem}
+.analytics-phone .analytics-list{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:.5rem!important}
+.analytics-phone .analytics-list>div{
+  display:block!important;padding:.68rem!important;border:1px solid rgba(244,239,248,.075)!important;
+  background:rgba(255,255,255,.02);
+}
+.analytics-phone .analytics-list span{display:block;margin-bottom:.22rem;font-size:.52rem;text-transform:uppercase;letter-spacing:.08em}
+.analytics-phone .analytics-list strong{display:block;font-size:.84rem;font-variant-numeric:tabular-nums}
+@media(max-width:760px){
+  .social-showcase-header{grid-template-columns:1fr;align-items:start}
+  .social-showcase-title{max-width:22ch}
+}
+@media(max-width:420px){
+  .analytics-kpi-grid{grid-template-columns:1fr}
+  .analytics-phone .analytics-list{grid-template-columns:1fr!important}
+}
 </style>
 </head>
 <body>
@@ -6621,9 +6675,7 @@ body::before{display:none!important}
     <div class="social-portfolio-showcase reveal filtered-out" id="social-media-content" data-category="social">
       <div class="social-showcase-header">
         <div>
-          <div class="social-kicker">Instagram Showcase</div>
-          <h3 class="social-showcase-title">Social content built for cultural moments and live-event energy.</h3>
-          <p class="social-showcase-copy">Reels, graphics, teasers, and platform-native campaign pieces from SASA, 46LIVE, and campus media work. The phone UI keeps the Instagram feel, while the metrics show the audience behavior behind the creative.</p>
+          <h3 class="social-showcase-title">Reels backed by measurable audience response.</h3>
         </div>
         <div class="social-summary-strip">
           <div class="social-summary-card playable"><span>SASA Impressions</span><strong>3,500,000+</strong></div>
@@ -6640,12 +6692,10 @@ body::before{display:none!important}
             <div class="phone-gloss"></div>
             <div class="phone-notch"></div>
             <div class="phone-screen">
-              <div class="ig-statusbar"><span>9:41</span><div class="ig-status-icons"><span>◐</span><span>📶</span><span>100%</span></div></div>
-
               <div class="ig-post ig-post-minimal">
                 <div class="ig-post-top">
                   <div class="ig-post-account">
-                    <div class="ig-avatar"></div>
+                    <div class="ig-avatar sasa-profile-avatar"><img class="sasa-profile-mark" src="assets/perf-inline/sasa-mark.png" alt="SASA logo"></div>
                     <div class="ig-account-copy"><strong>psu_sasa <span class="ig-verified">✓</span></strong></div>
                   </div>
                 </div>
@@ -6680,35 +6730,33 @@ body::before{display:none!important}
             <div class="phone-gloss"></div>
             <div class="phone-notch"></div>
             <div class="phone-screen">
-              <div class="ig-statusbar"><span>9:41</span><div class="ig-status-icons"><span>◐</span><span>📶</span><span>100%</span></div></div>
-              <div class="ig-appbar">
-                <div class="ig-appbrand">Insights</div>
-                <div class="ig-appicons"><span>＋</span><span>≡</span></div>
-              </div>
-
               <div class="analytics-profile-row">
-                <div class="analytics-avatar"></div>
+                <div class="analytics-avatar sasa-profile-avatar"><img class="sasa-profile-mark" src="assets/perf-inline/sasa-mark.png" alt="SASA logo"></div>
                 <div>
                   <strong>@psu_sasa</strong>
-                  <span>Social media performance snapshot</span>
+                  <span>Campaign performance</span>
                 </div>
               </div>
 
               <div class="analytics-hero-card">
-                <span id="analyticsHeroLabel">Total Reel Views</span>
-                <strong id="analyticsHeroValue">142.8K</strong>
-                <p id="analyticsHeroCopy">Across campaign reels, countdown content, and event hype posts.</p>
+                <span id="analyticsHeroLabel">Campaign views</span>
+                <strong id="analyticsHeroValue">917,554</strong>
+                <p id="analyticsHeroCopy">Breakout reach from one event-led campaign reel.</p>
               </div>
 
-              <div class="analytics-rings">
-                <div class="analytics-ring" id="analyticsEngagementRing" style="--p:82"><strong id="analyticsEngagement">49,969</strong><span id="analyticsEngagementLabel">Likes</span></div>
-                <div class="analytics-ring" id="analyticsReachRing" style="--p:68"><strong id="analyticsReach">Private</strong><span id="analyticsReachLabel">Impressions</span></div>
-              </div>
-
-              <div class="analytics-chart-card">
-                <div class="analytics-card-top"><span id="analyticsTrendLabel">Views trend</span><strong>Weekly</strong></div>
-                <div class="analytics-bars">
-                  <i style="height:38%"></i><i style="height:54%"></i><i style="height:46%"></i><i style="height:74%"></i><i style="height:89%"></i><i style="height:64%"></i><i style="height:78%"></i>
+              <div class="analytics-kpi-performance">
+                <div class="analytics-kpi-heading"><span id="analyticsTrendLabel">KPI growth &amp; impressions</span><strong id="analyticsKpiStatus">High audience response</strong></div>
+                <div class="analytics-kpi-grid">
+                  <div class="analytics-kpi-cell">
+                    <span id="analyticsReachLabel">Accounts reached</span>
+                    <strong id="analyticsReach">617,205</strong>
+                    <small>Audience reach</small>
+                  </div>
+                  <div class="analytics-kpi-cell">
+                    <span id="analyticsEngagementLabel">Likes</span>
+                    <strong id="analyticsEngagement">49.8K</strong>
+                    <small>Engagement signal</small>
+                  </div>
                 </div>
               </div>
 
@@ -6716,17 +6764,6 @@ body::before{display:none!important}
                 <div><span id="analyticsFollowersLabel">Comments</span><strong id="analyticsFollowers">293</strong></div>
                 <div><span id="analyticsSavesSharesLabel">Reposts</span><strong id="analyticsSavesShares">593</strong></div>
                 <div><span id="analyticsVisitsLabel">Shares</span><strong id="analyticsVisits">31.6K</strong></div>
-                <div><span>Top format</span><strong id="analyticsFormat">Reels</strong></div>
-              </div>
-
-              <div class="analytics-note">
-                <strong id="analyticsNoteTitle">Content readout</strong>
-                <p id="analyticsNoteCopy">Use this side for total metrics: followers, views, average reach, saves, shares, and the overall campaign pulse.</p>
-              </div>
-
-              <div class="ig-bottom-nav">
-                <div class="ig-bottom-left"><span>⌂</span><span>⌕</span><span>⊕</span><span>▣</span></div>
-                <span>◉</span>
               </div>
             </div>
           </div>
@@ -7373,7 +7410,7 @@ revealItems.forEach(el=>el.classList.add('visible'));
 
 /* ─── ACTIVE NAV HIGHLIGHT ─── */
 const sectionNavLinks=[...document.querySelectorAll('.nav-links a[href^="#"], .nav-logo-menu a[href^="#"]')];
-const trackedSections=[...document.querySelectorAll('main section[id]')];
+const trackedSections=[...document.querySelectorAll('main>section[id]')].filter(section=>section.getAttribute('aria-hidden')!=='true'&&!section.id.endsWith('-legacy'));
 function setActiveNav(id){
   if(setActiveNav.current===id) return;
   setActiveNav.current=id;
@@ -7416,10 +7453,13 @@ let pageScrollFrame=0;
 function schedulePageScroll(){
   if(pageScrollFrame) return;
   pageScrollFrame=requestAnimationFrame(()=>{
-    if(navEl) navEl.classList.toggle('scrolled',window.scrollY>60);
-    updateActiveNav();
-    portfolioScrollCallbacks.forEach(callback=>callback());
-    pageScrollFrame=0;
+    try{
+      if(navEl) navEl.classList.toggle('scrolled',window.scrollY>60);
+      updateActiveNav();
+      portfolioScrollCallbacks.forEach(callback=>callback());
+    }finally{
+      pageScrollFrame=0;
+    }
   });
 }
 window.addEventListener('scroll',schedulePageScroll,{passive:true});
@@ -8777,8 +8817,8 @@ setReel(0);
 
 /* v55 reel interaction upgrade */
 const reelExtras=[
-  {audio:'original audio - psusasa',commentOne:'This reel reached me immediately.',commentTwo:'The trend and event CTA work together.',engagement:'49.8K',engagementP:82,reachP:67,followers:'293',visits:'31.6K',note:'917,554 views, 617,205 accounts reached, 49.8K likes, 293 comments, 593 reposts, and 31.6K shares.',engagementLabel:'Likes',reachLabel:'Accounts reached',trendLabel:'Diwali reel performance',noteTitle:'Campaign performance',listOneLabel:'Comments',listOneValue:'293',listTwoLabel:'Reposts',listTwoValue:'593',listThreeLabel:'Shares',listThreeValue:'31.6K'},
-  {audio:'original audio - psusasa x kupiddating',commentOne:'The dating-show hook lands immediately.',commentTwo:'Campus humor makes the event promotion feel native.',engagement:'848',engagementP:72,reachP:0,followers:'25',visits:'Private',note:'Public post counts show 848 likes and 25 comments. Views, accounts reached, reposts, and shares require account Insights.',engagementLabel:'Likes',reachLabel:'Accounts reached',trendLabel:'Public engagement snapshot',noteTitle:'Public Instagram data',listOneLabel:'Comments',listOneValue:'25',listTwoLabel:'Reposts',listTwoValue:'Private',listThreeLabel:'Shares',listThreeValue:'Private'}
+  {audio:'original audio - psusasa',commentOne:'This reel reached me immediately.',commentTwo:'The trend and event CTA work together.',engagement:'49.8K',engagementP:82,reachP:67,followers:'293',visits:'31.6K',note:'917,554 views, 617,205 accounts reached, 49.8K likes, 293 comments, 593 reposts, and 31.6K shares.',heroCopy:'Breakout reach from one event-led campaign reel.',engagementLabel:'Likes',reachLabel:'Accounts reached',trendLabel:'KPI growth & impressions',kpiStatus:'High audience response',noteTitle:'Campaign performance',listOneLabel:'Comments',listOneValue:'293',listTwoLabel:'Reposts',listTwoValue:'593',listThreeLabel:'Shares',listThreeValue:'31.6K'},
+  {audio:'original audio - psusasa x kupiddating',commentOne:'The dating-show hook lands immediately.',commentTwo:'Campus humor makes the event promotion feel native.',engagement:'848',engagementP:72,reachP:0,followers:'25',visits:'Private',note:'Public post counts show 848 likes and 25 comments. Views, accounts reached, reposts, and shares require account Insights.',heroCopy:'Public engagement shown; private reach remains undisclosed.',engagementLabel:'Likes',reachLabel:'Accounts reached',trendLabel:'Campaign KPI snapshot',kpiStatus:'Public engagement',noteTitle:'Public Instagram data',listOneLabel:'Comments',listOneValue:'25',listTwoLabel:'Reposts',listTwoValue:'Private',listThreeLabel:'Shares',listThreeValue:'Private'}
 ];
 reelData.forEach((item,i)=>Object.assign(item,reelExtras[i]));
 const reelStepButtons=document.querySelectorAll('[data-reel-step]');
@@ -8824,9 +8864,9 @@ setReel=function(index){
   setReelHTML('reelAudio',data.audio);
   setReelHTML('reelCommentOne',data.commentOne);
   setReelHTML('reelCommentTwo',data.commentTwo);
-  setReelHTML('analyticsHeroLabel',`${data.title.replace('<br>',' ')} views`);
+  setReelHTML('analyticsHeroLabel','Campaign views');
   setReelHTML('analyticsHeroValue',data.views);
-  setReelHTML('analyticsHeroCopy',data.note);
+  setReelHTML('analyticsHeroCopy',data.heroCopy||data.note);
   setReelHTML('analyticsEngagement',data.engagement);
   setReelHTML('analyticsReach',data.reach);
   setReelHTML('analyticsEngagementLabel',data.engagementLabel||'Engagement');
@@ -8839,6 +8879,7 @@ setReel=function(index){
   setReelHTML('analyticsVisits',data.listThreeValue||data.shares);
   setReelHTML('analyticsFormat','Reels');
   setReelHTML('analyticsTrendLabel',data.trendLabel||`${data.title.replace('<br>',' ')} trend`);
+  setReelHTML('analyticsKpiStatus',data.kpiStatus||'Performance snapshot');
   setReelHTML('analyticsNoteTitle',data.noteTitle||'Live readout');
   setReelHTML('analyticsNoteCopy',data.note);
   document.getElementById('analyticsEngagementRing')?.style.setProperty('--p',data.engagementP);
