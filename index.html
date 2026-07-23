@@ -1141,7 +1141,7 @@ body.experience-modal-open footer{
 
 /* === V55: TASTE PASS - SECTION ATMOSPHERE, REELS, SMOOTHER MOTION === */
 :root{--chapter-x:22%;--chapter-y:18%;--chapter-a:rgba(181,123,238,.13);--chapter-b:rgba(63,196,247,.1);--chapter-c:rgba(56,217,169,.07)}
-body::before{content:'';position:fixed;inset:-18%;z-index:0;pointer-events:none;background:radial-gradient(circle at var(--chapter-x) var(--chapter-y),var(--chapter-a),transparent 28%),radial-gradient(circle at calc(100% - var(--chapter-x)) calc(12% + var(--chapter-y)),var(--chapter-b),transparent 26%),linear-gradient(115deg,rgba(255,255,255,.018),transparent 38%,var(--chapter-c));filter:blur(6px) saturate(125%);opacity:.9;transition:background .65s ease,opacity .65s ease;animation:chapterDrift 18s ease-in-out infinite alternate}
+body::before{content:'';position:fixed;inset:-18%;z-index:0;pointer-events:none;background:radial-gradient(circle at var(--chapter-x) var(--chapter-y),var(--chapter-a),transparent 28%),radial-gradient(circle at calc(100% - var(--chapter-x)) calc(12% + var(--chapter-y)),var(--chapter-b),transparent 26%),linear-gradient(115deg,rgba(255,255,255,.018),transparent 38%,var(--chapter-c));filter:blur(6px) saturate(125%);opacity:.9;transition:background .65s ease,opacity .65s ease;animation:chapterDrift 18s ease-in-out infinite alternate;will-change:transform;backface-visibility:hidden}
 body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.06;background-image:linear-gradient(rgba(255,255,255,.28) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.2) 1px,transparent 1px);background-size:46px 46px;mask-image:radial-gradient(circle at 50% 35%,#000,transparent 72%);animation:gridBreathe 12s ease-in-out infinite alternate}
 @keyframes chapterDrift{0%{transform:translate3d(-1.2%,0,0) scale(1)}100%{transform:translate3d(1.2%,-1%,0) scale(1.035)}}
 @keyframes gridBreathe{0%{opacity:.035;transform:translateY(0)}100%{opacity:.085;transform:translateY(-18px)}}
@@ -5506,21 +5506,14 @@ main section:not(#hero)::before,
 main section:not(#hero)::after,
 #about::after,#experience::after,#research::after,#work::after,#music::after,#resume::after,#contact::after{animation:none!important;background-position:0 0!important}
 section .inner::after{animation:none!important}
-html.is-scrolling #notes-bg *,
-html.is-scrolling .treble-clef,
-html.is-scrolling .hero-logo-track,
-html.is-scrolling .client-proof-meter i,
-html.is-scrolling .game-start-card,
-html.is-scrolling #game-hint::before,
-html.is-scrolling #experience .repertoire-stage,
-html.is-scrolling #experience .repertoire-copy-panel,
-html.is-scrolling #experience .repertoire-core,
-html.is-scrolling #experience .repertoire-orbit-chip,
-html.is-scrolling #experience .exp-card,
-html.is-scrolling #experience .inner::before,
-html.is-scrolling #experience .inner::after,
-html.is-scrolling .social-portfolio-showcase::after,
-html.is-scrolling .track-card{animation-play-state:paused!important}
+/* Freeze every ambient keyframe loop during the brief scroll window. Entrance
+   reveals use CSS transitions (not animations) so they are unaffected; only
+   decorative infinite loops (drifts, glows, shimmers, the full-screen blurred
+   backdrop) pause for ~150ms, which is imperceptible but frees the compositor
+   at the exact moment the frame budget is tightest. */
+html.is-scrolling *,
+html.is-scrolling *::before,
+html.is-scrolling *::after{animation-play-state:paused!important}
 html.is-scrolling nav{box-shadow:0 10px 30px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.14)!important}
 @keyframes sectionLabelIn{from{opacity:0;transform:translate3d(0,16px,0)}to{opacity:1;transform:translate3d(0,0,0)}}
 @keyframes sectionTitleIn{from{opacity:0;transform:translate3d(0,22px,0) scale(.99)}to{opacity:1;transform:translate3d(0,0,0) scale(1)}}
@@ -7335,12 +7328,23 @@ sectionNavLinks.forEach(link=>{
     scrollPortfolioTarget(target,{hash:id});
   });
 });
+/* Cache section offsets so the per-frame scroll handler reads no layout.
+   Reading offsetTop/offsetHeight inside the scroll rAF forced a synchronous
+   reflow on every frame; these values only change on load/resize/filter, so
+   we measure then and reuse the cache while scrolling. */
+let navSectionTops=[];
+let navDocBottom=Infinity;
+function measureNavSections(){
+  navSectionTops=trackedSections.map(section=>({id:section.id,top:section.offsetTop}));
+  navDocBottom=document.body.offsetHeight-4;
+}
 function updateActiveNav(){
   if(!trackedSections.length) return;
+  if(!navSectionTops.length) measureNavSections();
   const marker=window.scrollY + Math.min(window.innerHeight*0.58,520);
-  let current=trackedSections[0].id;
-  trackedSections.forEach(section=>{ if(marker >= section.offsetTop) current=section.id; });
-  if((window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 4)) current=trackedSections[trackedSections.length-1].id;
+  let current=navSectionTops[0].id;
+  for(let i=0;i<navSectionTops.length;i++){ if(marker >= navSectionTops[i].top) current=navSectionTops[i].id; }
+  if((window.innerHeight + window.scrollY) >= navDocBottom) current=trackedSections[trackedSections.length-1].id;
   setActiveNav(current);
 }
 const portfolioScrollCallbacks=new Set();
@@ -7360,10 +7364,14 @@ function schedulePageScroll(){
 }
 window.addEventListener('scroll',schedulePageScroll,{passive:true});
 window.addEventListener('resize',()=>{
+  measureNavSections();
   updateActiveNav();
   portfolioScrollCallbacks.forEach(callback=>callback());
 },{passive:true});
+/* Layout settles after fonts/images finish; re-measure so cached offsets are exact. */
+window.addEventListener('load',()=>{measureNavSections();updateActiveNav();},{passive:true});
 requestAnimationFrame(()=>{
+  measureNavSections();
   if(navEl) navEl.classList.toggle('scrolled',window.scrollY>60);
   updateActiveNav();
 });
@@ -8407,6 +8415,8 @@ function applyPortfolioFilter(filter){
       video.load();
     }
   }
+  /* Filtering changes the work grid height; refresh cached section offsets. */
+  if(typeof measureNavSections==='function') requestAnimationFrame(measureNavSections);
 }
 portfolioTabs.forEach(tab=>tab.addEventListener('click',()=>{
   applyPortfolioFilter(tab.dataset.filter);
