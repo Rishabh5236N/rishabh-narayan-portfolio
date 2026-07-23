@@ -4811,14 +4811,6 @@ html.cursor-ready #cursor,html.cursor-ready #cursor-ring{opacity:1}
 }
 a,button,[role="button"]{-webkit-tap-highlight-color:transparent}
 a:active,button:active,[role="button"]:active{transition-duration:.08s!important}
-section:not(.motion-active) .treble-clef,
-section:not(.motion-active) .hero-logo-track,
-section:not(.motion-active) .repertoire-stage,
-section:not(.motion-active) .repertoire-copy-panel,
-section:not(.motion-active) .repertoire-core,
-section:not(.motion-active) .repertoire-orbit-chip,
-section:not(.motion-active) .research-hologram,
-section:not(.motion-active) .reel-audio-pill span:last-child{animation-play-state:paused!important}
 html.motion-paused *,html.motion-paused *::before,html.motion-paused *::after{animation-play-state:paused!important}
 @media(pointer:coarse){body,*,*::before,*::after{cursor:auto!important}}
 @media(prefers-reduced-motion:reduce){.reveal{opacity:1!important;transform:none!important;transition:none!important}}
@@ -5538,15 +5530,8 @@ html.motion-paused *,html.motion-paused *::before,html.motion-paused *::after{an
 .reel-browser-phone .reel-dot-picker .reel-thumb.active{width:22px;background:linear-gradient(90deg,var(--a1),var(--a3))!important}
 @media(max-width:620px){.reel-browser-phone{min-height:660px!important}.reel-browser-phone .phone-body{min-height:640px!important}.reel-browser-phone .phone-screen{min-height:620px!important}.reel-browser-phone .ig-post-minimal .reel-browser-media.reel-live-video{min-height:0!important}}
 
-/* Performance: pause decorative motion when its section cannot be seen. */
-html.perf-managed main>section:not(.perf-active) .treble-clef,
-html.perf-managed main>section:not(.perf-active) .hero-logo-track,
-html.perf-managed main>section:not(.perf-active) .repertoire-stage,
-html.perf-managed main>section:not(.perf-active) .repertoire-copy-panel,
-html.perf-managed main>section:not(.perf-active) .repertoire-core,
-html.perf-managed main>section:not(.perf-active) .repertoire-orbit-chip,
-html.perf-managed main>section:not(.perf-active) .research-hologram,
-html.perf-managed main>section:not(.perf-active) .reel-audio-pill span:last-child,
+/* Page visibility can still pause everything; viewport motion is managed
+   directly on animated nodes to avoid section-wide style invalidation. */
 html.page-hidden *,html.page-hidden *::before,html.page-hidden *::after{animation-play-state:paused!important}
 
 /* Performance: keep the same visual language while making scrolling compositor-friendly. */
@@ -5564,21 +5549,9 @@ main section:not(#hero)::before,
 main section:not(#hero)::after,
 #about::after,#experience::after,#research::after,#work::after,#music::after,#resume::after,#contact::after{animation:none!important;background-position:0 0!important}
 section .inner::after{animation:none!important}
-/* Pause only persistent decorative loops while scrolling. A universal selector
-   here invalidated styles across the full page whenever scrolling started. */
-html.is-scrolling body::before,
-html.is-scrolling body::after,
-html.is-scrolling #notes-bg .fn,
-html.is-scrolling .treble-clef,
-html.is-scrolling .hero-logo-track,
-html.is-scrolling .repertoire-stage,
-html.is-scrolling .repertoire-copy-panel,
-html.is-scrolling .repertoire-core,
-html.is-scrolling .repertoire-orbit-chip,
-html.is-scrolling .research-hologram,
-html.is-scrolling .reel-audio-pill span:last-child,
-html.is-scrolling .game-start-card{animation-play-state:paused!important}
-html.is-scrolling nav{box-shadow:0 10px 30px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.14)!important}
+/* Offscreen motion is paused by the section observer above. Avoid changing a
+   class on the root during wheel input: that invalidates styles across the
+   entire document and was the largest measured Repertoire scroll hitch. */
 @keyframes sectionLabelIn{from{opacity:0;transform:translate3d(0,16px,0)}to{opacity:1;transform:translate3d(0,0,0)}}
 @keyframes sectionTitleIn{from{opacity:0;transform:translate3d(0,22px,0) scale(.99)}to{opacity:1;transform:translate3d(0,0,0) scale(1)}}
 @keyframes sectionBodyIn{from{opacity:0;transform:translate3d(0,16px,0)}to{opacity:1;transform:translate3d(0,0,0)}}
@@ -5595,7 +5568,7 @@ html.is-scrolling nav{box-shadow:0 10px 30px rgba(0,0,0,.18),inset 0 1px 0 rgba(
   filter:none!important;
   will-change:transform,opacity;
   contain:layout style;
-  transition:transform .72s var(--human-spring),opacity .42s ease,border-color .28s ease,box-shadow .34s ease!important;
+  transition:transform .72s var(--human-spring),opacity .42s ease!important;
 }
 #experience .exp-card.carousel-hidden{
   visibility:hidden!important;
@@ -5603,11 +5576,9 @@ html.is-scrolling nav{box-shadow:0 10px 30px rgba(0,0,0,.18),inset 0 1px 0 rgba(
   will-change:auto!important;
   transition:none!important;
 }
-html.is-scrolling #experience .exp-card{
-  transition:none!important;
-}
-html.is-scrolling #experience .advm-exp-btn,
-html.is-scrolling #experience .advm-exp-dots{
+#experience .advm-exp-controls,
+#experience .advm-exp-btn,
+#experience .advm-exp-dots{
   backdrop-filter:none!important;
   -webkit-backdrop-filter:none!important;
 }
@@ -6015,12 +5986,20 @@ html.instant-render section.section-live .section-label,
 html.instant-render section.section-live .section-title:not(.bursting):not(.kachow),
 html.instant-render section.section-live .inner>*:not(.section-label):not(.section-title){animation:none!important;opacity:1;filter:none;transform:none}
 
-/* The chapter color still changes by section, but the oversized blurred fixed
-   layer no longer repaints continuously behind the entire page. */
-body::before{inset:-4%!important;filter:none!important;animation:none!important}
+/* Keep chapter color on its own fixed layer. Updating custom properties on the
+   root made every descendant recompute styles at each section boundary. */
+body::before{display:none!important}
+#chapter-atmosphere{
+  --chapter-x:22%;--chapter-y:18%;--chapter-a:rgba(181,123,238,.13);--chapter-b:rgba(63,196,247,.1);--chapter-c:rgba(56,217,169,.07);
+  position:fixed;inset:-4%;z-index:0;pointer-events:none;contain:strict;transform:translateZ(0);
+  background:radial-gradient(circle at var(--chapter-x) var(--chapter-y),var(--chapter-a),transparent 28%),radial-gradient(circle at calc(100% - var(--chapter-x)) calc(12% + var(--chapter-y)),var(--chapter-b),transparent 26%),linear-gradient(115deg,rgba(255,255,255,.018),transparent 38%,var(--chapter-c));
+  opacity:.9;transition:background .65s ease,opacity .65s ease;
+}
 </style>
 </head>
 <body>
+
+<div id="chapter-atmosphere" aria-hidden="true"></div>
 
 <div id="cursor">
   <svg viewBox="0 0 40 50" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -7185,14 +7164,13 @@ if(graphicPortfolioGrid){
 const performanceLite=window.matchMedia('(prefers-reduced-motion: reduce)').matches||((navigator.hardwareConcurrency||8)<=4)||((navigator.deviceMemory||8)<=4);
 if(performanceLite)document.documentElement.classList.add('performance-lite');
 const perfSections=[...document.querySelectorAll('main>section')];
-document.getElementById('hero')?.classList.add('perf-active');
-if('IntersectionObserver' in window){
-  document.documentElement.classList.add('perf-managed');
-  const perfSectionObserver=new IntersectionObserver(entries=>{
-    entries.forEach(entry=>entry.target.classList.toggle('perf-active',entry.isIntersecting));
-  },{rootMargin:'35% 0px',threshold:0});
-  perfSections.forEach(section=>perfSectionObserver.observe(section));
+const perfMotionSelector='.treble-clef,.hero-logo-track,.repertoire-stage,.repertoire-copy-panel,.repertoire-core,.repertoire-orbit-chip,.research-hologram,.reel-audio-pill span:last-child';
+function setSectionMotionState(section,active){
+  section.querySelectorAll(perfMotionSelector).forEach(element=>{
+    element.style.animationPlayState=active?'running':'paused';
+  });
 }
+perfSections.forEach(section=>setSectionMotionState(section,section.id==='hero'));
 const syncPageVisibility=()=>document.documentElement.classList.toggle('page-hidden',document.hidden);
 document.addEventListener('visibilitychange',syncPageVisibility,{passive:true});
 syncPageVisibility();
@@ -7328,16 +7306,25 @@ window.addEventListener('blur',()=>{
 
 /* ─── AUDIO: CHROMATIC CLICK TONES ─── */
 let AC=null;
-function getAC(){if(!AC)AC=new(window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();return AC;}
+function prepareClickAudio(){
+  if(AC) return AC;
+  const AudioContextClass=window.AudioContext||window.webkitAudioContext;
+  if(!AudioContextClass) return null;
+  try{AC=new AudioContextClass({latencyHint:'interactive'});}catch(error){AC=new AudioContextClass();}
+  return AC;
+}
+function getAC(){const ac=prepareClickAudio();if(ac?.state==='suspended')ac.resume();return ac;}
+if('requestIdleCallback' in window) requestIdleCallback(prepareClickAudio,{timeout:1800});
+else setTimeout(prepareClickAudio,900);
 const CHROMATIC=[261.63,277.18,293.66,311.13,329.63,349.23,369.99,392,415.3,440,466.16,493.88,523.25];
 let chromIdx=0;
 function playChromatic(){
-  const ac=getAC();const now=ac.currentTime;
+  const ac=getAC();if(!ac) return;const now=ac.currentTime;
   const freq=CHROMATIC[chromIdx%CHROMATIC.length];chromIdx++;
   const osc=ac.createOscillator();const g=ac.createGain();
   osc.type='sine';osc.frequency.value=freq;
   g.gain.setValueAtTime(0,now);g.gain.linearRampToValueAtTime(.14,now+.04);g.gain.exponentialRampToValueAtTime(.001,now+.7);
-  osc.connect(g);g.connect(ac.destination);osc.start(now);osc.stop(now+.8);
+  osc.connect(g);g.connect(ac.destination);osc.onended=()=>{osc.disconnect();g.disconnect();};osc.start(now);osc.stop(now+.8);
 }
 
 /* ─── NOTE SYMBOLS ON CLICK ─── */
@@ -7388,6 +7375,8 @@ revealItems.forEach(el=>el.classList.add('visible'));
 const sectionNavLinks=[...document.querySelectorAll('.nav-links a[href^="#"], .nav-logo-menu a[href^="#"]')];
 const trackedSections=[...document.querySelectorAll('main section[id]')];
 function setActiveNav(id){
+  if(setActiveNav.current===id) return;
+  setActiveNav.current=id;
   sectionNavLinks.forEach(link=>link.classList.toggle('active',link.getAttribute('href')===`#${id}`));
 }
 sectionNavLinks.forEach(link=>{
@@ -7424,11 +7413,7 @@ function updateActiveNav(){
 }
 const portfolioScrollCallbacks=new Set();
 let pageScrollFrame=0;
-let pageScrollIdleTimer=0;
 function schedulePageScroll(){
-  document.documentElement.classList.add('is-scrolling');
-  clearTimeout(pageScrollIdleTimer);
-  pageScrollIdleTimer=setTimeout(()=>document.documentElement.classList.remove('is-scrolling'),150);
   if(pageScrollFrame) return;
   pageScrollFrame=requestAnimationFrame(()=>{
     if(navEl) navEl.classList.toggle('scrolled',window.scrollY>60);
@@ -7538,25 +7523,30 @@ function spawnTitleBurst(section){
   });
   setTimeout(()=>layer.remove(),1320);
 }
+const activeMotionSections=new WeakSet();
 const sectionObs=new IntersectionObserver(entries=>entries.forEach(entry=>{
   if(entry.isIntersecting){
-    entry.target.classList.add('motion-active');
-    entry.target.classList.add('section-live');
+    activeMotionSections.add(entry.target);
+    setSectionMotionState(entry.target,true);
     setChapterMood(entry.target.id);
     if(!entry.target.dataset.motionEntered){
       clearTimeout(entry.target._motionEntranceTimer);
       entry.target._motionEntranceTimer=setTimeout(()=>{
-        if(!entry.target.classList.contains('motion-active')) return;
+        if(!activeMotionSections.has(entry.target)) return;
         entry.target.dataset.motionEntered='true';
         spawnTitleBurst(entry.target);
       },180);
     }
   }else{
     clearTimeout(entry.target._motionEntranceTimer);
-    entry.target.classList.remove('motion-active');
+    activeMotionSections.delete(entry.target);
+    setSectionMotionState(entry.target,false);
   }
 }),{threshold:.08,rootMargin:'12% 0px 12% 0px'});
-document.querySelectorAll('section').forEach(sec=>sectionObs.observe(sec));
+document.querySelectorAll('section').forEach(sec=>{
+  sec.classList.add('section-live');
+  sectionObs.observe(sec);
+});
 document.addEventListener('visibilitychange',()=>{
   document.documentElement.classList.toggle('motion-paused',document.hidden);
 });
@@ -7573,11 +7563,13 @@ const chapterMoods={
 };
 function setChapterMood(id){
   const mood=chapterMoods[id]||chapterMoods.hero;
-  document.documentElement.style.setProperty('--chapter-x',mood[0]);
-  document.documentElement.style.setProperty('--chapter-y',mood[1]);
-  document.documentElement.style.setProperty('--chapter-a',mood[2]);
-  document.documentElement.style.setProperty('--chapter-b',mood[3]);
-  document.documentElement.style.setProperty('--chapter-c',mood[4]);
+  const atmosphere=document.getElementById('chapter-atmosphere');
+  if(!atmosphere) return;
+  atmosphere.style.setProperty('--chapter-x',mood[0]);
+  atmosphere.style.setProperty('--chapter-y',mood[1]);
+  atmosphere.style.setProperty('--chapter-a',mood[2]);
+  atmosphere.style.setProperty('--chapter-b',mood[3]);
+  atmosphere.style.setProperty('--chapter-c',mood[4]);
 }
 setChapterMood('hero');
 
@@ -7662,12 +7654,17 @@ function goTo(id){
 (function initHeroNameScrollGlint(){
   const heroName=document.querySelector('.hero-name');
   if(!heroName||window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const hero=document.getElementById('hero');
   let glintPosition=28;
   let renderedGlintPosition=-1;
+  let travelRange=680;
+
+  function measureGlintTravel(){
+    travelRange=Math.max(window.innerHeight*.85,hero ? hero.offsetHeight*.58 : 680);
+  }
 
   function updateGlintPosition(){
-    const hero=document.querySelector('#hero');
-    const travelRange=Math.max(window.innerHeight*.85, hero ? hero.offsetHeight*.58 : 680);
+    if(window.scrollY>=travelRange&&renderedGlintPosition===90) return;
     const scrollInHero=Math.max(0,Math.min(travelRange,window.scrollY));
     glintPosition=14+(scrollInHero/travelRange)*76;
     if(Math.abs(glintPosition-renderedGlintPosition)<.05) return;
@@ -7675,7 +7672,12 @@ function goTo(id){
     heroName.style.setProperty('--name-glint-x',`${glintPosition.toFixed(2)}%`);
   }
 
+  measureGlintTravel();
   updateGlintPosition();
+  window.addEventListener('resize',()=>{
+    measureGlintTravel();
+    updateGlintPosition();
+  },{passive:true});
   portfolioScrollCallbacks.add(updateGlintPosition);
 })();
 
