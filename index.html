@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="instant-render">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
@@ -4811,7 +4811,14 @@ html.cursor-ready #cursor,html.cursor-ready #cursor-ring{opacity:1}
 }
 a,button,[role="button"]{-webkit-tap-highlight-color:transparent}
 a:active,button:active,[role="button"]:active{transition-duration:.08s!important}
-section:not(.motion-active) *,section:not(.motion-active)::before,section:not(.motion-active)::after{animation-play-state:paused!important}
+section:not(.motion-active) .treble-clef,
+section:not(.motion-active) .hero-logo-track,
+section:not(.motion-active) .repertoire-stage,
+section:not(.motion-active) .repertoire-copy-panel,
+section:not(.motion-active) .repertoire-core,
+section:not(.motion-active) .repertoire-orbit-chip,
+section:not(.motion-active) .research-hologram,
+section:not(.motion-active) .reel-audio-pill span:last-child{animation-play-state:paused!important}
 html.motion-paused *,html.motion-paused *::before,html.motion-paused *::after{animation-play-state:paused!important}
 @media(pointer:coarse){body,*,*::before,*::after{cursor:auto!important}}
 @media(prefers-reduced-motion:reduce){.reveal{opacity:1!important;transform:none!important;transition:none!important}}
@@ -5486,9 +5493,14 @@ html.motion-paused *,html.motion-paused *::before,html.motion-paused *::after{an
 @media(max-width:620px){.reel-browser-phone{min-height:660px!important}.reel-browser-phone .phone-body{min-height:640px!important}.reel-browser-phone .phone-screen{min-height:620px!important}.reel-browser-phone .ig-post-minimal .reel-browser-media.reel-live-video{min-height:0!important}}
 
 /* Performance: pause decorative motion when its section cannot be seen. */
-html.perf-managed main>section:not(.perf-active) *,
-html.perf-managed main>section:not(.perf-active) *::before,
-html.perf-managed main>section:not(.perf-active) *::after,
+html.perf-managed main>section:not(.perf-active) .treble-clef,
+html.perf-managed main>section:not(.perf-active) .hero-logo-track,
+html.perf-managed main>section:not(.perf-active) .repertoire-stage,
+html.perf-managed main>section:not(.perf-active) .repertoire-copy-panel,
+html.perf-managed main>section:not(.perf-active) .repertoire-core,
+html.perf-managed main>section:not(.perf-active) .repertoire-orbit-chip,
+html.perf-managed main>section:not(.perf-active) .research-hologram,
+html.perf-managed main>section:not(.perf-active) .reel-audio-pill span:last-child,
 html.page-hidden *,html.page-hidden *::before,html.page-hidden *::after{animation-play-state:paused!important}
 
 /* Performance: keep the same visual language while making scrolling compositor-friendly. */
@@ -5506,14 +5518,20 @@ main section:not(#hero)::before,
 main section:not(#hero)::after,
 #about::after,#experience::after,#research::after,#work::after,#music::after,#resume::after,#contact::after{animation:none!important;background-position:0 0!important}
 section .inner::after{animation:none!important}
-/* Freeze every ambient keyframe loop during the brief scroll window. Entrance
-   reveals use CSS transitions (not animations) so they are unaffected; only
-   decorative infinite loops (drifts, glows, shimmers, the full-screen blurred
-   backdrop) pause for ~150ms, which is imperceptible but frees the compositor
-   at the exact moment the frame budget is tightest. */
-html.is-scrolling *,
-html.is-scrolling *::before,
-html.is-scrolling *::after{animation-play-state:paused!important}
+/* Pause only persistent decorative loops while scrolling. A universal selector
+   here invalidated styles across the full page whenever scrolling started. */
+html.is-scrolling body::before,
+html.is-scrolling body::after,
+html.is-scrolling #notes-bg .fn,
+html.is-scrolling .treble-clef,
+html.is-scrolling .hero-logo-track,
+html.is-scrolling .repertoire-stage,
+html.is-scrolling .repertoire-copy-panel,
+html.is-scrolling .repertoire-core,
+html.is-scrolling .repertoire-orbit-chip,
+html.is-scrolling .research-hologram,
+html.is-scrolling .reel-audio-pill span:last-child,
+html.is-scrolling .game-start-card{animation-play-state:paused!important}
 html.is-scrolling nav{box-shadow:0 10px 30px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.14)!important}
 @keyframes sectionLabelIn{from{opacity:0;transform:translate3d(0,16px,0)}to{opacity:1;transform:translate3d(0,0,0)}}
 @keyframes sectionTitleIn{from{opacity:0;transform:translate3d(0,22px,0) scale(.99)}to{opacity:1;transform:translate3d(0,0,0) scale(1)}}
@@ -5941,6 +5959,19 @@ html.is-scrolling #experience .advm-exp-dots{
   .music-duet-layout .live-performance-card:nth-child(3),
   .music-duet-layout .live-performance-card:nth-child(4){min-height:260px}
 }
+
+/* Immediate page readiness: section content is never held transparent while
+   waiting for a viewport observer. Interactive hover, carousel and title-burst
+   motion remains available after the page is visible. */
+html.instant-render .reveal,
+html.instant-render .reveal.visible{opacity:1!important;transform:none}
+html.instant-render section.section-live .section-label,
+html.instant-render section.section-live .section-title:not(.bursting):not(.kachow),
+html.instant-render section.section-live .inner>*:not(.section-label):not(.section-title){animation:none!important;opacity:1;filter:none;transform:none}
+
+/* The chapter color still changes by section, but the oversized blurred fixed
+   layer no longer repaints continuously behind the entire page. */
+body::before{inset:-4%!important;filter:none!important;animation:none!important}
 </style>
 </head>
 <body>
@@ -7114,26 +7145,35 @@ const syncPageVisibility=()=>document.documentElement.classList.toggle('page-hid
 document.addEventListener('visibilitychange',syncPageVisibility,{passive:true});
 syncPageVisibility();
 
-/* Warm only individual images nearing the viewport. Loading every gallery asset
-   after startup caused remote image fetches and decoding to compete with scroll. */
-const lazyPortfolioImages=[...document.querySelectorAll('img[loading="lazy"]')];
-const warmImage=image=>{
-  if(image.dataset.warmed==='true') return;
-  image.dataset.warmed='true';
+/* Fetch every display-sized image up front so entering a section or switching a
+   work tab never starts a new batch of requests. Full lightbox assets and videos
+   remain interaction-loaded, keeping the initial transfer bounded. */
+const primedImageSources=new Set();
+const displayImagePreloads=[];
+function primeDisplayImage(image){
+  if(!(image instanceof HTMLImageElement)||image.id==='lightboxImage') return;
+  const source=image.getAttribute('src');
+  if(!source||source.startsWith('data:')) return;
   image.loading='eager';
+  image.decoding='async';
   image.fetchPriority='low';
-  if(image.complete&&image.naturalWidth&&image.decode) image.decode().catch(()=>{});
-};
-if('IntersectionObserver' in window){
-  const mediaWarmObserver=new IntersectionObserver(entries=>{
-    entries.forEach(entry=>{
-      if(!entry.isIntersecting) return;
-      warmImage(entry.target);
-      mediaWarmObserver.unobserve(entry.target);
-    });
-  },{rootMargin:'720px 0px',threshold:0});
-  lazyPortfolioImages.forEach(image=>mediaWarmObserver.observe(image));
+  if(primedImageSources.has(source)) return;
+  primedImageSources.add(source);
+  const preload=new Image();
+  preload.decoding='async';
+  preload.fetchPriority='low';
+  preload.src=source;
+  displayImagePreloads.push(preload);
 }
+document.querySelectorAll('img[src]').forEach(primeDisplayImage);
+const displayImageObserver=new MutationObserver(records=>{
+  records.forEach(record=>record.addedNodes.forEach(node=>{
+    if(!(node instanceof Element)) return;
+    if(node.matches('img[src]')) primeDisplayImage(node);
+    node.querySelectorAll?.('img[src]').forEach(primeDisplayImage);
+  }));
+});
+displayImageObserver.observe(document.body,{childList:true,subtree:true});
 document.addEventListener('mousedown',e=>{if(!e.target.closest('input,textarea,[contenteditable="true"]')){const sel=window.getSelection&&window.getSelection();if(sel&&sel.removeAllRanges)sel.removeAllRanges();if(document.activeElement&&document.activeElement.blur&&!(document.activeElement.matches&&document.activeElement.matches('input,textarea,[contenteditable="true"]')))document.activeElement.blur();}},{passive:true});
 
 /* ─── CURSOR ─── */
@@ -7288,24 +7328,7 @@ const nb=document.getElementById('notes-bg');
 
 /* ─── SCROLL REVEAL ─── */
 const revealItems=[...document.querySelectorAll('.reveal')];
-const revObs=new IntersectionObserver(entries=>entries.forEach(entry=>{
-  if(!entry.isIntersecting) return;
-  entry.target.classList.add('visible');
-  revObs.unobserve(entry.target);
-}),{threshold:.06,rootMargin:'0px 0px -4% 0px'});
-revealItems.forEach(el=>revObs.observe(el));
-function revealCurrentViewport(){
-  const viewportBottom=window.innerHeight*1.04;
-  revealItems.forEach(el=>{
-    const rect=el.getBoundingClientRect();
-    if(rect.bottom>=0&&rect.top<=viewportBottom){
-      el.classList.add('visible');
-      revObs.unobserve(el);
-    }
-  });
-}
-requestAnimationFrame(revealCurrentViewport);
-window.addEventListener('pageshow',revealCurrentViewport,{once:true});
+revealItems.forEach(el=>el.classList.add('visible'));
 
 
 
@@ -7588,12 +7611,15 @@ function goTo(id){
   const heroName=document.querySelector('.hero-name');
   if(!heroName||window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   let glintPosition=28;
+  let renderedGlintPosition=-1;
 
   function updateGlintPosition(){
     const hero=document.querySelector('#hero');
     const travelRange=Math.max(window.innerHeight*.85, hero ? hero.offsetHeight*.58 : 680);
     const scrollInHero=Math.max(0,Math.min(travelRange,window.scrollY));
     glintPosition=14+(scrollInHero/travelRange)*76;
+    if(Math.abs(glintPosition-renderedGlintPosition)<.05) return;
+    renderedGlintPosition=glintPosition;
     heroName.style.setProperty('--name-glint-x',`${glintPosition.toFixed(2)}%`);
   }
 
@@ -8104,8 +8130,8 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeExperienceModal
       const rotateY=offset*(mobile?-5:-8.5);
       const rotateZ=offset*(mobile?.8:1.1);
       const scale=Math.max(mobile?.76:.72,1-abs*(mobile?.09:.075));
-      const opacity=abs===0?1:abs===1?.86:abs===2?.5:0;
-      const hidden=abs>2;
+      const opacity=abs===0?1:abs===1?.84:0;
+      const hidden=abs>1;
       card.style.setProperty('--advm-card-transform',`translate3d(-50%,-50%,0) translate3d(${x}px,${y}px,${z}px) rotateY(${rotateY}deg) rotateZ(${rotateZ}deg) scale(${scale})`);
       card.style.setProperty('--advm-card-opacity',opacity);
       card.style.setProperty('--advm-card-z',String(50-abs));
