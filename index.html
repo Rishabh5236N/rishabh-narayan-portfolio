@@ -6713,9 +6713,9 @@ body::before{display:none!important}
               </div>
 
               <div class="analytics-list">
-                <div><span>Followers gained</span><strong id="analyticsFollowers">+1.2K</strong></div>
-                <div><span>Shares + saves</span><strong id="analyticsSavesShares">2.1K</strong></div>
-                <div><span>Profile visits</span><strong id="analyticsVisits">1.9K</strong></div>
+                <div><span id="analyticsFollowersLabel">Comments</span><strong id="analyticsFollowers">293</strong></div>
+                <div><span id="analyticsSavesSharesLabel">Reposts</span><strong id="analyticsSavesShares">593</strong></div>
+                <div><span id="analyticsVisitsLabel">Shares</span><strong id="analyticsVisits">31.6K</strong></div>
                 <div><span>Top format</span><strong id="analyticsFormat">Reels</strong></div>
               </div>
 
@@ -8634,12 +8634,12 @@ tiltPhones.forEach(phone=>{
 const reelData=[
   {
     title:'Diwali<br>Tomorrow', subtitle:'event push - ticket CTA - trend-led reel', caption:'PULL UP TO DIWALI TOMORROW. BUY TICKETS NOW - link in bio.',
-    views:'Private', reach:'Private', saves:'Private', shares:'Private', likes:'49,969', comments:'292', time:'Oct 23, 2025', location:'@psusasa', cls:'', color:'#d4aee7', videoUrl:'assets/social-reels/psu-sasa-diwali.mp4',
-    metricLabels:['Views','Impressions','Likes','Comments'], metricValues:['Private','Private','49,969','292'], metricsNote:'Public engagement shown. Views and impressions require account Insights.'
+    views:'917,554', reach:'617,205', saves:'Private', shares:'31.6K', reposts:'593', likes:'49.8K', comments:'293', time:'Oct 23, 2025', location:'@psusasa', cls:'', color:'#d4aee7', videoUrl:'assets/social-reels/psu-sasa-diwali.mp4',
+    metricLabels:['Views','Accounts reached','Likes','Comments'], metricValues:['917,554','617,205','49.8K','293'], metricsNote:'917,554 views, 617,205 accounts reached, 49.8K likes, 293 comments, 593 reposts, and 31.6K shares.'
   },
   {
     title:'Kupid<br>Dating', subtitle:'dating show promo - campus humor - event CTA', caption:"Would you ask a girl if they're garbage? KUPID X PSU SASA dating show tomorrow at 6 PM. Tickets in bio.",
-    views:'Private', reach:'Private', saves:'Private', shares:'Private', likes:'848', comments:'25', time:'Nov 13, 2025', location:'@psusasa x @kupiddating', cls:'', color:'#e2a5b3', videoUrl:'assets/social-reels/psu-sasa-kupid.mp4',
+    views:'Private', reach:'Private', saves:'Private', shares:'Private', reposts:'Private', likes:'848', comments:'25', time:'Nov 13, 2025', location:'@psusasa x @kupiddating', cls:'', color:'#e2a5b3', videoUrl:'assets/social-reels/psu-sasa-kupid.mp4',
     metricLabels:['Views','Impressions','Likes','Comments'], metricValues:['Private','Private','848','25'], metricsNote:'Public engagement shown. Views and impressions require account Insights.'
   }
 ];
@@ -8777,8 +8777,8 @@ setReel(0);
 
 /* v55 reel interaction upgrade */
 const reelExtras=[
-  {audio:'original audio - psusasa',commentOne:'This reel reached me immediately.',commentTwo:'The trend and event CTA work together.',engagement:'49,969',engagementP:90,reachP:0,followers:'Private',visits:'Private',note:'Public post counts show 49,969 likes and 292 comments. Views, impressions, saves, and shares require account Insights.',engagementLabel:'Likes',reachLabel:'Impressions',trendLabel:'Public engagement snapshot',noteTitle:'Public Instagram data'},
-  {audio:'original audio - psusasa x kupiddating',commentOne:'The dating-show hook lands immediately.',commentTwo:'Campus humor makes the event promotion feel native.',engagement:'848',engagementP:72,reachP:0,followers:'Private',visits:'Private',note:'Public post counts show 848 likes and 25 comments. Views, impressions, saves, and shares require account Insights.',engagementLabel:'Likes',reachLabel:'Impressions',trendLabel:'Public engagement snapshot',noteTitle:'Public Instagram data'}
+  {audio:'original audio - psusasa',commentOne:'This reel reached me immediately.',commentTwo:'The trend and event CTA work together.',engagement:'49.8K',engagementP:82,reachP:67,followers:'293',visits:'31.6K',note:'917,554 views, 617,205 accounts reached, 49.8K likes, 293 comments, 593 reposts, and 31.6K shares.',engagementLabel:'Likes',reachLabel:'Accounts reached',trendLabel:'Diwali reel performance',noteTitle:'Campaign performance',listOneLabel:'Comments',listOneValue:'293',listTwoLabel:'Reposts',listTwoValue:'593',listThreeLabel:'Shares',listThreeValue:'31.6K'},
+  {audio:'original audio - psusasa x kupiddating',commentOne:'The dating-show hook lands immediately.',commentTwo:'Campus humor makes the event promotion feel native.',engagement:'848',engagementP:72,reachP:0,followers:'25',visits:'Private',note:'Public post counts show 848 likes and 25 comments. Views, accounts reached, reposts, and shares require account Insights.',engagementLabel:'Likes',reachLabel:'Accounts reached',trendLabel:'Public engagement snapshot',noteTitle:'Public Instagram data',listOneLabel:'Comments',listOneValue:'25',listTwoLabel:'Reposts',listTwoValue:'Private',listThreeLabel:'Shares',listThreeValue:'Private'}
 ];
 reelData.forEach((item,i)=>Object.assign(item,reelExtras[i]));
 const reelStepButtons=document.querySelectorAll('[data-reel-step]');
@@ -8831,9 +8831,12 @@ setReel=function(index){
   setReelHTML('analyticsReach',data.reach);
   setReelHTML('analyticsEngagementLabel',data.engagementLabel||'Engagement');
   setReelHTML('analyticsReachLabel',data.reachLabel||'Avg Reach');
-  setReelHTML('analyticsFollowers',data.followers);
-  setReelHTML('analyticsSavesShares',`${data.saves} / ${data.shares}`);
-  setReelHTML('analyticsVisits',data.visits);
+  setReelHTML('analyticsFollowersLabel',data.listOneLabel||'Comments');
+  setReelHTML('analyticsFollowers',data.listOneValue||data.comments);
+  setReelHTML('analyticsSavesSharesLabel',data.listTwoLabel||'Reposts');
+  setReelHTML('analyticsSavesShares',data.listTwoValue||data.reposts||'Private');
+  setReelHTML('analyticsVisitsLabel',data.listThreeLabel||'Shares');
+  setReelHTML('analyticsVisits',data.listThreeValue||data.shares);
   setReelHTML('analyticsFormat','Reels');
   setReelHTML('analyticsTrendLabel',data.trendLabel||`${data.title.replace('<br>',' ')} trend`);
   setReelHTML('analyticsNoteTitle',data.noteTitle||'Live readout');
