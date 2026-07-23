@@ -5442,7 +5442,53 @@ html.motion-paused *,html.motion-paused *::before,html.motion-paused *::after{an
 }
 .reel-browser-media.reel-live-video::before{display:none!important}
 .reel-browser-media.reel-live-video>.native-reel-video{display:block}
-.reel-browser-media.reel-live-video>:not(.native-reel-video){display:none!important}
+.reel-browser-media.reel-live-video>:not(.native-reel-video):not(.reel-media-controls){display:none!important}
+.reel-media-controls{
+  position:absolute;
+  left:50%;
+  bottom:clamp(.7rem,3vw,1rem);
+  z-index:12;
+  display:flex;
+  align-items:center;
+  gap:.42rem;
+  padding:.38rem;
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:999px;
+  background:rgba(7,7,10,.7);
+  box-shadow:0 14px 32px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.12);
+  opacity:0;
+  pointer-events:none;
+  transform:translate3d(-50%,10px,0);
+  transition:opacity .2s ease,transform .28s cubic-bezier(.2,1,.22,1);
+}
+.reel-browser-media:hover .reel-media-controls,
+.reel-browser-media:focus-within .reel-media-controls,
+.reel-browser-media.controls-visible .reel-media-controls{
+  opacity:1;
+  pointer-events:auto;
+  transform:translate3d(-50%,0,0);
+}
+.reel-media-control{
+  position:relative;
+  width:34px;
+  height:34px;
+  display:grid;
+  place-items:center;
+  padding:0;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:50%;
+  background:rgba(255,255,255,.07);
+  color:#fff;
+  font-family:Arial,sans-serif;
+  font-size:.85rem;
+  line-height:1;
+  cursor:pointer;
+  transition:background .18s ease,border-color .18s ease,transform .18s ease;
+}
+.reel-media-control:hover,.reel-media-control:focus-visible{background:rgba(181,123,238,.28);border-color:rgba(181,123,238,.5);transform:translateY(-1px);outline:none}
+.reel-media-control[data-reel-media-control="play"]{width:39px;height:39px;background:linear-gradient(135deg,rgba(181,123,238,.4),rgba(63,196,247,.28));font-size:.78rem}
+.reel-media-control .seek-amount{position:absolute;left:50%;top:50%;transform:translate(-50%,-35%);font-size:.38rem;font-weight:700;letter-spacing:0;color:#fff}
+@media(pointer:coarse){.reel-media-controls{bottom:.72rem}.reel-media-control{width:38px;height:38px}.reel-media-control[data-reel-media-control="play"]{width:42px;height:42px}}
 .reel-metric-note{
   min-height:.72rem;
   margin:-.05rem .1rem .08rem;
@@ -6627,6 +6673,12 @@ body::before{inset:-4%!important;filter:none!important;animation:none!important}
 
                 <div class="ig-post-media reel-browser-media" id="reelMedia">
                   <video class="native-reel-video" id="reelVideo" muted autoplay loop playsinline preload="metadata" disablepictureinpicture controlslist="nodownload noplaybackrate noremoteplayback" aria-label="Selected PSU SASA Instagram reel"></video>
+                  <div class="reel-media-controls" id="reelMediaControls" role="group" aria-label="Reel playback controls">
+                    <button class="reel-media-control playable" type="button" data-reel-media-control="rewind" aria-label="Rewind 10 seconds" title="Rewind 10 seconds"><span aria-hidden="true">↶</span><span class="seek-amount" aria-hidden="true">10</span></button>
+                    <button class="reel-media-control playable" id="reelPlayToggle" type="button" data-reel-media-control="play" aria-label="Pause reel" title="Play or pause"><span aria-hidden="true">Ⅱ</span></button>
+                    <button class="reel-media-control playable" type="button" data-reel-media-control="forward" aria-label="Forward 10 seconds" title="Forward 10 seconds"><span aria-hidden="true">↷</span><span class="seek-amount" aria-hidden="true">10</span></button>
+                    <button class="reel-media-control playable" id="reelMuteToggle" type="button" data-reel-media-control="mute" aria-label="Unmute reel" title="Mute or unmute"><span aria-hidden="true">🔇</span></button>
+                  </div>
                   <div class="reel-media-art" id="reelMediaArt"></div>
                 </div>
               </div>
@@ -8598,6 +8650,63 @@ const reelData=[
 const reelButtons=document.querySelectorAll('.reel-thumb');
 const reelMedia=document.getElementById('reelMedia');
 const reelVideo=document.getElementById('reelVideo');
+const reelMediaControls=document.getElementById('reelMediaControls');
+const reelPlayToggle=document.getElementById('reelPlayToggle');
+const reelMuteToggle=document.getElementById('reelMuteToggle');
+let reelControlsTimer=0;
+const updateReelMediaControls=()=>{
+  if(!reelVideo) return;
+  if(reelPlayToggle){
+    reelPlayToggle.querySelector('span').textContent=reelVideo.paused?'▶':'Ⅱ';
+    reelPlayToggle.setAttribute('aria-label',reelVideo.paused?'Play reel':'Pause reel');
+  }
+  if(reelMuteToggle){
+    reelMuteToggle.querySelector('span').textContent=reelVideo.muted?'🔇':'🔊';
+    reelMuteToggle.setAttribute('aria-label',reelVideo.muted?'Unmute reel':'Mute reel');
+  }
+};
+const showReelMediaControls=()=>{
+  if(!reelMedia) return;
+  reelMedia.classList.add('controls-visible');
+  window.clearTimeout(reelControlsTimer);
+  reelControlsTimer=window.setTimeout(()=>{
+    if(!reelMedia.matches(':hover')&&!reelMedia.matches(':focus-within')) reelMedia.classList.remove('controls-visible');
+  },2600);
+};
+reelMedia?.addEventListener('mouseleave',()=>{
+  window.clearTimeout(reelControlsTimer);
+  if(!reelMedia.matches(':focus-within')) reelMedia.classList.remove('controls-visible');
+});
+reelMedia?.addEventListener('focusout',()=>{
+  window.setTimeout(()=>{
+    if(!reelMedia.matches(':hover')&&!reelMedia.matches(':focus-within')) reelMedia.classList.remove('controls-visible');
+  });
+});
+reelMediaControls?.addEventListener('click',event=>{
+  const control=event.target.closest('[data-reel-media-control]');
+  if(!control||!reelVideo) return;
+  event.preventDefault();
+  event.stopPropagation();
+  const action=control.dataset.reelMediaControl;
+  if(action==='play'){
+    if(reelVideo.paused){
+      const playPromise=reelVideo.play();
+      if(playPromise&&typeof playPromise.catch==='function') playPromise.catch(()=>{});
+    }else reelVideo.pause();
+  }else if(action==='rewind'){
+    reelVideo.currentTime=Math.max(0,reelVideo.currentTime-10);
+  }else if(action==='forward'){
+    const end=Number.isFinite(reelVideo.duration)?reelVideo.duration:reelVideo.currentTime+10;
+    reelVideo.currentTime=Math.min(end,reelVideo.currentTime+10);
+  }else if(action==='mute'){
+    reelVideo.muted=!reelVideo.muted;
+    reelVideo.defaultMuted=reelVideo.muted;
+    reelVideo.volume=reelVideo.muted?0:1;
+  }
+  updateReelMediaControls();
+  showReelMediaControls();
+});
+['play','pause','volumechange','loadedmetadata'].forEach(eventName=>reelVideo?.addEventListener(eventName,updateReelMediaControls));
 const syncReelVideo=(data,shouldPlay)=>{
   if(!reelVideo) return;
   reelVideo.muted=true;
@@ -8609,6 +8718,8 @@ const syncReelVideo=(data,shouldPlay)=>{
   reelVideo.setAttribute('playsinline','');
   reelVideo.style.objectPosition=data.videoPosition||'center';
   reelVideo.setAttribute('aria-label',`${String(data.title).replace('<br>',' ')} Instagram reel, muted`);
+  reelMedia?.classList.remove('controls-visible');
+  window.clearTimeout(reelControlsTimer);
   const nextSource=shouldPlay&&data.videoUrl?data.videoUrl:'';
   if(!nextSource){
     reelVideo.pause();
@@ -8625,6 +8736,7 @@ const syncReelVideo=(data,shouldPlay)=>{
   }
   const playPromise=reelVideo.play();
   if(playPromise&&typeof playPromise.catch==='function') playPromise.catch(()=>{});
+  updateReelMediaControls();
 };
 setReel=function(index){
   const data=reelData[index]||reelData[0];
@@ -8739,7 +8851,7 @@ reelActionButtons.forEach(btn=>btn.addEventListener('click',()=>{
 }));
 reelMedia?.addEventListener('click',e=>{
   if(e.target.closest('button')) return;
-  setReel(activeReelIndex+1);
+  showReelMediaControls();
 });
 setReel(0);
 
