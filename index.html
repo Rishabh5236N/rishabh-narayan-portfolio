@@ -5524,6 +5524,7 @@ html.motion-paused *,html.motion-paused *::before,html.motion-paused *::after{an
 .reel-browser-phone .reel-controls-minimal{display:grid!important;grid-template-columns:34px 1fr 34px!important;align-items:center;gap:.5rem;margin-top:0;padding:.18rem .32rem!important;border:0!important;background:transparent!important;box-shadow:none!important}
 .reel-browser-phone .reel-controls-minimal .reel-nav-btn{width:34px;height:34px;padding:0;border:0!important;border-radius:50%!important;background:rgba(17,18,23,.045)!important;color:rgba(17,18,23,.66)!important;font-size:.82rem}
 .reel-browser-phone .reel-controls-minimal .reel-nav-btn:hover{background:rgba(181,123,238,.12)!important;color:#15151a!important;transform:translateY(-1px)}
+.reel-browser-phone .reel-controls-minimal .reel-nav-btn:disabled{opacity:.25!important;cursor:not-allowed!important;transform:none!important;background:rgba(17,18,23,.025)!important;color:rgba(17,18,23,.42)!important}
 .reel-dot-picker{display:flex;align-items:center;justify-content:center;gap:.48rem}
 .reel-browser-phone .reel-dot-picker .reel-thumb{display:block;width:7px;height:7px;min-height:0!important;padding:0!important;border:0!important;border-radius:999px!important;background:rgba(17,18,23,.2)!important;box-shadow:none!important;transform:none!important;transition:width .28s ease,background .28s ease!important}
 .reel-browser-phone .reel-dot-picker .reel-thumb::after{display:none!important}
@@ -6696,7 +6697,7 @@ body::before{display:none!important}
                 <div class="ig-post-top">
                   <div class="ig-post-account">
                     <div class="ig-avatar sasa-profile-avatar"><img class="sasa-profile-mark" src="assets/perf-inline/sasa-mark.png" alt="SASA logo"></div>
-                    <div class="ig-account-copy"><strong>psu_sasa <span class="ig-verified">✓</span></strong></div>
+                    <div class="ig-account-copy"><strong id="reelAccountName">psu_sasa <span class="ig-verified">✓</span></strong><span id="reelAccountContext">Instagram reel</span></div>
                   </div>
                 </div>
 
@@ -6733,8 +6734,8 @@ body::before{display:none!important}
               <div class="analytics-profile-row">
                 <div class="analytics-avatar sasa-profile-avatar"><img class="sasa-profile-mark" src="assets/perf-inline/sasa-mark.png" alt="SASA logo"></div>
                 <div>
-                  <strong>@psu_sasa</strong>
-                  <span>Campaign performance</span>
+                  <strong id="analyticsProfileName">@psu_sasa</strong>
+                  <span id="analyticsProfileContext">Campaign performance</span>
                 </div>
               </div>
 
@@ -8674,13 +8675,13 @@ tiltPhones.forEach(phone=>{
 const reelData=[
   {
     title:'Diwali<br>Tomorrow', subtitle:'event push - ticket CTA - trend-led reel', caption:'PULL UP TO DIWALI TOMORROW. BUY TICKETS NOW - link in bio.',
-    views:'917,554', reach:'617,205', saves:'Private', shares:'31.6K', reposts:'593', likes:'49.8K', comments:'293', time:'Oct 23, 2025', location:'@psusasa', cls:'', color:'#d4aee7', videoUrl:'assets/social-reels/psu-sasa-diwali.mp4',
+    views:'917,554', reach:'617,205', saves:'Private', shares:'31.6K', reposts:'593', likes:'49.8K', comments:'293', time:'Oct 23, 2025', location:'@psusasa', accountName:'psu_sasa <span class="ig-verified">✓</span>', accountContext:'Instagram reel', analyticsProfileName:'@psu_sasa', analyticsProfileContext:'Campaign performance', cls:'', color:'#d4aee7', videoUrl:'assets/social-reels/psu-sasa-diwali.mp4',
     metricLabels:['Views','Accounts reached','Likes','Comments'], metricValues:['917,554','617,205','49.8K','293'], metricsNote:'917,554 views, 617,205 accounts reached, 49.8K likes, 293 comments, 593 reposts, and 31.6K shares.'
   },
   {
-    title:'Kupid<br>Dating', subtitle:'dating show promo - campus humor - event CTA', caption:"Would you ask a girl if they're garbage? KUPID X PSU SASA dating show tomorrow at 6 PM. Tickets in bio.",
-    views:'Private', reach:'Private', saves:'Private', shares:'Private', reposts:'Private', likes:'848', comments:'25', time:'Nov 13, 2025', location:'@psusasa x @kupiddating', cls:'', color:'#e2a5b3', videoUrl:'assets/social-reels/psu-sasa-kupid.mp4',
-    metricLabels:['Views','Impressions','Likes','Comments'], metricValues:['Private','Private','848','25'], metricsNote:'Public engagement shown. Views and impressions require account Insights.'
+    title:'Kupid<br>Dating', subtitle:'collaboration post - campus humor - event CTA', caption:"Would you ask a girl if they're garbage? KUPID X PSU SASA dating show tomorrow at 6 PM. Tickets in bio.",
+    views:'64,540', reach:'38,877', saves:'Private', shares:'352', reposts:'9', likes:'848', comments:'25', time:'Nov 13, 2025', location:'@kupiddating × @psu_sasa · Collaboration post', accountName:'kupiddating × psu_sasa', accountContext:'Collaboration post', analyticsProfileName:'@kupiddating × @psu_sasa', analyticsProfileContext:'Collaboration post performance', cls:'', color:'#e2a5b3', videoUrl:'assets/social-reels/psu-sasa-kupid.mp4',
+    metricLabels:['Views','Accounts reached','Shares','Reposts'], metricValues:['64,540','38,877','352','9'], metricsNote:'Collaboration post between @kupiddating and @psu_sasa: 64,540 views, 38,877 accounts reached, 352 shares, and 9 reposts.'
   }
 ];
 /* Retained as source reference until a Holi reel file is supplied.
@@ -8738,8 +8739,13 @@ reelMediaControls?.addEventListener('click',event=>{
   }else if(action==='rewind'){
     reelVideo.currentTime=Math.max(0,reelVideo.currentTime-10);
   }else if(action==='forward'){
-    const end=Number.isFinite(reelVideo.duration)?reelVideo.duration:reelVideo.currentTime+10;
-    reelVideo.currentTime=Math.min(end,reelVideo.currentTime+10);
+    const duration=Number.isFinite(reelVideo.duration)&&reelVideo.duration>0?reelVideo.duration:null;
+    if(duration&&reelVideo.currentTime+10>=duration-.25){
+      reelVideo.currentTime=Math.max(0,duration-.5);
+      reelVideo.pause();
+    }else{
+      reelVideo.currentTime=reelVideo.currentTime+10;
+    }
   }else if(action==='mute'){
     reelVideo.muted=!reelVideo.muted;
     reelVideo.defaultMuted=reelVideo.muted;
@@ -8818,7 +8824,7 @@ setReel(0);
 /* v55 reel interaction upgrade */
 const reelExtras=[
   {audio:'original audio - psusasa',commentOne:'This reel reached me immediately.',commentTwo:'The trend and event CTA work together.',engagement:'49.8K',engagementP:82,reachP:67,followers:'293',visits:'31.6K',note:'917,554 views, 617,205 accounts reached, 49.8K likes, 293 comments, 593 reposts, and 31.6K shares.',heroCopy:'Breakout reach from one event-led campaign reel.',engagementLabel:'Likes',reachLabel:'Accounts reached',trendLabel:'KPI growth & impressions',kpiStatus:'High audience response',noteTitle:'Campaign performance',listOneLabel:'Comments',listOneValue:'293',listTwoLabel:'Reposts',listTwoValue:'593',listThreeLabel:'Shares',listThreeValue:'31.6K'},
-  {audio:'original audio - psusasa x kupiddating',commentOne:'The dating-show hook lands immediately.',commentTwo:'Campus humor makes the event promotion feel native.',engagement:'848',engagementP:72,reachP:0,followers:'25',visits:'Private',note:'Public post counts show 848 likes and 25 comments. Views, accounts reached, reposts, and shares require account Insights.',heroCopy:'Public engagement shown; private reach remains undisclosed.',engagementLabel:'Likes',reachLabel:'Accounts reached',trendLabel:'Campaign KPI snapshot',kpiStatus:'Public engagement',noteTitle:'Public Instagram data',listOneLabel:'Comments',listOneValue:'25',listTwoLabel:'Reposts',listTwoValue:'Private',listThreeLabel:'Shares',listThreeValue:'Private'}
+  {audio:'original audio - kupiddating x psu_sasa',commentOne:'The dating-show hook lands immediately.',commentTwo:'Campus humor makes the collaboration feel native.',engagement:'848',engagementP:72,reachP:61,followers:'25',visits:'352',note:'Collaboration post between @kupiddating and @psu_sasa: 64,540 views, 38,877 accounts reached, 848 likes, 25 comments, 352 shares, and 9 reposts.',heroCopy:'A collaboration post between @kupiddating and @psu_sasa reached 38,877 accounts.',engagementLabel:'Likes',reachLabel:'Accounts reached',trendLabel:'Collaboration post KPIs',kpiStatus:'64,540 views',noteTitle:'Collaboration performance',listOneLabel:'Comments',listOneValue:'25',listTwoLabel:'Reposts',listTwoValue:'9',listThreeLabel:'Shares',listThreeValue:'352'}
 ];
 reelData.forEach((item,i)=>Object.assign(item,reelExtras[i]));
 const reelStepButtons=document.querySelectorAll('[data-reel-step]');
@@ -8828,9 +8834,16 @@ const analyticsPhone=document.querySelector('.analytics-phone');
 let activeReelIndex=0;
 const setReelHTML=(id,val)=>{const el=document.getElementById(id); if(el) el.innerHTML=val;};
 setReel=function(index){
-  activeReelIndex=(index+reelData.length)%reelData.length;
+  const requestedIndex=Number.isFinite(Number(index))?Number(index):0;
+  activeReelIndex=Math.max(0,Math.min(reelData.length-1,requestedIndex));
   const data=reelData[activeReelIndex]||reelData[0];
   reelButtons.forEach(btn=>btn.classList.toggle('active',Number(btn.dataset.reel)===activeReelIndex));
+  reelStepButtons.forEach(btn=>{
+    const step=Number(btn.dataset.reelStep||0);
+    const unavailable=activeReelIndex+step<0||activeReelIndex+step>=reelData.length;
+    btn.disabled=unavailable;
+    btn.setAttribute('aria-disabled',String(unavailable));
+  });
   if(reelMedia){
     reelMedia.classList.add('switching');
     window.setTimeout(()=>reelMedia.classList.remove('switching'),220);
@@ -8856,6 +8869,8 @@ setReel=function(index){
   setReelHTML('reelMetricsNote',data.metricsNote||'');
   setReelHTML('reelTime',data.time);
   setReelHTML('reelLocation',data.location);
+  setReelHTML('reelAccountName',data.accountName||'psu_sasa');
+  setReelHTML('reelAccountContext',data.accountContext||'Instagram reel');
   setReelHTML('reelLikesOverlay',`${data.likes} likes`);
   setReelHTML('reelCommentsOverlay',`${data.comments} comments`);
   setReelHTML('reelSharesOverlay',`${data.shares} shares`);
@@ -8867,6 +8882,8 @@ setReel=function(index){
   setReelHTML('analyticsHeroLabel','Campaign views');
   setReelHTML('analyticsHeroValue',data.views);
   setReelHTML('analyticsHeroCopy',data.heroCopy||data.note);
+  setReelHTML('analyticsProfileName',data.analyticsProfileName||'@psu_sasa');
+  setReelHTML('analyticsProfileContext',data.analyticsProfileContext||'Campaign performance');
   setReelHTML('analyticsEngagement',data.engagement);
   setReelHTML('analyticsReach',data.reach);
   setReelHTML('analyticsEngagementLabel',data.engagementLabel||'Engagement');
