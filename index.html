@@ -221,10 +221,7 @@ section{padding:7rem 2rem;position:relative}
 .social-kicker{font-size:.62rem;letter-spacing:.26em;text-transform:uppercase;color:var(--a1);margin-bottom:.4rem}
 .social-showcase-title{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;line-height:1.04;margin-bottom:.55rem;color:var(--cream)}
 .social-showcase-copy{color:var(--muted);line-height:1.8;font-size:.92rem;max-width:58ch}
-.social-summary-strip{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem}
-.social-summary-card{border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.035);border-radius:22px;padding:.9rem 1rem;box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
-.social-summary-card span,.phone-analytics-card span{display:block;font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:.35rem}
-.social-summary-card strong{font-family:'Cormorant Garamond',serif;font-size:clamp(1.12rem,1.55vw,1.5rem);font-weight:400;white-space:nowrap;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.phone-analytics-card span{display:block;font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:.35rem}
 .phone-gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.2rem;align-items:start}
 .phone-stage{position:relative;perspective:1200px;min-height:760px;transform-style:preserve-3d}
 .phone-shadow{position:absolute;inset:auto 10% 4% 10%;height:22px;background:radial-gradient(circle,rgba(0,0,0,.45),transparent 68%);filter:blur(16px);z-index:0}
@@ -276,7 +273,7 @@ section{padding:7rem 2rem;position:relative}
 .ig-bottom-nav{display:flex;justify-content:space-between;align-items:center;color:#fff;font-size:1.02rem;padding:.1rem .2rem 0;border-top:1px solid rgba(255,255,255,.08)}
 .ig-bottom-left{display:flex;gap:1rem;align-items:center}
 @media(max-width:1050px){.social-showcase-header,.phone-gallery{grid-template-columns:1fr}.social-showcase-title{font-size:1.8rem}.phone-stage{min-height:auto}.phone-body{width:min(100%,360px)}}
-@media(max-width:640px){.social-portfolio-showcase{padding:1rem;border-radius:24px}.social-showcase-title{font-size:1.58rem}.social-showcase-copy{font-size:.86rem}.social-summary-strip{grid-template-columns:repeat(2,minmax(0,1fr));gap:.65rem}.social-summary-card{padding:.82rem .88rem;border-radius:18px}.social-summary-card strong{font-size:1.28rem}.phone-gallery{gap:1rem}.phone-body{width:min(100%,320px);border-radius:34px}.phone-screen{min-height:644px;padding:.68rem .68rem .82rem;border-radius:24px}.ig-appbrand{font-size:1.26rem}.ig-story{min-width:46px}.ig-story-avatar{width:42px;height:42px}.ig-post-media{min-height:318px;border-radius:18px}.ig-post-copy{font-size:2rem}.ig-insights{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:640px){.social-portfolio-showcase{padding:1rem;border-radius:24px}.social-showcase-title{font-size:1.58rem}.social-showcase-copy{font-size:.86rem}.phone-gallery{gap:1rem}.phone-body{width:min(100%,320px);border-radius:34px}.phone-screen{min-height:644px;padding:.68rem .68rem .82rem;border-radius:24px}.ig-appbrand{font-size:1.26rem}.ig-story{min-width:46px}.ig-story-avatar{width:42px;height:42px}.ig-post-media{min-height:318px;border-radius:18px}.ig-post-copy{font-size:2rem}.ig-insights{grid-template-columns:repeat(2,minmax(0,1fr))}}
 
 /* WORK */
 
@@ -6002,7 +5999,73 @@ body::before{display:none!important}
 #hero .brand-lockup:hover::after,
 #hero .brand-lockup:focus-visible::after{content:none!important;display:none!important}
 .social-showcase-header{grid-template-columns:minmax(250px,.72fr) minmax(0,1.28fr);align-items:end}
-.social-showcase-title{max-width:19ch;margin:0}
+.social-showcase-title{max-width:22ch;margin:0}
+.social-account-explorer{min-width:0}
+.social-account-tabs{
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.38rem;
+  padding:.34rem;border:1px solid rgba(244,239,248,.09);border-radius:7px;
+  background:rgba(7,8,16,.38);box-shadow:inset 0 1px 0 rgba(255,255,255,.035);
+}
+.social-account-tab{
+  display:flex;align-items:center;justify-content:center;gap:.45rem;min-width:0;
+  min-height:42px;padding:.55rem .5rem;border:0;border-radius:5px;
+  color:rgba(244,239,248,.5);background:transparent;cursor:pointer;
+  font:600 .6rem/1 'Montserrat',sans-serif;letter-spacing:.07em;text-transform:uppercase;
+  transition:color .22s ease,background .22s ease,box-shadow .22s ease,transform .22s ease;
+}
+.social-account-tab:hover{color:rgba(244,239,248,.86);transform:translateY(-1px)}
+.social-account-tab:focus-visible{outline:2px solid rgba(142,232,255,.72);outline-offset:2px}
+.social-account-tab.active{
+  color:#f4eff8;background:linear-gradient(120deg,rgba(181,123,238,.14),rgba(63,196,247,.1));
+  box-shadow:inset 0 0 0 1px rgba(181,123,238,.2),0 7px 20px rgba(0,0,0,.12);
+}
+.social-tab-icon{
+  display:grid;place-items:center;flex:0 0 22px;width:22px;height:22px;
+  border-radius:4px;background:rgba(255,255,255,.055);overflow:hidden;
+  color:rgba(244,239,248,.84);font-family:'Cormorant Garamond',serif;font-size:.68rem;
+}
+.social-tab-icon img{display:block;width:100%;height:100%;object-fit:contain}
+.social-tab-icon-youtube{position:relative;background:#f04444}
+.social-tab-icon-youtube::after{
+  content:'';width:0;height:0;border-top:4px solid transparent;border-bottom:4px solid transparent;
+  border-left:7px solid #fff;margin-left:2px;
+}
+.social-tab-icon-coda{background:linear-gradient(135deg,rgba(181,123,238,.3),rgba(63,196,247,.24))}
+.social-account-brief{
+  display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:.8rem;align-items:center;
+  min-height:83px;padding:.82rem .15rem .05rem;border-top:1px solid rgba(244,239,248,.075);
+  margin-top:.62rem;transition:opacity .16s ease,transform .16s ease;
+}
+.social-account-brief.switching{opacity:.45;transform:translateY(2px)}
+.social-account-mark{
+  display:grid;place-items:center;width:40px;height:40px;overflow:hidden;
+  border:1px solid rgba(244,239,248,.11);border-radius:6px;background:rgba(255,255,255,.05);
+  color:#e9ddf3;font:500 .88rem/1 'Cormorant Garamond',serif;
+}
+.social-account-mark img{display:block;width:100%;height:100%;object-fit:contain}
+.social-account-mark.youtube{background:#f04444}
+.social-account-mark.youtube::after{
+  content:'';width:0;height:0;border-top:6px solid transparent;border-bottom:6px solid transparent;
+  border-left:10px solid #fff;margin-left:2px;
+}
+.social-account-mark.coda{background:linear-gradient(135deg,rgba(181,123,238,.24),rgba(63,196,247,.18))}
+.social-account-copy{min-width:0}
+.social-account-platform{
+  display:block;margin-bottom:.18rem;color:rgba(142,232,255,.68);
+  font-size:.5rem;letter-spacing:.14em;text-transform:uppercase;
+}
+.social-account-copy strong{
+  display:block;color:#f4eff8;font-family:'Cormorant Garamond',serif;
+  font-size:1.08rem;font-weight:500;line-height:1.05;
+}
+.social-account-copy p{margin:.22rem 0 0;color:rgba(244,239,248,.54);font-size:.68rem;line-height:1.45}
+.social-account-route{
+  display:inline-flex;align-items:center;gap:.42rem;white-space:nowrap;padding:.52rem .12rem;
+  color:rgba(244,239,248,.62);font-size:.54rem;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;text-decoration:none;transition:color .2s ease,transform .2s ease;
+}
+.social-account-route:hover,.social-account-route:focus-visible{color:#8ee8ff;transform:translateX(2px)}
+.social-account-route span{font-size:.85rem}
 .reel-browser-phone .ig-statusbar{display:none!important}
 .sasa-profile-avatar{position:relative;isolation:isolate;background:linear-gradient(135deg,#f9ce34,#ee2a7b,#6228d7)!important}
 .sasa-profile-avatar::after{display:none!important}
@@ -6054,11 +6117,18 @@ body::before{display:none!important}
 }
 .analytics-phone .analytics-list span{display:block;margin-bottom:.22rem;font-size:.52rem;text-transform:uppercase;letter-spacing:.08em}
 .analytics-phone .analytics-list strong{display:block;font-size:.84rem;font-variant-numeric:tabular-nums}
-@media(max-width:760px){
+@media(max-width:900px){
   .social-showcase-header{grid-template-columns:1fr;align-items:start}
   .social-showcase-title{max-width:22ch}
+  .social-account-tabs{margin-top:.2rem}
+  .social-account-brief{grid-template-columns:auto minmax(0,1fr)}
+  .social-account-route{grid-column:2;justify-self:start;padding-top:0}
 }
 @media(max-width:420px){
+  .social-account-tabs{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .social-account-tab{justify-content:flex-start;padding-inline:.68rem}
+  .social-account-brief{gap:.68rem}
+  .social-account-copy strong{font-size:1rem}
   .analytics-kpi-grid{grid-template-columns:1fr}
   .analytics-phone .analytics-list{grid-template-columns:1fr!important}
 }
@@ -6722,13 +6792,32 @@ html,body{max-width:100%;overflow-x:clip}
     <div class="social-portfolio-showcase reveal filtered-out" id="social-media-content" data-category="social">
       <div class="social-showcase-header">
         <div>
-          <h3 class="social-showcase-title">Reels backed by measurable audience response.</h3>
+          <h3 class="social-showcase-title">Click through the content to find details on impressions, KPI, and more!</h3>
         </div>
-        <div class="social-summary-strip">
-          <div class="social-summary-card playable"><span>SASA Impressions</span><strong>3,500,000+</strong></div>
-          <div class="social-summary-card playable"><span>THON Viewers</span><strong>207,000+</strong></div>
-          <div class="social-summary-card playable"><span>Avg Reel Views</span><strong>17,000+</strong></div>
-          <div class="social-summary-card playable"><span>Posts Produced</span><strong>400+</strong></div>
+        <div class="social-account-explorer">
+          <div class="social-account-tabs" role="tablist" aria-label="Browse social accounts">
+            <button class="social-account-tab active playable" type="button" role="tab" aria-selected="true" aria-controls="socialAccountBrief" tabindex="0" data-social-account="sasa">
+              <span class="social-tab-icon"><img src="assets/perf-inline/sasa-mark.png" alt=""></span><span>SASA</span>
+            </button>
+            <button class="social-account-tab playable" type="button" role="tab" aria-selected="false" aria-controls="socialAccountBrief" tabindex="-1" data-social-account="live46">
+              <span class="social-tab-icon"><img src="assets/logos/46live.png" alt=""></span><span>46LIVE</span>
+            </button>
+            <button class="social-account-tab playable" type="button" role="tab" aria-selected="false" aria-controls="socialAccountBrief" tabindex="-1" data-social-account="youtube">
+              <span class="social-tab-icon social-tab-icon-youtube" aria-hidden="true"></span><span>YouTube</span>
+            </button>
+            <button class="social-account-tab playable" type="button" role="tab" aria-selected="false" aria-controls="socialAccountBrief" tabindex="-1" data-social-account="coda">
+              <span class="social-tab-icon social-tab-icon-coda" aria-hidden="true">CC</span><span>Coda</span>
+            </button>
+          </div>
+          <div class="social-account-brief" id="socialAccountBrief" role="tabpanel" aria-live="polite">
+            <div class="social-account-mark" id="socialAccountMark"><img src="assets/perf-inline/sasa-mark.png" alt=""></div>
+            <div class="social-account-copy">
+              <span class="social-account-platform" id="socialAccountPlatform">Instagram · @psu_sasa</span>
+              <strong id="socialAccountTitle">South Asian Student Association</strong>
+              <p id="socialAccountDescription">Event-led social strategy, campaign creative, community storytelling, and collaborative reels.</p>
+            </div>
+            <a class="social-account-route playable" id="socialAccountRoute" href="#experience">Explore SASA work <span aria-hidden="true">&rarr;</span></a>
+          </div>
         </div>
       </div>
       
@@ -8720,6 +8809,79 @@ tiltPhones.forEach(phone=>{
 
 
 /* ─── REEL BROWSER PHONE ─── */
+const socialAccountData={
+  sasa:{
+    platform:'Instagram · @psu_sasa',
+    title:'South Asian Student Association',
+    description:'Event-led social strategy, campaign creative, community storytelling, and collaborative reels.',
+    route:'#experience',routeLabel:'Explore SASA work',mark:'assets/perf-inline/sasa-mark.png',markAlt:'SASA logo',markClass:''
+  },
+  live46:{
+    platform:'Instagram + livestream · 46LIVE',
+    title:'46LIVE',
+    description:'THON content, event-floor photography, reel strategy, and live audience storytelling.',
+    route:'#experience',routeLabel:'Explore 46LIVE experience',mark:'assets/logos/46live.png',markAlt:'46LIVE logo',markClass:''
+  },
+  youtube:{
+    platform:'YouTube · video publishing',
+    title:'YouTube',
+    description:'Long-form publishing and video-first storytelling across creator, performance, and campus projects.',
+    route:'#work',routeLabel:'Explore video work',mark:'',markAlt:'',markClass:'youtube'
+  },
+  coda:{
+    platform:'Instagram + Spotify · The Coda Conduct',
+    title:'The Coda Conduct',
+    description:'Performance clips, release support, and live-show storytelling for Penn State a cappella.',
+    route:'#music',routeLabel:'Explore Coda Conduct',mark:'',markAlt:'',markClass:'coda',markText:'CC'
+  }
+};
+const socialAccountTabs=[...document.querySelectorAll('[data-social-account]')];
+const socialAccountBrief=document.getElementById('socialAccountBrief');
+const socialAccountMark=document.getElementById('socialAccountMark');
+const socialAccountPlatform=document.getElementById('socialAccountPlatform');
+const socialAccountTitle=document.getElementById('socialAccountTitle');
+const socialAccountDescription=document.getElementById('socialAccountDescription');
+const socialAccountRoute=document.getElementById('socialAccountRoute');
+const setSocialAccount=accountKey=>{
+  const account=socialAccountData[accountKey]||socialAccountData.sasa;
+  socialAccountTabs.forEach(tab=>{
+    const active=tab.dataset.socialAccount===accountKey;
+    tab.classList.toggle('active',active);
+    tab.setAttribute('aria-selected',String(active));
+    tab.tabIndex=active?0:-1;
+  });
+  socialAccountBrief?.classList.add('switching');
+  window.setTimeout(()=>{
+    if(socialAccountPlatform) socialAccountPlatform.textContent=account.platform;
+    if(socialAccountTitle) socialAccountTitle.textContent=account.title;
+    if(socialAccountDescription) socialAccountDescription.textContent=account.description;
+    if(socialAccountRoute){
+      socialAccountRoute.href=account.route;
+      socialAccountRoute.innerHTML=`${account.routeLabel} <span aria-hidden="true">&rarr;</span>`;
+    }
+    if(socialAccountMark){
+      socialAccountMark.className=`social-account-mark ${account.markClass||''}`.trim();
+      socialAccountMark.innerHTML=account.mark
+        ?`<img src="${account.mark}" alt="${account.markAlt}">`
+        :(account.markText||'');
+    }
+    socialAccountBrief?.classList.remove('switching');
+  },120);
+};
+socialAccountTabs.forEach(tab=>tab.addEventListener('click',()=>setSocialAccount(tab.dataset.socialAccount)));
+socialAccountTabs.forEach((tab,index)=>tab.addEventListener('keydown',event=>{
+  if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key)) return;
+  event.preventDefault();
+  let nextIndex=index;
+  if(event.key==='ArrowLeft') nextIndex=(index-1+socialAccountTabs.length)%socialAccountTabs.length;
+  if(event.key==='ArrowRight') nextIndex=(index+1)%socialAccountTabs.length;
+  if(event.key==='Home') nextIndex=0;
+  if(event.key==='End') nextIndex=socialAccountTabs.length-1;
+  const nextTab=socialAccountTabs[nextIndex];
+  setSocialAccount(nextTab.dataset.socialAccount);
+  nextTab.focus();
+}));
+
 const reelData=[
   {
     title:'Diwali<br>Tomorrow', subtitle:'event push - ticket CTA - trend-led reel', caption:'PULL UP TO DIWALI TOMORROW. BUY TICKETS NOW - link in bio.',
