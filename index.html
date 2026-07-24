@@ -6010,6 +6010,18 @@ body::before{display:none!important}
   position:relative;z-index:2;display:block;width:100%;height:100%;box-sizing:border-box;
   border-radius:50%;padding:4px;object-fit:contain;background:#fff;
 }
+.reel-profile-mark{
+  position:relative;z-index:2;display:block;width:100%;height:100%;
+  box-sizing:border-box;border-radius:50%;
+}
+.kupid-profile-avatar{
+  position:relative;isolation:isolate;
+  background:linear-gradient(135deg,#ff4f9d,#7b8ef5,#3fc4f7)!important;
+}
+.kupid-profile-avatar::after{display:none!important}
+.kupid-profile-avatar .reel-profile-mark{
+  padding:3px;object-fit:cover;background:#15121d;
+}
 .analytics-phone .phone-screen{gap:.8rem!important}
 .analytics-phone .analytics-profile-row{padding-bottom:.78rem!important}
 .analytics-phone .analytics-profile-row span{letter-spacing:.04em;text-transform:uppercase}
@@ -6049,6 +6061,40 @@ body::before{display:none!important}
 @media(max-width:420px){
   .analytics-kpi-grid{grid-template-columns:1fr}
   .analytics-phone .analytics-list{grid-template-columns:1fr!important}
+}
+
+/* Final responsive stabilization: keep the intended editorial composition on
+   laptop screens, then switch cleanly to a single column on tablets. */
+html,body{max-width:100%;overflow-x:clip}
+.phone-gallery{
+  grid-template-columns:minmax(310px,.84fr) minmax(0,1.16fr)!important;
+  gap:clamp(1rem,2.8vw,2.35rem)!important;
+}
+.phone-gallery>*,
+.analytics-phone,
+.social-portfolio-showcase{min-width:0}
+@media(min-width:961px){
+  #hero>.hero-photo-ghost,
+  #hero>.hero-photo-ghost-left{width:clamp(360px,39.72vw,572px)!important}
+  #hero>.hero-photo-ghost-left{left:calc(50% - clamp(20rem,30.2vw,27.2rem))!important}
+}
+@media(min-width:921px) and (max-width:1120px){
+  #open-piano-game.piano-side-invite{
+    right:1rem!important;
+    bottom:.65rem!important;
+  }
+}
+@media(max-width:860px){
+  .phone-gallery{grid-template-columns:1fr!important}
+  .reel-browser-phone{width:100%;max-width:430px;margin-inline:auto}
+  .analytics-phone{width:min(100%,720px)!important;margin-inline:auto}
+}
+@media(max-width:620px){
+  .social-portfolio-showcase{padding:.9rem!important;border-radius:20px}
+  .reel-browser-phone .phone-body{
+    width:min(100%,calc(100vw - 3.8rem))!important;
+    max-width:330px;
+  }
 }
 </style>
 </head>
@@ -6696,7 +6742,7 @@ body::before{display:none!important}
               <div class="ig-post ig-post-minimal">
                 <div class="ig-post-top">
                   <div class="ig-post-account">
-                    <div class="ig-avatar sasa-profile-avatar"><img class="sasa-profile-mark" src="assets/perf-inline/sasa-mark.png" alt="SASA logo"></div>
+                    <div class="ig-avatar sasa-profile-avatar" id="reelProfileAvatar"><img class="reel-profile-mark sasa-profile-mark" id="reelProfileImage" src="assets/perf-inline/sasa-mark.png" alt="SASA logo"></div>
                     <div class="ig-account-copy"><strong id="reelAccountName">psu_sasa <span class="ig-verified">✓</span></strong><span id="reelAccountContext">Instagram reel</span></div>
                   </div>
                 </div>
@@ -6717,9 +6763,9 @@ body::before{display:none!important}
                 <button class="reel-nav-btn playable" type="button" data-reel-step="-1" aria-label="Previous reel">&larr;</button>
                 <div class="reel-dot-picker" aria-label="Choose reel">
                   <button class="reel-thumb active playable" type="button" data-reel="0" aria-label="Show Diwali reel"></button>
-                  <button class="reel-thumb playable" type="button" data-reel="1" aria-label="Show Kupid Dating reel"></button>
-                  <button class="reel-thumb playable" type="button" data-reel="2" aria-label="Show Karan Brar autograph reel"></button>
-                  <button class="reel-thumb playable" type="button" data-reel="3" aria-label="Show Diwali 2025 recap reel"></button>
+                  <button class="reel-thumb playable" type="button" data-reel="1" aria-label="Show Karan Brar reel"></button>
+                  <button class="reel-thumb playable" type="button" data-reel="2" aria-label="Show Jay Sean reel"></button>
+                  <button class="reel-thumb playable" type="button" data-reel="3" aria-label="Show Pop the Balloon reel"></button>
                 </div>
                 <button class="reel-nav-btn playable" type="button" data-reel-step="1" aria-label="Next reel">&rarr;</button>
               </div>
@@ -6734,7 +6780,7 @@ body::before{display:none!important}
             <div class="phone-notch"></div>
             <div class="phone-screen">
               <div class="analytics-profile-row">
-                <div class="analytics-avatar sasa-profile-avatar"><img class="sasa-profile-mark" src="assets/perf-inline/sasa-mark.png" alt="SASA logo"></div>
+                <div class="analytics-avatar sasa-profile-avatar" id="analyticsProfileAvatar"><img class="reel-profile-mark sasa-profile-mark" id="analyticsProfileImage" src="assets/perf-inline/sasa-mark.png" alt="SASA logo"></div>
                 <div>
                   <strong id="analyticsProfileName">@psu_sasa</strong>
                   <span id="analyticsProfileContext">Campaign performance</span>
@@ -8681,19 +8727,20 @@ const reelData=[
     metricLabels:['Views','Accounts reached','Likes','Comments'], metricValues:['917,554','617,205','49.8K','293'], metricsNote:'917,554 views, 617,205 accounts reached, 49.8K likes, 293 comments, 593 reposts, and 31.6K shares.'
   },
   {
-    title:'Kupid<br>Dating', subtitle:'collaboration post - campus humor - event CTA', caption:"Would you ask a girl if they're garbage? KUPID X PSU SASA dating show tomorrow at 6 PM. Tickets in bio.",
+    title:'Pop the<br>Balloon', subtitle:'Kupid x SASA collaboration - campus dating show', caption:"Would you ask a girl if they're garbage? KUPID X PSU SASA dating show tomorrow at 6 PM. Tickets in bio.",
     views:'64,540', reach:'38,877', saves:'Private', shares:'352', reposts:'9', likes:'848', comments:'25', time:'Nov 13, 2025', location:'@kupiddating × @psu_sasa · Collaboration post', accountName:'kupiddating × psu_sasa', accountContext:'Collaboration post', analyticsProfileName:'@kupiddating × @psu_sasa', analyticsProfileContext:'Collaboration post performance', cls:'', color:'#e2a5b3', videoUrl:'assets/social-reels/psu-sasa-kupid.mp4',
+    profileImage:'assets/social-reels/kupid-dating-profile.jpg', profileAlt:'Kupid Dating channel icon', profileKind:'kupid',
     metricLabels:['Views','Accounts reached','Shares','Reposts'], metricValues:['64,540','38,877','352','9'], metricsNote:'Collaboration post between @kupiddating and @psu_sasa: 64,540 views, 38,877 accounts reached, 352 shares, and 9 reposts.'
   },
   {
     title:'Karan Brar<br>Autograph Moment', subtitle:'event recap - celebrity moment - community content', caption:'Karan Brar signs an iconic photo with Priyanka Chopra after meeting the Penn State SASA community.',
-    views:'Not public', reach:'Not public', reachValue:'13 comments', saves:'Private', shares:'Not public', reposts:'Not public', likes:'2.6K', comments:'13', time:'Feb 11, 2026', location:'@psusasa', accountName:'psusasa <span class="ig-verified">✓</span>', accountContext:'Instagram reel', analyticsProfileName:'@psusasa', analyticsProfileContext:'Public post engagement', heroLabel:'Public likes', heroValue:'2.6K', cls:'', color:'#d9b6ee', videoUrl:'assets/social-reels/psu-sasa-karan-brar-autograph.mp4',
-    metricLabels:['Likes','Comments','Views','Accounts reached'], metricValues:['2.6K','13','Not public','Not public'], metricsNote:'Public Instagram engagement: 2.6K likes and 13 comments. Account-level views, reach, shares, and reposts were not provided.'
+    views:'62,554', reach:'41,601', reachValue:'41,601', saves:'Private', shares:'203', reposts:'123', likes:'2.6K', comments:'13', time:'Feb 11, 2026', location:'@psusasa', accountName:'psusasa <span class="ig-verified">✓</span>', accountContext:'Instagram reel', analyticsProfileName:'@psusasa', analyticsProfileContext:'Campaign performance', heroLabel:'Campaign views', heroValue:'62,554', cls:'', color:'#d9b6ee', videoUrl:'assets/social-reels/psu-sasa-karan-brar-autograph.mp4',
+    metricLabels:['Views','Accounts reached','Shares','Reposts'], metricValues:['62,554','41,601','203','123'], metricsNote:'62,554 views, 41,601 accounts reached, 2.6K likes, 13 comments, 123 reposts, and 203 shares.'
   },
   {
-    title:'Diwali 2025<br>Recap', subtitle:'event recap - cultural storytelling - community energy', caption:'A fast-moving recap of SASA x SIA Diwali 2025, built around the night\'s energy, performances, and community.',
-    views:'Not public', reach:'Not public', reachValue:'10 comments', saves:'Private', shares:'Not public', reposts:'Not public', likes:'205', comments:'10', time:'Nov 4, 2025', location:'@psusasa', accountName:'psusasa <span class="ig-verified">✓</span>', accountContext:'Instagram reel', analyticsProfileName:'@psusasa', analyticsProfileContext:'Public post engagement', heroLabel:'Public likes', heroValue:'205', cls:'', color:'#9ccfd8', videoUrl:'assets/social-reels/psu-sasa-diwali-recap.mp4',
-    metricLabels:['Likes','Comments','Format','Account'], metricValues:['205','10','Reel','@psusasa'], metricsNote:'Public Instagram engagement: 205 likes and 10 comments. Account-level views, reach, shares, and reposts were not provided.'
+    title:'Jay Sean<br>Diwali Recap', subtitle:'live performance - cultural storytelling - community energy', caption:'A fast-moving recap of Jay Sean at SASA x SIA Diwali 2025, built around the night\'s performances and community energy.',
+    views:'7,562', reach:'4,532', reachValue:'4,532', saves:'Private', shares:'11', reposts:'7', likes:'205', comments:'10', time:'Nov 4, 2025', location:'@psusasa', accountName:'psusasa <span class="ig-verified">✓</span>', accountContext:'Instagram reel', analyticsProfileName:'@psusasa', analyticsProfileContext:'Campaign performance', heroLabel:'Campaign views', heroValue:'7,562', cls:'', color:'#9ccfd8', videoUrl:'assets/social-reels/psu-sasa-diwali-recap.mp4',
+    metricLabels:['Views','Accounts reached','Shares','Reposts'], metricValues:['7,562','4,532','11','7'], metricsNote:'7,562 views, 4,532 accounts reached, 205 likes, 10 comments, 7 reposts, and 11 shares.'
   }
 ];
 /* Retained as source reference until a Holi reel file is supplied.
@@ -8837,9 +8884,14 @@ setReel(0);
 const reelExtras=[
   {audio:'original audio - psusasa',commentOne:'This reel reached me immediately.',commentTwo:'The trend and event CTA work together.',engagement:'49.8K',engagementP:82,reachP:67,followers:'293',visits:'31.6K',note:'917,554 views, 617,205 accounts reached, 49.8K likes, 293 comments, 593 reposts, and 31.6K shares.',heroCopy:'Breakout reach from one event-led campaign reel.',engagementLabel:'Likes',reachLabel:'Accounts reached',trendLabel:'KPI growth & impressions',kpiStatus:'High audience response',noteTitle:'Campaign performance',listOneLabel:'Comments',listOneValue:'293',listTwoLabel:'Reposts',listTwoValue:'593',listThreeLabel:'Shares',listThreeValue:'31.6K'},
   {audio:'original audio - kupiddating x psu_sasa',commentOne:'The dating-show hook lands immediately.',commentTwo:'Campus humor makes the collaboration feel native.',engagement:'848',engagementP:72,reachP:61,followers:'25',visits:'352',note:'Collaboration post between @kupiddating and @psu_sasa: 64,540 views, 38,877 accounts reached, 848 likes, 25 comments, 352 shares, and 9 reposts.',heroCopy:'A collaboration post between @kupiddating and @psu_sasa reached 38,877 accounts.',engagementLabel:'Likes',reachLabel:'Accounts reached',trendLabel:'Collaboration post KPIs',kpiStatus:'64,540 views',noteTitle:'Collaboration performance',listOneLabel:'Comments',listOneValue:'25',listTwoLabel:'Reposts',listTwoValue:'9',listThreeLabel:'Shares',listThreeValue:'352'},
-  {audio:'original audio - psusasa',commentOne:'The celebrity moment gives the event a memorable second life.',commentTwo:'A quick human moment keeps the recap highly shareable.',engagement:'2.6K',engagementP:74,reachP:58,followers:'13',visits:'Not public',note:'Public Instagram engagement: 2.6K likes and 13 comments. Account-level views, reach, shares, and reposts were not provided.',heroCopy:'A recognizable celebrity moment extended the event story beyond the room.',engagementLabel:'Likes',reachLabel:'Public engagement',trendLabel:'Celebrity event content',kpiStatus:'2.6K likes',noteTitle:'Public post performance',listOneLabel:'Comments',listOneValue:'13',listTwoLabel:'Posted',listTwoValue:'Feb 11, 2026',listThreeLabel:'Account',listThreeValue:'@psusasa'},
-  {audio:'original audio - psusasa',commentOne:'The edit captures the scale and movement of the night.',commentTwo:'Performance-led cuts keep the community energy immediate.',engagement:'205',engagementP:62,reachP:54,followers:'10',visits:'Not public',note:'Public Instagram engagement: 205 likes and 10 comments. Account-level views, reach, shares, and reposts were not provided.',heroCopy:'An event recap turned one night of performance into an energetic social story.',engagementLabel:'Likes',reachLabel:'Public engagement',trendLabel:'Event recap content',kpiStatus:'205 likes',noteTitle:'Public post performance',listOneLabel:'Comments',listOneValue:'10',listTwoLabel:'Posted',listTwoValue:'Nov 4, 2025',listThreeLabel:'Account',listThreeValue:'@psusasa'}
+  {audio:'original audio - psusasa',commentOne:'The celebrity moment gives the event a memorable second life.',commentTwo:'A quick human moment keeps the recap highly shareable.',engagement:'2.6K',engagementP:78,reachP:66,followers:'13',visits:'203',note:'62,554 views, 41,601 accounts reached, 2.6K likes, 13 comments, 123 reposts, and 203 shares.',heroCopy:'A recognizable celebrity moment extended the event story to 62,554 views.',engagementLabel:'Likes',reachLabel:'Accounts reached',trendLabel:'Celebrity event KPIs',kpiStatus:'62,554 views',noteTitle:'Campaign performance',listOneLabel:'Comments',listOneValue:'13',listTwoLabel:'Reposts',listTwoValue:'123',listThreeLabel:'Shares',listThreeValue:'203'},
+  {audio:'original audio - psusasa',commentOne:'The edit captures the scale and movement of the night.',commentTwo:'Performance-led cuts keep the community energy immediate.',engagement:'205',engagementP:64,reachP:52,followers:'10',visits:'11',note:'7,562 views, 4,532 accounts reached, 205 likes, 10 comments, 7 reposts, and 11 shares.',heroCopy:'Jay Sean performance footage turned one night into a focused social recap.',engagementLabel:'Likes',reachLabel:'Accounts reached',trendLabel:'Live performance KPIs',kpiStatus:'7,562 views',noteTitle:'Campaign performance',listOneLabel:'Comments',listOneValue:'10',listTwoLabel:'Reposts',listTwoValue:'7',listThreeLabel:'Shares',listThreeValue:'11'}
 ];
+const reelOrder=[0,2,3,1];
+const orderedReelData=reelOrder.map(i=>reelData[i]);
+const orderedReelExtras=reelOrder.map(i=>reelExtras[i]);
+reelData.splice(0,reelData.length,...orderedReelData);
+reelExtras.splice(0,reelExtras.length,...orderedReelExtras);
 reelData.forEach((item,i)=>Object.assign(item,reelExtras[i]));
 const reelStepButtons=document.querySelectorAll('[data-reel-step]');
 const reelActionButtons=document.querySelectorAll('[data-reel-action]');
@@ -8885,6 +8937,21 @@ setReel=function(index){
   setReelHTML('reelLocation',data.location);
   setReelHTML('reelAccountName',data.accountName||'psu_sasa');
   setReelHTML('reelAccountContext',data.accountContext||'Instagram reel');
+  const profileImage=data.profileImage||'assets/perf-inline/sasa-mark.png';
+  const profileAlt=data.profileAlt||'SASA logo';
+  const useKupidProfile=data.profileKind==='kupid';
+  [
+    [document.getElementById('reelProfileAvatar'),document.getElementById('reelProfileImage')],
+    [document.getElementById('analyticsProfileAvatar'),document.getElementById('analyticsProfileImage')]
+  ].forEach(([avatar,image])=>{
+    avatar?.classList.toggle('sasa-profile-avatar',!useKupidProfile);
+    avatar?.classList.toggle('kupid-profile-avatar',useKupidProfile);
+    image?.classList.toggle('sasa-profile-mark',!useKupidProfile);
+    if(image){
+      image.src=profileImage;
+      image.alt=profileAlt;
+    }
+  });
   setReelHTML('reelLikesOverlay',`${data.likes} likes`);
   setReelHTML('reelCommentsOverlay',`${data.comments} comments`);
   setReelHTML('reelSharesOverlay',`${data.shares} shares`);
