@@ -6287,10 +6287,11 @@ html,body{max-width:100%;overflow-x:clip}
     mask-image:linear-gradient(180deg,rgba(0,0,0,.9),rgba(0,0,0,.98) 72%,transparent 100%)!important;
   }
   #hero>.hero-photo-ghost{
-    right:clamp(-3.4rem,-12vw,-2.4rem)!important;
+    right:clamp(-4.05rem,-14vw,-3rem)!important;
     left:auto!important;
-    background-size:contain!important;
-    background-position:center bottom!important;
+    width:clamp(12.25rem,55vw,14.75rem)!important;
+    background-size:auto 128%!important;
+    background-position:70% bottom!important;
     transform:translate3d(0,0,0) rotate(-4deg)!important;
   }
   #hero>.hero-photo-ghost-left{
@@ -6327,33 +6328,36 @@ html,body{max-width:100%;overflow-x:clip}
   #hero .hero-ctas{
     order:4!important;
     display:grid!important;
-    grid-template-columns:repeat(2,minmax(0,1fr))!important;
-    gap:.62rem!important;
-    width:min(100%,23rem)!important;
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+    gap:.4rem!important;
+    width:min(100%,22.75rem)!important;
     margin:0 auto!important;
     z-index:5!important;
   }
   #hero .hero-ctas .btn{
     width:100%!important;
     max-width:none!important;
-    min-height:2.85rem!important;
-    padding:.72rem .55rem!important;
-    font-size:.58rem!important;
-    line-height:1.2!important;
+    min-height:2.75rem!important;
+    padding:.6rem .28rem!important;
+    font-size:.5rem!important;
+    line-height:1.18!important;
+    letter-spacing:.075em!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
   }
   #hero .hero-ctas a[href="#contact"]{
-    grid-column:1/-1!important;
-    width:min(11.5rem,100%)!important;
-    justify-self:center!important;
+    grid-column:auto!important;
+    width:100%!important;
   }
   #open-piano-game.piano-side-invite{
     position:absolute!important;
-    right:.9rem!important;
-    bottom:.5rem!important;
+    right:.7rem!important;
+    bottom:.65rem!important;
     left:auto!important;
-    width:min(14.25rem,calc(100vw - 1.5rem))!important;
+    width:min(10.75rem,calc(100vw - 1.4rem))!important;
     margin:0!important;
-    padding:.48rem .68rem .48rem .52rem!important;
+    padding:.38rem .5rem .38rem .42rem!important;
     opacity:.88!important;
     transform:rotate(-2deg) translateZ(0)!important;
     z-index:5!important;
@@ -6363,15 +6367,59 @@ html,body{max-width:100%;overflow-x:clip}
     transform:rotate(-2deg) translate3d(-2px,-2px,0)!important;
   }
   #open-piano-game .piano-invite-mark{
-    width:2.35rem!important;
-    height:1.65rem!important;
+    width:1.85rem!important;
+    height:1.4rem!important;
   }
-  #open-piano-game .piano-invite-title{font-size:.92rem!important}
+  #open-piano-game .piano-invite-kicker{font-size:.39rem!important}
+  #open-piano-game .piano-invite-title{
+    max-width:7.35rem!important;
+    font-size:.72rem!important;
+    line-height:1.02!important;
+  }
+}
+
+/* One mobile navigation surface: the hamburger owns the menu while R.N.
+   remains a direct route home. Keep the close control above the fixed nav. */
+@media(max-width:768px){
+  #navLogoMenu{display:none!important}
+  #mobile-menu{
+    z-index:12000!important;
+    padding:5.5rem 1.5rem 2.5rem!important;
+    gap:clamp(.8rem,2.5vh,1.35rem)!important;
+    background:rgba(8,7,14,.965)!important;
+    overflow-y:auto!important;
+  }
+  #mobile-menu.open{display:flex!important}
+  #mobile-menu a{
+    font-size:clamp(1.65rem,7vw,2.05rem)!important;
+    line-height:1!important;
+  }
+  #mobile-menu .menu-close{
+    display:grid!important;
+    place-items:center!important;
+    position:fixed!important;
+    top:1rem!important;
+    right:1rem!important;
+    width:2.75rem!important;
+    height:2.75rem!important;
+    padding:0!important;
+    border:1px solid rgba(244,239,248,.2)!important;
+    border-radius:50%!important;
+    background:rgba(18,15,28,.94)!important;
+    color:#f4eff8!important;
+    font:300 1.8rem/1 'DM Sans',sans-serif!important;
+    cursor:pointer!important;
+    z-index:12001!important;
+  }
+  body.mobile-menu-open{overflow:hidden!important}
 }
 @media(max-width:370px){
   #hero{padding-inline:.75rem!important}
-  #hero .hero-ctas{gap:.5rem!important}
-  #hero .hero-ctas .btn{font-size:.54rem!important}
+  #hero .hero-ctas{gap:.3rem!important}
+  #hero .hero-ctas .btn{
+    font-size:.46rem!important;
+    letter-spacing:.055em!important;
+  }
   #open-piano-game.piano-side-invite{right:.75rem!important}
 }
 </style>
@@ -6392,8 +6440,8 @@ html,body{max-width:100%;overflow-x:clip}
 <div id="sov"></div>
 <div id="notes-bg"></div>
 
-<div id="mobile-menu">
-  <button class="menu-close" id="menu-close">×</button>
+<div id="mobile-menu" role="dialog" aria-modal="true" aria-label="Portfolio navigation" aria-hidden="true">
+  <button class="menu-close" id="menu-close" type="button" aria-label="Close navigation menu">×</button>
   <a href="#about" onclick="closeMM()">About</a>
   <a href="#experience" onclick="closeMM()">Experience</a>
   <a href="#work" onclick="closeMM()">Work</a>
@@ -6498,7 +6546,7 @@ html,body{max-width:100%;overflow-x:clip}
     <li><a href="#resume">Résumé</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
-  <button class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  <button class="nav-hamburger" id="hamburger" type="button" aria-label="Open navigation menu" aria-expanded="false"><span></span><span></span><span></span></button>
 </nav>
 <div class="top-contact-icons" aria-label="Professional contact links">
   <a class="top-contact-icon top-contact-linkedin playable" href="https://www.linkedin.com/in/rishabh-narayan-050485230/" target="_blank" rel="noopener noreferrer" aria-label="Open LinkedIn profile" title="LinkedIn">
@@ -7746,9 +7794,27 @@ document.addEventListener('click',e=>{
 
 /* ─── NAV ─── */
 const navEl=document.getElementById('nav');
-document.getElementById('hamburger').addEventListener('click',()=>document.getElementById('mobile-menu').classList.add('open'));
-document.getElementById('menu-close').addEventListener('click',()=>document.getElementById('mobile-menu').classList.remove('open'));
-function closeMM(){document.getElementById('mobile-menu').classList.remove('open')}
+const mobileMenu=document.getElementById('mobile-menu');
+const hamburgerBtn=document.getElementById('hamburger');
+const menuCloseBtn=document.getElementById('menu-close');
+function setMobileMenu(open){
+  if(!mobileMenu) return;
+  mobileMenu.classList.toggle('open',open);
+  mobileMenu.setAttribute('aria-hidden',open?'false':'true');
+  hamburgerBtn?.classList.toggle('open',open);
+  hamburgerBtn?.setAttribute('aria-expanded',open?'true':'false');
+  hamburgerBtn?.setAttribute('aria-label',open?'Close navigation menu':'Open navigation menu');
+  document.body.classList.toggle('mobile-menu-open',open);
+  if(open) closeNavLogoMenu();
+}
+hamburgerBtn?.setAttribute('aria-expanded','false');
+mobileMenu?.setAttribute('aria-hidden','true');
+hamburgerBtn?.addEventListener('click',()=>setMobileMenu(!mobileMenu?.classList.contains('open')));
+menuCloseBtn?.addEventListener('click',()=>setMobileMenu(false));
+mobileMenu?.addEventListener('click',e=>{
+  if(e.target===mobileMenu||e.target.closest('a')) setMobileMenu(false);
+});
+function closeMM(){setMobileMenu(false)}
 
 /* ─── FLOATING NOTES ─── */
 const nb=document.getElementById('notes-bg');
@@ -7848,6 +7914,13 @@ if(navLogoBtn&&navLogoMenu){
   navLogoBtn.addEventListener('click',e=>{
     e.preventDefault();
     e.stopPropagation();
+    if(window.matchMedia('(max-width:768px)').matches){
+      closeNavLogoMenu();
+      closeMM();
+      document.getElementById('hero')?.scrollIntoView({behavior:'smooth',block:'start'});
+      if(location.hash) history.replaceState(null,'',location.pathname+location.search);
+      return;
+    }
     const open=navLogoMenu.classList.toggle('open');
     navLogoBtn.classList.toggle('open',open);
     navLogoBtn.setAttribute('aria-expanded',open?'true':'false');
@@ -7855,6 +7928,15 @@ if(navLogoBtn&&navLogoMenu){
   navLogoMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>closeNavLogoMenu()));
   document.addEventListener('click',e=>{ if(!e.target.closest('.nav-brand-wrap')) closeNavLogoMenu(); });
 }
+document.addEventListener('keydown',e=>{
+  if(e.key!=='Escape') return;
+  closeMM();
+  closeNavLogoMenu();
+});
+window.addEventListener('resize',()=>{
+  if(window.innerWidth>768) closeMM();
+  else closeNavLogoMenu();
+},{passive:true});
 
 const burstMap={hero:['♪','♫','♩','♬'],about:[],work:[],music:['♪','♫','♩','♬'],experience:['♫','♪','♩'],research:['⌁','◌','◇'],resume:['♫','♪','♩'],contact:['♪','♫','♬']};
 function spawnTitleBurst(section){
