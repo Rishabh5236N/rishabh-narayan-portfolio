@@ -7786,6 +7786,219 @@ html.chapter-deck #contact>footer{
   html.chapter-deck #contact>footer{font-size:.34rem}
 }
 
+/* Friendly one-screen refinement: larger reading scale, orderly work paging,
+   concise KPI data, and transform-only motion. */
+html.chapter-deck main{
+  animation:friendlyStageDrift 12s cubic-bezier(.45,0,.55,1) infinite;
+  will-change:transform;
+}
+html.chapter-deck main::after{
+  animation:friendlyBorderBreath 7s ease-in-out infinite;
+}
+@keyframes friendlyStageDrift{
+  0%,100%{transform:translate3d(0,0,0)}
+  50%{transform:translate3d(0,-2px,0)}
+}
+@keyframes friendlyBorderBreath{
+  0%,100%{opacity:.34}
+  50%{opacity:.58}
+}
+@keyframes chapterContentSettle{
+  from{opacity:.18;transform:translate3d(0,8px,0) scale(.995)}
+  to{opacity:1;transform:translate3d(0,0,0) scale(1)}
+}
+html.chapter-deck main>section[id]:not([id$="-legacy"]).chapter-active>.inner>*{
+  animation:chapterContentSettle .48s cubic-bezier(.2,.8,.2,1) both;
+}
+html.chapter-deck main>section[id]:not([id$="-legacy"]).chapter-active>.inner>*:nth-child(2){animation-delay:45ms}
+html.chapter-deck main>section[id]:not([id$="-legacy"]).chapter-active>.inner>*:nth-child(3){animation-delay:90ms}
+html.chapter-deck main>section[id]:not([id$="-legacy"]).chapter-active>.inner>*:nth-child(4){animation-delay:125ms}
+html.chapter-deck main>section[id]:not([id$="-legacy"]).chapter-active>.inner>*:nth-child(n+5){animation-delay:155ms}
+
+html.chapter-deck #about .inner{
+  max-width:1280px;
+  grid-template-columns:minmax(0,1.04fr) minmax(400px,.96fr);
+  gap:clamp(1.8rem,3.5vw,3.4rem);
+}
+html.chapter-deck #about .about-text .section-title{
+  margin-bottom:.85rem;
+  font-size:clamp(2.65rem,6.4vh,4.25rem);
+}
+html.chapter-deck #about .about-text p{
+  margin-bottom:clamp(.55rem,1.25vh,.88rem);
+  font-size:clamp(.84rem,1.62vh,1.04rem);
+  line-height:1.48;
+}
+html.chapter-deck #about .about-resume-action{margin:.65rem 0 .72rem}
+html.chapter-deck #about .about-resume-download{
+  padding:.68rem 1.12rem;
+  font-size:.64rem;
+}
+html.chapter-deck #about .skills-grid{
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:.38rem;
+}
+html.chapter-deck #about .skill-pill{
+  padding:.42rem .38rem;
+  font-size:.54rem;
+}
+html.chapter-deck #about .about-photo-stage{
+  height:min(100%,clamp(430px,68vh,650px));
+}
+
+html.chapter-deck #work .inner{position:relative}
+.graphic-page-controls{
+  position:absolute;
+  top:.35rem;
+  right:0;
+  z-index:3;
+  display:none;
+  align-items:center;
+  gap:.28rem;
+  min-height:32px;
+  padding:.2rem .28rem;
+  border:1px solid rgba(244,239,248,.12);
+  border-radius:6px;
+  background:rgba(13,10,22,.72);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.055);
+}
+.graphic-page-controls.is-visible{display:flex}
+.graphic-page-button{
+  width:28px;
+  height:26px;
+  display:grid;
+  place-items:center;
+  border:0;
+  border-radius:4px;
+  background:transparent;
+  color:rgba(244,239,248,.72);
+  transition:transform .24s cubic-bezier(.2,.8,.2,1),background .24s ease,color .24s ease;
+}
+.graphic-page-button:hover{
+  transform:translate3d(0,-1px,0);
+  background:rgba(181,123,238,.12);
+  color:var(--cream);
+}
+.graphic-page-button:active{transform:translate3d(0,0,0) scale(.96)}
+.graphic-page-indicator{
+  min-width:42px;
+  color:rgba(244,239,248,.62);
+  font-family:'DM Sans',sans-serif;
+  font-size:.45rem;
+  font-weight:600;
+  letter-spacing:.11em;
+  text-align:center;
+}
+html.chapter-deck #work.work-filter-graphic .work-grid{
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  grid-template-rows:minmax(0,1fr)!important;
+  gap:clamp(5px,.55vw,9px)!important;
+}
+html.chapter-deck #work .graphic-page-hidden{display:none!important}
+@keyframes graphicCardSettle{
+  from{opacity:0;transform:translate3d(0,10px,0) scale(.985)}
+  to{opacity:1;transform:translate3d(0,0,0) scale(1)}
+}
+html.chapter-deck #work .graphic-page-active{
+  animation:graphicCardSettle .44s cubic-bezier(.2,.8,.2,1) both;
+  animation-delay:calc(var(--graphic-index,0) * 55ms);
+}
+html.chapter-deck #work.work-filter-graphic .work-title{font-size:clamp(.78rem,1.35vh,.98rem)}
+
+.analytics-view-scale{
+  margin-top:.55rem;
+  padding-top:.48rem;
+  border-top:1px solid rgba(244,239,248,.09);
+}
+.analytics-view-scale-head,
+.analytics-view-scale-axis{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.analytics-view-scale-head span{
+  color:rgba(244,239,248,.56);
+  font-size:.46rem;
+  font-weight:600;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+.analytics-view-scale-head strong{
+  color:#8ee8ff;
+  font-family:'DM Sans',sans-serif;
+  font-size:.58rem!important;
+  font-weight:700;
+  letter-spacing:.04em;
+}
+.analytics-view-scale-track{
+  height:7px;
+  margin:.32rem 0 .2rem;
+  overflow:hidden;
+  border:1px solid rgba(244,239,248,.09);
+  border-radius:2px;
+  background:rgba(7,6,14,.52);
+}
+.analytics-view-scale-fill{
+  display:block;
+  width:100%;
+  height:100%;
+  transform:scaleX(.918);
+  transform-origin:left center;
+  background:linear-gradient(90deg,#8d6dcc,#4aa8d8 58%,#75d9cd);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.22);
+  transition:transform .6s cubic-bezier(.2,.8,.2,1);
+}
+.analytics-view-scale-axis{
+  color:rgba(244,239,248,.34);
+  font-family:'DM Sans',sans-serif;
+  font-size:.38rem;
+  letter-spacing:.08em;
+}
+
+@media(max-width:760px){
+  html.chapter-deck #about{align-items:stretch}
+  html.chapter-deck #about .inner{
+    grid-template-columns:1fr;
+    grid-template-rows:minmax(0,1fr) minmax(145px,24vh);
+    gap:.28rem;
+    height:auto;
+    align-self:stretch;
+  }
+  html.chapter-deck #about .about-text>.section-title{
+    font-size:clamp(1.8rem,8.2vw,2.15rem);
+  }
+  html.chapter-deck #about .about-text p{
+    font-size:clamp(.51rem,1.03vh,.59rem);
+    line-height:1.34;
+  }
+  html.chapter-deck #about .about-resume-download{padding:.34rem .54rem;font-size:.39rem}
+  html.chapter-deck #about .skill-pill{padding:.18rem .13rem;font-size:.31rem}
+  .graphic-page-controls{
+    top:.25rem;
+    min-height:28px;
+    gap:.12rem;
+    padding:.12rem .16rem;
+  }
+  .graphic-page-button{width:23px;height:23px}
+  .graphic-page-indicator{min-width:34px;font-size:.38rem}
+  html.chapter-deck #work.work-filter-graphic .work-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    grid-template-rows:repeat(2,minmax(0,1fr))!important;
+    gap:4px!important;
+  }
+  html.chapter-deck #work.work-filter-graphic .work-title{font-size:.66rem}
+  html.chapter-deck #work .analytics-phone .analytics-hero-card p{display:none}
+  html.chapter-deck #work .analytics-kpi-cell small{display:none}
+  .analytics-view-scale{
+    margin-top:.28rem;
+    padding-top:.25rem;
+  }
+  .analytics-view-scale-head span{font-size:.28rem}
+  .analytics-view-scale-head strong{font-size:.38rem!important}
+  .analytics-view-scale-track{height:5px;margin:.18rem 0 0}
+  .analytics-view-scale-axis{display:none}
+}
+
 @media(min-width:761px) and (max-height:800px){
   html.chapter-deck #work .social-account-brief{padding:.28rem}
   html.chapter-deck #work .social-account-copy p{display:none}
@@ -7797,10 +8010,23 @@ html.chapter-deck #contact>footer{
   html.chapter-deck #work .analytics-kpi-cell{padding:.32rem}
   html.chapter-deck #work .analytics-phone .analytics-list>div{padding:.24rem!important}
 }
+@media(max-width:760px) and (max-height:720px){
+  html.chapter-deck #about .inner{
+    position:relative;
+    top:30px;
+  }
+  html.chapter-deck #about .about-photo-stage{
+    transform:scale(.92)!important;
+    transform-origin:center bottom;
+  }
+}
 
 @media(prefers-reduced-motion:reduce){
+  html.chapter-deck main,
   html.chapter-deck main::after{animation:none}
   html.chapter-deck main>section[id]:not([id$="-legacy"])>.inner{transition:none}
+  html.chapter-deck main>section[id]:not([id$="-legacy"]).chapter-active>.inner>*,
+  html.chapter-deck #work .graphic-page-active{animation:none}
 }
 </style>
 </head>
@@ -8187,6 +8413,11 @@ html.chapter-deck #contact>footer{
       <button class="portfolio-tab playable" type="button" data-filter="social"><span class="tab-mini-icon" aria-hidden="true">&#9679;</span><span>Social Media Content</span></button>
       <button class="portfolio-tab playable" type="button" data-filter="photo"><span class="tab-mini-icon" aria-hidden="true">&#9711;</span><span>Photography</span></button>
     </div>
+    <div class="graphic-page-controls reveal" role="group" aria-label="Browse graphic design projects">
+      <button class="graphic-page-button playable" type="button" data-graphic-page-step="-1" aria-label="Previous graphic design page">&larr;</button>
+      <span class="graphic-page-indicator" id="graphicPageIndicator" aria-live="polite">01 / 03</span>
+      <button class="graphic-page-button playable" type="button" data-graphic-page-step="1" aria-label="Next graphic design page">&rarr;</button>
+    </div>
     <div class="featured-row reveal">
       <div class="featured-item playable featured-playable portfolio-piece" data-category="graphic" role="button" tabindex="0">
         <img fetchpriority="low" loading="lazy" decoding="async" id="img-shirt-front" data-chapter-src="" alt="SASA x AIChE THON Shirt Front" class="feat-img">
@@ -8515,8 +8746,18 @@ html.chapter-deck #contact>footer{
               <div class="analytics-stats-view" id="analyticsStatsView">
                 <div class="analytics-hero-card">
                   <span id="analyticsHeroLabel">Campaign views</span>
-                  <strong id="analyticsHeroValue">917,554</strong>
+                  <strong id="analyticsHeroValue">917.5K</strong>
                   <p id="analyticsHeroCopy">Breakout reach from one event-led campaign reel.</p>
+                  <div class="analytics-view-scale" aria-label="Views compared with a one million view benchmark">
+                    <div class="analytics-view-scale-head">
+                      <span>View scale</span>
+                      <strong id="analyticsBenchmarkValue">91.8% of 1M</strong>
+                    </div>
+                    <div class="analytics-view-scale-track" aria-hidden="true">
+                      <span class="analytics-view-scale-fill" id="analyticsBenchmarkBar"></span>
+                    </div>
+                    <div class="analytics-view-scale-axis" aria-hidden="true"><span>0</span><span>1M</span></div>
+                  </div>
                 </div>
 
                 <div class="analytics-kpi-performance">
@@ -8524,7 +8765,7 @@ html.chapter-deck #contact>footer{
                   <div class="analytics-kpi-grid">
                     <div class="analytics-kpi-cell">
                       <span id="analyticsReachLabel">Accounts reached</span>
-                      <strong id="analyticsReach">617,205</strong>
+                      <strong id="analyticsReach">617.2K</strong>
                       <small>Audience reach</small>
                     </div>
                     <div class="analytics-kpi-cell">
@@ -10233,6 +10474,37 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeExperienceModal
 /* ─── PORTFOLIO FILTER TABS ─── */
 const portfolioTabs=document.querySelectorAll('.portfolio-tab');
 const portfolioTargets=document.querySelectorAll('.portfolio-piece, .social-portfolio-showcase');
+const workSection=document.getElementById('work');
+const graphicItems=[...document.querySelectorAll('.work-grid .portfolio-piece[data-category="graphic"]')];
+const graphicPageControls=document.querySelector('.graphic-page-controls');
+const graphicPageIndicator=document.getElementById('graphicPageIndicator');
+const graphicPageSize=4;
+const graphicPageCount=Math.max(1,Math.ceil(graphicItems.length/graphicPageSize));
+let graphicPageIndex=0;
+function renderGraphicPage(nextIndex=graphicPageIndex,{animate=true}={}){
+  graphicPageIndex=(Number(nextIndex)+graphicPageCount)%graphicPageCount;
+  graphicItems.forEach((item,index)=>{
+    const visible=Math.floor(index/graphicPageSize)===graphicPageIndex;
+    item.classList.toggle('graphic-page-hidden',!visible);
+    item.classList.toggle('graphic-page-active',visible);
+    item.setAttribute('aria-hidden',String(!visible));
+    item.tabIndex=visible?0:-1;
+    if(visible){
+      item.style.setProperty('--graphic-index',String(index%graphicPageSize));
+      if(animate){
+        item.classList.remove('graphic-page-active');
+        void item.offsetWidth;
+        item.classList.add('graphic-page-active');
+      }
+    }
+  });
+  if(graphicPageIndicator){
+    graphicPageIndicator.textContent=`${String(graphicPageIndex+1).padStart(2,'0')} / ${String(graphicPageCount).padStart(2,'0')}`;
+  }
+}
+document.querySelectorAll('[data-graphic-page-step]').forEach(button=>button.addEventListener('click',()=>{
+  renderGraphicPage(graphicPageIndex+Number(button.dataset.graphicPageStep||0));
+}));
 let socialEmbedEnabled=false;
 function spawnGraphicDesignCue(tab){
   const work=document.getElementById('work');
@@ -10337,10 +10609,13 @@ function spawnSocialReelCue(tab){
 }
 function applyPortfolioFilter(filter){
   portfolioTabs.forEach(tab=>tab.classList.toggle('active',tab.dataset.filter===filter));
+  workSection?.classList.toggle('work-filter-graphic',filter==='graphic');
+  graphicPageControls?.classList.toggle('is-visible',filter==='graphic');
   portfolioTargets.forEach(item=>{
     const cats=(item.dataset.category||'').split(/\s+/).filter(Boolean);
     item.classList.toggle('filtered-out',!cats.includes(filter));
   });
+  if(filter==='graphic') renderGraphicPage(graphicPageIndex,{animate:false});
   if(filter==='social'){
     socialEmbedEnabled=true;
     if(typeof setReel==='function') setReel(0);
@@ -10421,6 +10696,8 @@ document.querySelector('.about-social-link')?.addEventListener('click',event=>{
       history.replaceState(null,'','#work');
       setActiveNav('work');
       const aifaCard=[...document.querySelectorAll('.portfolio-piece[data-category="graphic"]')].find(card=>card.querySelector('.work-title')?.textContent.trim()==='AIFA AI Hackathon');
+      const aifaIndex=graphicItems.indexOf(aifaCard);
+      if(aifaIndex>=0) renderGraphicPage(Math.floor(aifaIndex/graphicPageSize),{animate:false});
       window.setTimeout(()=>scrollPortfolioTarget(aifaCard,{block:'center',hash:'work'}),70);
       return;
     }
@@ -10737,6 +11014,38 @@ const orderedReelExtras=reelOrder.map(i=>reelExtras[i]);
 reelData.splice(0,reelData.length,...orderedReelData);
 reelExtras.splice(0,reelExtras.length,...orderedReelExtras);
 reelData.forEach((item,i)=>Object.assign(item,reelExtras[i]));
+const normalizedSasaMetrics=[
+  {
+    views:'917.5K',reach:'617.2K',viewBenchmark:91.8,
+    metricValues:['917.5K','617.2K','49.8K','293'],
+    metricsNote:'917.5K views, 617.2K accounts reached, 49.8K likes, 293 comments, 593 reposts, and 31.6K shares.',
+    note:'917.5K views, 617.2K accounts reached, 49.8K likes, 293 comments, 593 reposts, and 31.6K shares.'
+  },
+  {
+    views:'62.6K',reach:'41.6K',reachValue:'41.6K',heroValue:'62.6K',viewBenchmark:6.3,
+    metricValues:['62.6K','41.6K','203','123'],
+    metricsNote:'62.6K views, 41.6K accounts reached, 2.6K likes, 13 comments, 123 reposts, and 203 shares.',
+    note:'62.6K views, 41.6K accounts reached, 2.6K likes, 13 comments, 123 reposts, and 203 shares.',
+    heroCopy:'A recognizable celebrity moment extended the event story to 62.6K views.',
+    kpiStatus:'62.6K views'
+  },
+  {
+    views:'7.6K',reach:'4.5K',reachValue:'4.5K',heroValue:'7.6K',viewBenchmark:.8,
+    metricValues:['7.6K','4.5K','11','7'],
+    metricsNote:'7.6K views, 4.5K accounts reached, 205 likes, 10 comments, 7 reposts, and 11 shares.',
+    note:'7.6K views, 4.5K accounts reached, 205 likes, 10 comments, 7 reposts, and 11 shares.',
+    kpiStatus:'7.6K views'
+  },
+  {
+    views:'64.5K',reach:'38.9K',viewBenchmark:6.5,
+    metricValues:['64.5K','38.9K','352','9'],
+    metricsNote:'Collaboration post between @kupiddating and @psu_sasa: 64.5K views, 38.9K accounts reached, 352 shares, and 9 reposts.',
+    note:'Collaboration post between @kupiddating and @psu_sasa: 64.5K views, 38.9K accounts reached, 848 likes, 25 comments, 352 shares, and 9 reposts.',
+    heroCopy:'A collaboration post between @kupiddating and @psu_sasa reached 38.9K accounts.',
+    kpiStatus:'64.5K views'
+  }
+];
+reelData.forEach((item,index)=>Object.assign(item,normalizedSasaMetrics[index]));
 const socialReelData={
   sasa:reelData,
   live46:[{
@@ -10885,6 +11194,9 @@ setReel=function(index){
   setReelHTML('analyticsHeroLabel',data.heroLabel||'Campaign views');
   setReelHTML('analyticsHeroValue',data.heroValue||data.views);
   setReelHTML('analyticsHeroCopy',data.heroCopy||data.note);
+  const benchmark=Math.max(0,Math.min(100,Number(data.viewBenchmark)||0));
+  setReelHTML('analyticsBenchmarkValue',`${benchmark.toFixed(1)}% of 1M`);
+  document.getElementById('analyticsBenchmarkBar')?.style.setProperty('transform',`scaleX(${Math.max(.035,benchmark/100)})`);
   setReelHTML('analyticsProfileName',data.analyticsProfileName||'@psu_sasa');
   setReelHTML('analyticsProfileContext',data.analyticsProfileContext||'Campaign performance');
   analyticsPhone?.classList.toggle('editorial-mode',activeSocialAccount!=='sasa');
