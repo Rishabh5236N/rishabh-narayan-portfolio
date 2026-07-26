@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="instant-render performance-first">
+<html lang="en" class="instant-render performance-first chapter-deck">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
@@ -6511,6 +6511,217 @@ html.performance-first #experience .exp-card.carousel-hidden{
   html.performance-first main>#resume{contain-intrinsic-size:auto 1832px!important}
   html.performance-first main>#contact{contain-intrinsic-size:auto 1169px!important}
 }
+
+/* Horizontal chapter viewer: only the active portfolio chapter is visible,
+   painted, interactive, and eligible to load media. */
+html.chapter-deck,
+html.chapter-deck body{
+  width:100%;
+  height:100%;
+  overflow:hidden!important;
+  overscroll-behavior:none;
+}
+html.chapter-deck body{
+  position:fixed;
+  inset:0;
+}
+html.chapter-deck main{
+  position:fixed!important;
+  inset:0!important;
+  width:100%!important;
+  height:100dvh!important;
+  min-height:0!important;
+  overflow:hidden!important;
+  isolation:isolate;
+}
+html.chapter-deck main>section[id$="-legacy"]{
+  display:none!important;
+}
+html.chapter-deck main>section[id]:not([id$="-legacy"]){
+  --chapter-shift:clamp(18px,3.5vw,52px);
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;
+  height:100dvh!important;
+  min-height:0!important;
+  max-height:none!important;
+  margin:0!important;
+  overflow-x:hidden!important;
+  overflow-y:auto!important;
+  overscroll-behavior-y:contain;
+  scroll-behavior:smooth;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(181,123,238,.32) transparent;
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+  transform:none;
+  content-visibility:hidden!important;
+  contain:layout style paint!important;
+  transition:
+    opacity .22s cubic-bezier(.22,.68,.2,1),
+    visibility 0s linear .22s;
+  z-index:1;
+}
+html.chapter-deck main>section[id]::-webkit-scrollbar{width:6px}
+html.chapter-deck main>section[id]::-webkit-scrollbar-track{background:transparent}
+html.chapter-deck main>section[id]::-webkit-scrollbar-thumb{
+  border-radius:999px;
+  background:linear-gradient(180deg,rgba(181,123,238,.42),rgba(63,196,247,.34));
+}
+html.chapter-deck main>section[id]:not([id$="-legacy"]).chapter-before{--chapter-shift:clamp(-52px,-3.5vw,-18px)}
+html.chapter-deck main>section[id]:not([id$="-legacy"]).chapter-active{
+  opacity:1;
+  visibility:visible;
+  pointer-events:auto;
+  transform:none;
+  content-visibility:visible!important;
+  transition-delay:0s;
+  z-index:3;
+}
+html.chapter-deck main>section[id]:not([id$="-legacy"]).chapter-preparing{
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+  content-visibility:visible!important;
+  z-index:1;
+}
+html.chapter-deck main>section[id]:not([id$="-legacy"]).chapter-leaving,
+html.chapter-deck main>section[id]:not([id$="-legacy"]).chapter-entering{
+  opacity:0;
+  pointer-events:none;
+}
+html.chapter-deck main>section[id]:not([id$="-legacy"]).chapter-entering{
+  visibility:visible;
+  content-visibility:visible!important;
+}
+html.chapter-deck:not(.chapter-ready) main>#hero{
+  opacity:1;
+  visibility:visible;
+  pointer-events:auto;
+  transform:none;
+  content-visibility:visible!important;
+}
+html.chapter-deck main>section[id]:not([id$="-legacy"]).chapter-transitioning{
+  will-change:opacity;
+}
+html.chapter-deck #contact>footer{
+  position:relative!important;
+  width:100%!important;
+  margin-top:clamp(3rem,8vh,7rem)!important;
+}
+html.chapter-deck body>footer{display:none!important}
+
+.chapter-controls{
+  position:fixed;
+  inset:0;
+  z-index:96;
+  pointer-events:none;
+}
+.chapter-arrow{
+  position:absolute;
+  top:50%;
+  width:50px;
+  height:50px;
+  display:grid;
+  place-items:center;
+  padding:0;
+  border:1px solid rgba(244,239,248,.18);
+  border-radius:50%;
+  background:rgba(10,8,18,.62);
+  color:rgba(244,239,248,.88);
+  box-shadow:0 14px 34px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.1);
+  -webkit-backdrop-filter:blur(14px) saturate(135%);
+  backdrop-filter:blur(14px) saturate(135%);
+  font:300 1.1rem/1 'DM Sans',sans-serif;
+  cursor:pointer;
+  pointer-events:auto;
+  transform:translateY(-50%);
+  transition:opacity .2s ease,transform .24s ease,border-color .24s ease,background .24s ease;
+}
+.chapter-arrow:hover{
+  transform:translateY(-50%) scale(1.07);
+  border-color:rgba(181,123,238,.5);
+  background:rgba(25,19,39,.82);
+}
+.chapter-arrow:focus-visible{
+  outline:2px solid rgba(63,196,247,.7);
+  outline-offset:3px;
+}
+.chapter-arrow:disabled{
+  opacity:.18;
+  pointer-events:none;
+}
+.chapter-arrow-prev{left:clamp(.65rem,1.5vw,1.5rem)}
+.chapter-arrow-next{right:clamp(.65rem,1.5vw,1.5rem)}
+.chapter-position{
+  position:absolute;
+  left:50%;
+  bottom:clamp(.65rem,1.5vh,1rem);
+  min-width:152px;
+  padding:.5rem .82rem;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:.62rem;
+  border:1px solid rgba(244,239,248,.1);
+  border-radius:999px;
+  background:rgba(10,8,18,.5);
+  color:rgba(244,239,248,.68);
+  box-shadow:0 10px 28px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.07);
+  -webkit-backdrop-filter:blur(12px) saturate(130%);
+  backdrop-filter:blur(12px) saturate(130%);
+  font:500 .59rem/1 'DM Sans',sans-serif;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+  pointer-events:none;
+  transform:translateX(-50%);
+}
+.chapter-position::before{
+  content:'';
+  width:22px;
+  height:1px;
+  background:linear-gradient(90deg,var(--a1),var(--a2),var(--a3));
+  opacity:.72;
+}
+.chapter-position strong{
+  color:rgba(244,239,248,.9);
+  font-weight:600;
+}
+html.chapter-deck body.game-modal-open .chapter-controls,
+html.chapter-deck body.experience-modal-open .chapter-controls,
+html.chapter-deck body.lightbox-open .chapter-controls,
+html.chapter-deck body.mobile-menu-open .chapter-controls{
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+}
+@media(max-width:760px){
+  .chapter-arrow{
+    width:40px;
+    height:40px;
+    background:rgba(10,8,18,.72);
+    font-size:.92rem;
+  }
+  .chapter-arrow-prev{left:4px}
+  .chapter-arrow-next{right:4px}
+  .chapter-position{
+    bottom:max(.45rem,env(safe-area-inset-bottom));
+    min-width:126px;
+    padding:.42rem .65rem;
+    font-size:.5rem;
+  }
+  .chapter-position::before{width:14px}
+  html.chapter-deck main>section[id]:not([id$="-legacy"]){
+    scroll-padding-bottom:4rem;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  html.chapter-deck main>section[id]:not([id$="-legacy"]){
+    transition:opacity .18s linear,visibility 0s linear .18s;
+    transform:none!important;
+  }
+}
 </style>
 </head>
 <body>
@@ -7740,9 +7951,11 @@ function renderCursor(){
     rx=mx;ry=my;cursorFrame=0;
   }
 }
-/* Always begin a fresh page load at the hero instead of a stale section hash. */
+/* Preserve a requested chapter/deep link for the horizontal viewer. */
+const initialPortfolioHash=window.location.hash.slice(1);
+/* Always begin the vertical version at the hero instead of a stale section hash. */
 if('scrollRestoration' in history) history.scrollRestoration='manual';
-if(window.location.hash) history.replaceState(null,'',window.location.pathname+window.location.search);
+if(!document.documentElement.classList.contains('chapter-deck')&&window.location.hash) history.replaceState(null,'',window.location.pathname+window.location.search);
 window.scrollTo(0,0);
 requestAnimationFrame(()=>window.scrollTo(0,0));
 window.addEventListener('load',()=>window.scrollTo(0,0),{once:true});
@@ -7756,6 +7969,10 @@ function cancelPortfolioSectionScroll(){
 }
 function scrollPortfolioTarget(target,{block='start',hash=''}={}){
   if(!target) return;
+  if(window.portfolioChapterDeck?.goToTarget){
+    window.portfolioChapterDeck.goToTarget(target,{block,hash});
+    return;
+  }
   cancelPortfolioSectionScroll();
   const rect=target.getBoundingClientRect();
   const navOffset=block==='center'?0:Math.min(92,document.getElementById('nav')?.offsetHeight||72);
@@ -7942,6 +8159,7 @@ function measureNavSections(){
   navDocBottom=document.body.offsetHeight-4;
 }
 function updateActiveNav(){
+  if(document.documentElement.classList.contains('chapter-deck')) return;
   if(!trackedSections.length) return;
   if(!navSectionTops.length) measureNavSections();
   const marker=window.scrollY + Math.min(window.innerHeight*0.58,520);
@@ -7994,7 +8212,9 @@ if(navLogoBtn&&navLogoMenu){
     if(window.matchMedia('(max-width:768px)').matches){
       closeNavLogoMenu();
       closeMM();
-      document.getElementById('hero')?.scrollIntoView({behavior:'smooth',block:'start'});
+      const heroTarget=document.getElementById('hero');
+      if(window.portfolioChapterDeck?.goToTarget) window.portfolioChapterDeck.goToTarget(heroTarget,{hash:'hero'});
+      else heroTarget?.scrollIntoView({behavior:'smooth',block:'start'});
       if(location.hash) history.replaceState(null,'',location.pathname+location.search);
       return;
     }
@@ -10292,6 +10512,7 @@ const musicSection=document.getElementById('music');
 if(musicSection&&'IntersectionObserver' in window){
   const musicEmbedObserver=new IntersectionObserver(entries=>{
     if(!entries.some(entry=>entry.isIntersecting)) return;
+    if(document.documentElement.classList.contains('chapter-deck')&&!musicSection.classList.contains('chapter-active')) return;
     musicEmbedEnabled=true;
     setActiveTrack(activeTrackIndex,false);
     musicEmbedObserver.disconnect();
@@ -10352,6 +10573,7 @@ function openLightbox(card){
   lightbox.classList.toggle('about-mode',card.classList.contains('about-photo-frame'));
   lightbox.classList.add('open');
   lightbox.setAttribute('aria-hidden','false');
+  document.body.classList.add('lightbox-open');
   document.body.style.overflow='hidden';
 }
 function stepLightbox(step){
@@ -10374,6 +10596,7 @@ function closeLightbox(){
   lightboxLoadToken++;
   lightbox.classList.remove('open');
   lightbox.setAttribute('aria-hidden','true');
+  document.body.classList.remove('lightbox-open');
   document.body.style.overflow='';
 }
 document.querySelectorAll('.about-photo-frame,.work-card,.featured-item,.live-performance-card').forEach(card=>{
@@ -10396,6 +10619,353 @@ document.addEventListener('keydown',e=>{
 });
 
 /* ─── CONTACT MAILBOX ─── */
+/* Horizontal chapter deck */
+(function initHorizontalChapterDeck(){
+  const root=document.documentElement;
+  if(!root.classList.contains('chapter-deck')) return;
+
+  const deckSections=[...document.querySelectorAll('main>section[id]')]
+    .filter(section=>section.getAttribute('aria-hidden')!=='true'&&!section.id.endsWith('-legacy'));
+  if(!deckSections.length) return;
+
+  sectionObs?.disconnect();
+  const deckFooter=document.querySelector('body>footer');
+  const contactSection=document.getElementById('contact');
+  if(deckFooter&&contactSection) contactSection.appendChild(deckFooter);
+
+  const chapterNames={
+    hero:'Home',
+    about:'About',
+    experience:'Experience',
+    work:'Work',
+    research:'Research',
+    music:'Music',
+    resume:'Resume',
+    contact:'Contact'
+  };
+  const controls=document.createElement('div');
+  controls.className='chapter-controls';
+  controls.setAttribute('aria-label','Portfolio chapter controls');
+  controls.innerHTML=`
+    <button class="chapter-arrow chapter-arrow-prev" type="button" aria-label="Previous portfolio chapter">&larr;</button>
+    <div class="chapter-position" aria-live="polite"></div>
+    <button class="chapter-arrow chapter-arrow-next" type="button" aria-label="Next portfolio chapter">&rarr;</button>
+  `;
+  document.body.appendChild(controls);
+  const previousButton=controls.querySelector('.chapter-arrow-prev');
+  const nextButton=controls.querySelector('.chapter-arrow-next');
+  const positionLabel=controls.querySelector('.chapter-position');
+
+  let activeIndex=0;
+  let transitionLocked=false;
+  let wheelTotal=0;
+  let wheelResetTimer=0;
+  let touchStartX=0;
+  let touchStartY=0;
+  let touchStartedInScrollable=false;
+
+  function chapterForTarget(target){
+    if(!target) return null;
+    return target.matches?.('main>section')?target:target.closest?.('main>section');
+  }
+  function setDeferredAsset(element,attribute,value){
+    if(!value||value==='about:blank'||value.startsWith('data:')) return;
+    element.dataset[`chapter${attribute[0].toUpperCase()}${attribute.slice(1)}`]=value;
+    element.removeAttribute(attribute);
+  }
+  function deferSection(section){
+    if(section.dataset.chapterHydrated==='true') return;
+    section.querySelectorAll('img').forEach(image=>{
+      setDeferredAsset(image,'src',image.getAttribute('src'));
+      setDeferredAsset(image,'srcset',image.getAttribute('srcset'));
+    });
+    section.querySelectorAll('iframe').forEach(frame=>{
+      const src=frame.getAttribute('src');
+      if(src&&src!=='about:blank'){
+        frame.dataset.chapterSrc=src;
+        frame.setAttribute('src','about:blank');
+      }
+    });
+    section.querySelectorAll('video').forEach(video=>{
+      const src=video.getAttribute('src');
+      if(src){
+        video.dataset.chapterSrc=src;
+        video.removeAttribute('src');
+        video.load();
+      }
+    });
+  }
+  function hydrateSection(section){
+    if(section.dataset.chapterHydrated==='true') return;
+    const images=[...section.querySelectorAll('img')];
+    images.forEach((image,index)=>{
+      if(image.dataset.chapterSrc){
+        image.setAttribute('src',image.dataset.chapterSrc);
+        delete image.dataset.chapterSrc;
+      }
+      if(image.dataset.chapterSrcset){
+        image.setAttribute('srcset',image.dataset.chapterSrcset);
+        delete image.dataset.chapterSrcset;
+      }
+      image.decoding='async';
+      image.loading=index<2?'eager':'lazy';
+      image.fetchPriority=index<2?'high':'low';
+    });
+    section.querySelectorAll('iframe[data-chapter-src]').forEach(frame=>{
+      frame.setAttribute('src',frame.dataset.chapterSrc);
+      delete frame.dataset.chapterSrc;
+    });
+    section.querySelectorAll('video[data-chapter-src]').forEach(video=>{
+      video.setAttribute('src',video.dataset.chapterSrc);
+      delete video.dataset.chapterSrc;
+      video.load();
+    });
+    section.dataset.chapterHydrated='true';
+  }
+  function pauseSection(section){
+    section.querySelectorAll('video,audio').forEach(media=>media.pause?.());
+    if(section.id==='music'){
+      musicEmbedEnabled=false;
+      musicFrame?.setAttribute('src','about:blank');
+    }
+  }
+  function activateSectionMedia(section){
+    if(section.id==='music'){
+      musicEmbedEnabled=true;
+      setActiveTrack(activeTrackIndex,false);
+    }
+  }
+  function updateControls(){
+    previousButton.disabled=activeIndex===0;
+    nextButton.disabled=activeIndex===deckSections.length-1;
+    const section=deckSections[activeIndex];
+    positionLabel.innerHTML=`<strong>${String(activeIndex+1).padStart(2,'0')} / ${String(deckSections.length).padStart(2,'0')}</strong><span>${chapterNames[section.id]||section.id}</span>`;
+    previousButton.title=activeIndex>0?`Previous: ${chapterNames[deckSections[activeIndex-1].id]}`:'First chapter';
+    nextButton.title=activeIndex<deckSections.length-1?`Next: ${chapterNames[deckSections[activeIndex+1].id]}`:'Last chapter';
+  }
+  function updateSectionOrder(nextIndex){
+    deckSections.forEach((section,index)=>{
+      section.classList.toggle('chapter-before',index<nextIndex);
+      section.classList.toggle('chapter-after',index>nextIndex);
+    });
+  }
+  function scrollTargetInsideSection(section,target,block='start'){
+    if(!target||target===section){
+      section.scrollTo({top:0,behavior:'smooth'});
+      return;
+    }
+    requestAnimationFrame(()=>{
+      const sectionRect=section.getBoundingClientRect();
+      const targetRect=target.getBoundingClientRect();
+      const navHeight=document.getElementById('nav')?.offsetHeight||72;
+      let top=section.scrollTop+targetRect.top-sectionRect.top-navHeight-22;
+      if(block==='center') top-=Math.max(0,(section.clientHeight-targetRect.height)/2-navHeight);
+      section.scrollTo({top:Math.max(0,top),behavior:'smooth'});
+    });
+  }
+  function updateHistory(section,hash){
+    const nextHash=hash||section.id;
+    history.replaceState({chapter:section.id},'',`${location.pathname}${location.search}#${nextHash}`);
+  }
+  function showChapter(index,{hash='',target=null,block='start',instant=false}={}){
+    const nextIndex=Math.max(0,Math.min(index,deckSections.length-1));
+    const nextSection=deckSections[nextIndex];
+    const currentSection=deckSections[activeIndex];
+    if(nextSection===currentSection&&root.classList.contains('chapter-ready')){
+      if(target) scrollTargetInsideSection(nextSection,target,block);
+      updateHistory(nextSection,hash);
+      return;
+    }
+    if(transitionLocked&&!instant) return;
+    transitionLocked=!instant;
+    hydrateSection(nextSection);
+    pauseSection(currentSection);
+
+    currentSection.classList.add('chapter-transitioning','chapter-leaving');
+    nextSection.classList.add('chapter-transitioning','chapter-preparing');
+    setSectionMotionState(currentSection,false);
+
+    window.setTimeout(()=>{
+      currentSection.classList.remove('chapter-active','chapter-leaving');
+      currentSection.setAttribute('aria-hidden','true');
+      currentSection.inert=true;
+
+      activeIndex=nextIndex;
+      updateSectionOrder(activeIndex);
+      nextSection.classList.remove('chapter-preparing');
+      nextSection.classList.add('chapter-active','chapter-entering');
+      nextSection.setAttribute('aria-hidden','false');
+      nextSection.inert=false;
+      setSectionMotionState(nextSection,true);
+      setChapterMood(nextSection.id);
+      setActiveNav(nextSection.id);
+      navEl?.classList.toggle('scrolled',nextSection.scrollTop>60);
+      updateControls();
+      updateHistory(nextSection,hash);
+      void nextSection.offsetWidth;
+      requestAnimationFrame(()=>nextSection.classList.remove('chapter-entering'));
+
+      if(target) window.setTimeout(()=>scrollTargetInsideSection(nextSection,target,block),100);
+      window.setTimeout(()=>activateSectionMedia(nextSection),260);
+      window.setTimeout(()=>{
+        currentSection.classList.remove('chapter-transitioning');
+        nextSection.classList.remove('chapter-transitioning','chapter-entering');
+        transitionLocked=false;
+      },320);
+    },instant?0:170);
+  }
+  function goToTarget(target,options={}){
+    const section=chapterForTarget(target);
+    const index=deckSections.indexOf(section);
+    if(index<0) return;
+    showChapter(index,{...options,target});
+  }
+  function goToId(id,options={}){
+    const target=document.getElementById(id);
+    if(target) goToTarget(target,{...options,hash:options.hash||id});
+  }
+  function goRelative(direction){
+    showChapter(activeIndex+direction);
+  }
+  function modalIsOpen(){
+    return document.body.classList.contains('game-modal-open')||
+      document.body.classList.contains('experience-modal-open')||
+      Boolean(document.querySelector('.lightbox.open'))||
+      document.body.classList.contains('mobile-menu-open');
+  }
+  function canScrollElement(element,delta){
+    if(!element||element.scrollHeight<=element.clientHeight+2) return false;
+    if(delta>0) return element.scrollTop<element.scrollHeight-element.clientHeight-2;
+    return element.scrollTop>2;
+  }
+  function nearestIndependentScroller(target){
+    return target.closest?.('.music-scroller,.track-carousel,.reel-strip,.experience-modal-panel,.lightbox-panel,.phone-screen,[data-chapter-wheel-lock]');
+  }
+  function resetWheelTotalSoon(){
+    clearTimeout(wheelResetTimer);
+    wheelResetTimer=window.setTimeout(()=>wheelTotal=0,150);
+  }
+
+  previousButton.addEventListener('click',()=>goRelative(-1));
+  nextButton.addEventListener('click',()=>goRelative(1));
+
+  document.addEventListener('click',event=>{
+    const anchor=event.target.closest?.('a[href^="#"]');
+    if(!anchor||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey) return;
+    const id=anchor.getAttribute('href').slice(1);
+    const target=document.getElementById(id);
+    if(!chapterForTarget(target)) return;
+    event.preventDefault();
+    closeMM();
+    closeNavLogoMenu();
+    goToTarget(target,{hash:id});
+  },true);
+
+  window.addEventListener('wheel',event=>{
+    if(event.ctrlKey||modalIsOpen()) return;
+    const directionSource=Math.abs(event.deltaX)>Math.abs(event.deltaY)*1.15?event.deltaX:event.deltaY;
+    if(!directionSource) return;
+    const independent=nearestIndependentScroller(event.target);
+    if(independent&&canScrollElement(independent,directionSource)) return;
+    const activeSection=deckSections[activeIndex];
+    if(Math.abs(event.deltaY)>=Math.abs(event.deltaX)&&canScrollElement(activeSection,event.deltaY)){
+      wheelTotal=0;
+      navEl?.classList.toggle('scrolled',activeSection.scrollTop>60);
+      return;
+    }
+    event.preventDefault();
+    if(transitionLocked) return;
+    wheelTotal+=directionSource;
+    resetWheelTotalSoon();
+    if(Math.abs(wheelTotal)<48) return;
+    const direction=wheelTotal>0?1:-1;
+    wheelTotal=0;
+    goRelative(direction);
+  },{passive:false,capture:true});
+
+  document.addEventListener('keydown',event=>{
+    if(modalIsOpen()||event.defaultPrevented) return;
+    if(event.target.closest?.('input,textarea,select,a,button,[role="button"],[contenteditable="true"],iframe,.repertoire-stage,.music-scroller')) return;
+    if(event.key==='ArrowLeft'){
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      goRelative(-1);
+    }else if(event.key==='ArrowRight'){
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      goRelative(1);
+    }else if(event.key==='PageUp'){
+      event.preventDefault();
+      goRelative(-1);
+    }else if(event.key==='PageDown'){
+      event.preventDefault();
+      goRelative(1);
+    }else if(event.key==='Home'){
+      event.preventDefault();
+      showChapter(0);
+    }else if(event.key==='End'){
+      event.preventDefault();
+      showChapter(deckSections.length-1);
+    }
+  },true);
+
+  document.addEventListener('touchstart',event=>{
+    const touch=event.touches[0];
+    if(!touch) return;
+    touchStartX=touch.clientX;
+    touchStartY=touch.clientY;
+    touchStartedInScrollable=Boolean(nearestIndependentScroller(event.target));
+  },{passive:true});
+  document.addEventListener('touchend',event=>{
+    if(touchStartedInScrollable||modalIsOpen()) return;
+    const touch=event.changedTouches[0];
+    if(!touch) return;
+    const dx=touch.clientX-touchStartX;
+    const dy=touch.clientY-touchStartY;
+    if(Math.abs(dx)<54||Math.abs(dx)<Math.abs(dy)*1.25) return;
+    goRelative(dx<0?1:-1);
+  },{passive:true});
+
+  deckSections.forEach(section=>{
+    section.classList.remove('chapter-active');
+    section.setAttribute('aria-hidden','true');
+    section.inert=true;
+    section.addEventListener('scroll',()=>{
+      if(section!==deckSections[activeIndex]) return;
+      navEl?.classList.toggle('scrolled',section.scrollTop>60);
+    },{passive:true});
+  });
+
+  const initialTarget=document.getElementById(initialPortfolioHash);
+  const initialSection=chapterForTarget(initialTarget)||document.getElementById('hero')||deckSections[0];
+  activeIndex=Math.max(0,deckSections.indexOf(initialSection));
+  deckSections.forEach((section,index)=>{
+    if(index!==activeIndex) deferSection(section);
+  });
+  hydrateSection(initialSection);
+  updateSectionOrder(activeIndex);
+  initialSection.classList.add('chapter-active');
+  initialSection.setAttribute('aria-hidden','false');
+  initialSection.inert=false;
+  setSectionMotionState(initialSection,true);
+  setChapterMood(initialSection.id);
+  setActiveNav(initialSection.id);
+  updateControls();
+  root.classList.add('chapter-ready');
+  if(initialTarget&&initialTarget!==initialSection){
+    window.setTimeout(()=>scrollTargetInsideSection(initialSection,initialTarget,'start'),80);
+  }
+
+  window.portfolioChapterDeck={
+    goToTarget,
+    goToId,
+    goRelative,
+    get activeId(){return deckSections[activeIndex]?.id||'';},
+    get activeIndex(){return activeIndex;},
+    get total(){return deckSections.length;}
+  };
+})();
+
 const contactMailbox=document.getElementById('contactMailbox');
 if(contactMailbox){
   contactMailbox.addEventListener('submit',e=>{
