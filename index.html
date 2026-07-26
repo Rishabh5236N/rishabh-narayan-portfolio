@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" class="instant-render">
+<html lang="en" class="instant-render performance-first">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Rishabh Narayan — Brand & Behavioral Marketing</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="image" href="assets/perf-lossless/rishabh-mic-cutout.webp" media="(min-width:861px)" fetchpriority="high">
-<link rel="preload" as="image" href="assets/perf-inline/hero-photo-ghost.png" media="(min-width:861px)" fetchpriority="high">
+<link rel="preload" as="image" href="assets/perf-lossless/rishabh-mic-cutout-perf.webp" media="(min-width:861px)" fetchpriority="high">
+<link rel="preload" as="image" href="assets/perf-inline/hero-photo-ghost-perf.webp" media="(min-width:861px)" fetchpriority="high">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -95,7 +95,7 @@ section{padding:7rem 2rem;position:relative}
 .tag:hover{color:var(--cream);background:rgba(181,123,238,.08)}
 .hero-ctas{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;opacity:0;animation:fadeUp .9s 1s ease forwards}
 @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
-#hero .hero-photo-ghost{position:absolute;right:clamp(3rem,16vw,16rem);top:11.5%;width:min(46vw,540px);aspect-ratio:650/430;background-image:url('assets/perf-inline/hero-photo-ghost.png');background-size:contain;background-repeat:no-repeat;background-position:center;opacity:.225;filter:grayscale(.42) saturate(.34) brightness(1.08) contrast(1.12);mix-blend-mode:screen;pointer-events:none;z-index:0;transform:rotate(-5.5deg);transform-origin:60% 40%;-webkit-mask-image:linear-gradient(180deg,rgba(0,0,0,.86),rgba(0,0,0,.98) 72%,rgba(0,0,0,0) 100%);mask-image:linear-gradient(180deg,rgba(0,0,0,.86),rgba(0,0,0,.98) 72%,rgba(0,0,0,0) 100%)}
+#hero .hero-photo-ghost{position:absolute;right:clamp(3rem,16vw,16rem);top:11.5%;width:min(46vw,540px);aspect-ratio:650/430;background-image:url('assets/perf-inline/hero-photo-ghost-perf.webp');background-size:contain;background-repeat:no-repeat;background-position:center;opacity:.225;filter:grayscale(.42) saturate(.34) brightness(1.08) contrast(1.12);mix-blend-mode:screen;pointer-events:none;z-index:0;transform:rotate(-5.5deg);transform-origin:60% 40%;-webkit-mask-image:linear-gradient(180deg,rgba(0,0,0,.86),rgba(0,0,0,.98) 72%,rgba(0,0,0,0) 100%);mask-image:linear-gradient(180deg,rgba(0,0,0,.86),rgba(0,0,0,.98) 72%,rgba(0,0,0,0) 100%)}
 #hero>.hero-glow,#hero>.staff-line,#hero>.hero-photo-ghost,#hero>.treble-clef{z-index:0}
 #hero>.hero-eyebrow,#hero>.hero-name,#hero>.hero-title,#hero>.hero-tags,#hero>.hero-ctas{position:relative;z-index:1}
 .btn{font-family:'DM Sans',sans-serif;font-size:.75rem;font-weight:400;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;padding:.85rem 2.2rem;border-radius:2px;display:inline-block;transition:all .3s}
@@ -5392,7 +5392,7 @@ html.motion-paused *,html.motion-paused *::before,html.motion-paused *::after{an
   top:11.5%;
   width:min(46vw,540px);
   aspect-ratio:650/430;
-  background-image:url('assets/perf-lossless/rishabh-mic-cutout.webp');
+  background-image:url('assets/perf-lossless/rishabh-mic-cutout-perf.webp');
   background-size:auto 119%;
   background-repeat:no-repeat;
   background-position:-30px 58px;
@@ -6422,6 +6422,95 @@ html,body{max-width:100%;overflow-x:clip}
   }
   #open-piano-game.piano-side-invite{right:.75rem!important}
 }
+
+/* Performance prototype: preserve the composition while ensuring only the
+   visible chapter is painted and animated. */
+html.performance-first #notes-bg{display:none!important}
+html.performance-first body::before{
+  animation:none!important;
+  filter:none!important;
+  opacity:.72!important;
+  will-change:auto!important;
+}
+html.performance-first main>section:not(#hero),
+html.performance-first footer{
+  content-visibility:auto!important;
+  contain:layout style paint!important;
+}
+html.performance-first #about{contain-intrinsic-size:auto 1412px}
+html.performance-first #experience{contain-intrinsic-size:auto 837px}
+html.performance-first #work{contain-intrinsic-size:auto 2672px}
+html.performance-first #research{contain-intrinsic-size:auto 1577px}
+html.performance-first #music{contain-intrinsic-size:auto 1233px}
+html.performance-first #resume{contain-intrinsic-size:auto 1046px}
+html.performance-first #contact{contain-intrinsic-size:auto 1051px}
+html.performance-first main>section:not(.motion-active) *,
+html.performance-first main>section:not(.motion-active) *::before,
+html.performance-first main>section:not(.motion-active) *::after{
+  animation-play-state:paused!important;
+}
+html.performance-first #game-modal:not(.open),
+html.performance-first #experience-modal:not(.open),
+html.performance-first .lightbox:not(.open){
+  display:none!important;
+}
+html.performance-first .section-label,
+html.performance-first .section-title,
+html.performance-first .about-photo-frame,
+html.performance-first .phone-body,
+html.performance-first #experience .exp-card,
+html.performance-first #experience .repertoire-orbit-chip{
+  will-change:auto!important;
+}
+html.performance-first .piano-key.white,
+html.performance-first .about-photo-caption,
+html.performance-first #open-piano-game{
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
+}
+html.performance-first #hero .client-proof-hint span{
+  animation:none!important;
+  opacity:.72;
+}
+html.performance-first #hero .treble-clef{
+  animation:none!important;
+  transform:rotate(-1deg);
+}
+html.performance-first #hero .hero-primary-work .work-border-orbit::before,
+html.performance-first #open-piano-game.piano-side-invite::before{
+  animation:none!important;
+  will-change:auto!important;
+}
+html.performance-first #hero .hero-primary-work:hover .work-border-orbit::before{
+  animation:workButtonRgbFrame 8s linear infinite!important;
+}
+html.performance-first #open-piano-game.piano-side-invite:hover::before{
+  animation:pianoInviteStaffDrift 9s ease-in-out infinite!important;
+}
+html.performance-first #experience .exp-card.carousel-hidden{
+  content-visibility:hidden!important;
+  contain:strict!important;
+}
+@media(max-width:1100px) and (min-width:761px){
+  html.performance-first #about{contain-intrinsic-size:auto 1227px}
+  html.performance-first #experience{contain-intrinsic-size:auto 806px}
+  html.performance-first #work{contain-intrinsic-size:auto 2446px}
+  html.performance-first #research{contain-intrinsic-size:auto 1515px}
+  html.performance-first #music{contain-intrinsic-size:auto 2092px}
+  html.performance-first #resume{contain-intrinsic-size:auto 1028px}
+  html.performance-first #contact{contain-intrinsic-size:auto 1034px}
+}
+@media(max-width:760px){
+  html.performance-first main>section:not(#hero),
+  html.performance-first footer{contain-intrinsic-size:auto 1100px}
+  html.performance-first main>#about{contain-intrinsic-size:auto 1790px!important}
+  html.performance-first main>#experience{contain-intrinsic-size:auto 794px!important}
+  html.performance-first main>#work{contain-intrinsic-size:auto 6601px!important}
+  html.performance-first main>#research{contain-intrinsic-size:auto 1940px!important}
+  html.performance-first main>#music{contain-intrinsic-size:auto 2734px!important}
+  html.performance-first main>#resume{contain-intrinsic-size:auto 1832px!important}
+  html.performance-first main>#contact{contain-intrinsic-size:auto 1169px!important}
+}
 </style>
 </head>
 <body>
@@ -6576,39 +6665,39 @@ html,body{max-width:100%;overflow-x:clip}
       <div class="hero-logo-track">
         <div class="hero-logo-group">
   <span class="brand-lockup brand-adobe"><img decoding="async" fetchpriority="auto" loading="eager" src="assets/logos/adobe.png" alt=""><b>Adobe</b></span>
-  <span class="brand-lockup brand-meowmix logo-only"><img decoding="async" fetchpriority="auto" loading="eager" src="assets/brand-ticker/meow-mix.png" alt=""></span>
-  <span class="brand-lockup brand-milkbone logo-only"><img decoding="async" fetchpriority="auto" loading="eager" src="assets/brand-ticker/milk-bone.png" alt=""></span>
-  <span class="brand-lockup brand-live46"><img decoding="async" fetchpriority="auto" loading="eager" src="assets/logos/46live.png" alt=""><b>46LIVE</b></span>
-  <span class="brand-lockup brand-dunkin logo-only"><img decoding="async" fetchpriority="auto" loading="eager" src="assets/brand-ticker/dunkin.png" alt=""></span>
+  <span class="brand-lockup brand-meowmix logo-only"><img decoding="async" fetchpriority="auto" loading="eager" src="assets/perf-inline/ticker-meow-mix.webp" alt=""></span>
+  <span class="brand-lockup brand-milkbone logo-only"><img decoding="async" fetchpriority="auto" loading="eager" src="assets/perf-inline/ticker-milk-bone.webp" alt=""></span>
+  <span class="brand-lockup brand-live46"><img decoding="async" fetchpriority="auto" loading="eager" src="assets/perf-inline/46live-perf.webp" alt=""><b>46LIVE</b></span>
+  <span class="brand-lockup brand-dunkin logo-only"><img decoding="async" fetchpriority="auto" loading="eager" src="assets/perf-inline/ticker-dunkin.webp" alt=""></span>
   <span class="brand-lockup brand-twitch"><img decoding="async" fetchpriority="auto" loading="eager" src="assets/logos/twitch.png" alt=""><b>Twitch</b></span>
   <span class="brand-lockup brand-youtube"><i aria-hidden="true"></i><b>YouTube</b></span>
-  <span class="brand-lockup brand-instagram"><img decoding="async" fetchpriority="auto" loading="eager" src="assets/brand-ticker/instagram.png" alt=""><b>Instagram</b></span>
-  <span class="brand-lockup brand-tiktok"><img decoding="async" fetchpriority="auto" loading="eager" src="assets/brand-ticker/tiktok.png" alt=""><b>TikTok</b></span>
-  <span class="brand-lockup brand-hostess logo-only"><img decoding="async" fetchpriority="auto" loading="eager" src="assets/brand-ticker/hostess.png" alt=""></span>
-  <span class="brand-lockup brand-poppi logo-only"><img decoding="async" fetchpriority="auto" loading="eager" src="assets/brand-ticker/poppi.png" alt=""></span>
-  <span class="brand-lockup brand-celsius logo-only"><img decoding="async" fetchpriority="auto" loading="eager" src="assets/brand-ticker/celsius-white.png" alt=""></span>
-  <span class="brand-lockup brand-maggi logo-only"><img decoding="async" fetchpriority="auto" loading="eager" src="assets/brand-ticker/maggi.png" alt=""></span>
-  <span class="brand-lockup brand-googlecloud logo-only"><img decoding="async" fetchpriority="auto" loading="eager" src="assets/brand-ticker/google-cloud.png" alt=""></span>
-  <span class="brand-lockup brand-utd logo-only"><img decoding="async" fetchpriority="auto" loading="eager" src="assets/brand-ticker/utd.png" alt=""></span>
-  <span class="brand-lockup brand-drpepper logo-only"><img decoding="async" fetchpriority="auto" loading="eager" src="assets/brand-ticker/dr-pepper.png" alt=""></span>
+  <span class="brand-lockup brand-instagram"><img decoding="async" fetchpriority="auto" loading="eager" src="assets/perf-inline/ticker-instagram.webp" alt=""><b>Instagram</b></span>
+  <span class="brand-lockup brand-tiktok"><img decoding="async" fetchpriority="auto" loading="eager" src="assets/perf-inline/ticker-tiktok.webp" alt=""><b>TikTok</b></span>
+  <span class="brand-lockup brand-hostess logo-only"><img decoding="async" fetchpriority="auto" loading="eager" src="assets/perf-inline/ticker-hostess.webp" alt=""></span>
+  <span class="brand-lockup brand-poppi logo-only"><img decoding="async" fetchpriority="auto" loading="eager" src="assets/perf-inline/ticker-poppi.webp" alt=""></span>
+  <span class="brand-lockup brand-celsius logo-only"><img decoding="async" fetchpriority="auto" loading="eager" src="assets/perf-inline/ticker-celsius-white.webp" alt=""></span>
+  <span class="brand-lockup brand-maggi logo-only"><img decoding="async" fetchpriority="auto" loading="eager" src="assets/perf-inline/ticker-maggi.webp" alt=""></span>
+  <span class="brand-lockup brand-googlecloud logo-only"><img decoding="async" fetchpriority="auto" loading="eager" src="assets/perf-inline/ticker-google-cloud.webp" alt=""></span>
+  <span class="brand-lockup brand-utd logo-only"><img decoding="async" fetchpriority="auto" loading="eager" src="assets/perf-inline/ticker-utd.webp" alt=""></span>
+  <span class="brand-lockup brand-drpepper logo-only"><img decoding="async" fetchpriority="auto" loading="eager" src="assets/perf-inline/ticker-dr-pepper.webp" alt=""></span>
 </div>
         <div class="hero-logo-group hero-logo-group-clone">
   <span class="brand-lockup brand-adobe"><img decoding="async" fetchpriority="low" loading="lazy" src="assets/logos/adobe.png" alt=""><b>Adobe</b></span>
-  <span class="brand-lockup brand-meowmix logo-only"><img decoding="async" fetchpriority="low" loading="lazy" src="assets/brand-ticker/meow-mix.png" alt=""></span>
-  <span class="brand-lockup brand-milkbone logo-only"><img decoding="async" fetchpriority="low" loading="lazy" src="assets/brand-ticker/milk-bone.png" alt=""></span>
-  <span class="brand-lockup brand-live46"><img decoding="async" fetchpriority="low" loading="lazy" src="assets/logos/46live.png" alt=""><b>46LIVE</b></span>
-  <span class="brand-lockup brand-dunkin logo-only"><img decoding="async" fetchpriority="low" loading="lazy" src="assets/brand-ticker/dunkin.png" alt=""></span>
+  <span class="brand-lockup brand-meowmix logo-only"><img decoding="async" fetchpriority="low" loading="lazy" src="assets/perf-inline/ticker-meow-mix.webp" alt=""></span>
+  <span class="brand-lockup brand-milkbone logo-only"><img decoding="async" fetchpriority="low" loading="lazy" src="assets/perf-inline/ticker-milk-bone.webp" alt=""></span>
+  <span class="brand-lockup brand-live46"><img decoding="async" fetchpriority="low" loading="lazy" src="assets/perf-inline/46live-perf.webp" alt=""><b>46LIVE</b></span>
+  <span class="brand-lockup brand-dunkin logo-only"><img decoding="async" fetchpriority="low" loading="lazy" src="assets/perf-inline/ticker-dunkin.webp" alt=""></span>
   <span class="brand-lockup brand-twitch"><img decoding="async" fetchpriority="low" loading="lazy" src="assets/logos/twitch.png" alt=""><b>Twitch</b></span>
   <span class="brand-lockup brand-youtube"><i aria-hidden="true"></i><b>YouTube</b></span>
-  <span class="brand-lockup brand-instagram"><img decoding="async" fetchpriority="low" loading="lazy" src="assets/brand-ticker/instagram.png" alt=""><b>Instagram</b></span>
-  <span class="brand-lockup brand-tiktok"><img decoding="async" fetchpriority="low" loading="lazy" src="assets/brand-ticker/tiktok.png" alt=""><b>TikTok</b></span>
-  <span class="brand-lockup brand-hostess logo-only"><img decoding="async" fetchpriority="low" loading="lazy" src="assets/brand-ticker/hostess.png" alt=""></span>
-  <span class="brand-lockup brand-poppi logo-only"><img decoding="async" fetchpriority="low" loading="lazy" src="assets/brand-ticker/poppi.png" alt=""></span>
-  <span class="brand-lockup brand-celsius logo-only"><img decoding="async" fetchpriority="low" loading="lazy" src="assets/brand-ticker/celsius-white.png" alt=""></span>
-  <span class="brand-lockup brand-maggi logo-only"><img decoding="async" fetchpriority="low" loading="lazy" src="assets/brand-ticker/maggi.png" alt=""></span>
-  <span class="brand-lockup brand-googlecloud logo-only"><img decoding="async" fetchpriority="low" loading="lazy" src="assets/brand-ticker/google-cloud.png" alt=""></span>
-  <span class="brand-lockup brand-utd logo-only"><img decoding="async" fetchpriority="low" loading="lazy" src="assets/brand-ticker/utd.png" alt=""></span>
-  <span class="brand-lockup brand-drpepper logo-only"><img decoding="async" fetchpriority="low" loading="lazy" src="assets/brand-ticker/dr-pepper.png" alt=""></span>
+  <span class="brand-lockup brand-instagram"><img decoding="async" fetchpriority="low" loading="lazy" src="assets/perf-inline/ticker-instagram.webp" alt=""><b>Instagram</b></span>
+  <span class="brand-lockup brand-tiktok"><img decoding="async" fetchpriority="low" loading="lazy" src="assets/perf-inline/ticker-tiktok.webp" alt=""><b>TikTok</b></span>
+  <span class="brand-lockup brand-hostess logo-only"><img decoding="async" fetchpriority="low" loading="lazy" src="assets/perf-inline/ticker-hostess.webp" alt=""></span>
+  <span class="brand-lockup brand-poppi logo-only"><img decoding="async" fetchpriority="low" loading="lazy" src="assets/perf-inline/ticker-poppi.webp" alt=""></span>
+  <span class="brand-lockup brand-celsius logo-only"><img decoding="async" fetchpriority="low" loading="lazy" src="assets/perf-inline/ticker-celsius-white.webp" alt=""></span>
+  <span class="brand-lockup brand-maggi logo-only"><img decoding="async" fetchpriority="low" loading="lazy" src="assets/perf-inline/ticker-maggi.webp" alt=""></span>
+  <span class="brand-lockup brand-googlecloud logo-only"><img decoding="async" fetchpriority="low" loading="lazy" src="assets/perf-inline/ticker-google-cloud.webp" alt=""></span>
+  <span class="brand-lockup brand-utd logo-only"><img decoding="async" fetchpriority="low" loading="lazy" src="assets/perf-inline/ticker-utd.webp" alt=""></span>
+  <span class="brand-lockup brand-drpepper logo-only"><img decoding="async" fetchpriority="low" loading="lazy" src="assets/perf-inline/ticker-dr-pepper.webp" alt=""></span>
 </div>
       </div>
     </div>
@@ -6691,22 +6780,22 @@ html,body{max-width:100%;overflow-x:clip}
     </div>
     <div class="about-photo-stage reveal" style="transition-delay:.12s" role="group" aria-label="Selected moments from Rishabh Narayan's marketing, entertainment, and campus work">
       <figure class="about-photo-frame about-photo-award" tabindex="0" role="button" aria-label="Open story: Excellence in Marketing" data-lightbox-kicker="Behind the Work" data-lightbox-title="Excellence in Marketing" data-lightbox-desc="Recognized at Penn State's Student Organization Awards for SASA's brand, publicity, and campaign work, including systems that supported 3.5M+ impressions and 200% audience growth.">
-        <img fetchpriority="low" src="assets/about/about-award.webp" alt="Rishabh holding the Excellence in Marketing award" loading="lazy" decoding="async">
+        <img fetchpriority="low" src="assets/perf-thumbs/about-award.webp" data-full-src="assets/about/about-award.webp" alt="Rishabh holding the Excellence in Marketing award" loading="lazy" decoding="async">
         <span class="about-photo-open-indicator" aria-hidden="true">+</span>
         <figcaption class="about-photo-caption"><strong>Excellence in Marketing</strong><span>SASA organization award, Penn State</span></figcaption>
       </figure>
       <figure class="about-photo-frame about-photo-entertainment" tabindex="0" role="button" aria-label="Open story: Entertainment Campaign Display" data-lightbox-kicker="Entertainment Lens" data-lightbox-title="Entertainment Campaign Display" data-lightbox-desc="A personal entertainment-marketing moment that reflects my interest in how fandom, theatrical releases, and cultural conversation become audience attention and behavior.">
-        <img fetchpriority="low" src="assets/about/about-entertainment.webp" alt="Rishabh at a Supergirl entertainment campaign display" loading="lazy" decoding="async">
+        <img fetchpriority="low" src="assets/perf-thumbs/about-entertainment.webp" data-full-src="assets/about/about-entertainment.webp" alt="Rishabh at a Supergirl entertainment campaign display" loading="lazy" decoding="async">
         <span class="about-photo-open-indicator" aria-hidden="true">+</span>
         <figcaption class="about-photo-caption"><strong>Entertainment Campaign Display</strong><span>Audience culture and theatrical marketing</span></figcaption>
       </figure>
       <figure class="about-photo-frame about-photo-adobe" tabindex="0" role="button" aria-label="Open story: Adobe Campus Activation" data-lightbox-kicker="Brand Activation" data-lightbox-title="Adobe Campus Activation" data-lightbox-desc="Working as an Adobe Campus Ambassador to help students discover Creative Cloud through approachable product education, promotional events, webinars, and social ad packages.">
-        <img fetchpriority="low" src="assets/about/about-adobe.webp" alt="Rishabh working at an Adobe campus activation" loading="lazy" decoding="async">
+        <img fetchpriority="low" src="assets/perf-thumbs/about-adobe.webp" data-full-src="assets/about/about-adobe.webp" alt="Rishabh working at an Adobe campus activation" loading="lazy" decoding="async">
         <span class="about-photo-open-indicator" aria-hidden="true">+</span>
         <figcaption class="about-photo-caption"><strong>Adobe Campus Activation</strong><span>Student brand ambassador experience</span></figcaption>
       </figure>
       <figure class="about-photo-frame about-photo-bustelo" tabindex="0" role="button" aria-label="Open story: Cafe Bustelo Activation" data-lightbox-kicker="Experiential Marketing" data-lightbox-title="Cafe Bustelo Activation" data-lightbox-desc="Supporting a live consumer activation where field teamwork, public-facing engagement, and a recognizable visual identity brought the Cafe Bustelo brand into the moment.">
-        <img fetchpriority="low" src="assets/about/about-bustelo.webp" alt="Rishabh with the Cafe Bustelo activation team" loading="lazy" decoding="async">
+        <img fetchpriority="low" src="assets/perf-thumbs/about-bustelo.webp" data-full-src="assets/about/about-bustelo.webp" alt="Rishabh with the Cafe Bustelo activation team" loading="lazy" decoding="async">
         <span class="about-photo-open-indicator" aria-hidden="true">+</span>
         <figcaption class="about-photo-caption"><strong>Cafe Bustelo Activation</strong><span>Experiential field marketing team</span></figcaption>
       </figure>
@@ -6742,7 +6831,7 @@ html,body{max-width:100%;overflow-x:clip}
       <div class="exp-grid" id="experienceCards" aria-label="Rotating experience cards">
       <div class="exp-card reveal playable active" role="button" tabindex="0" data-role="professional">
         <div class="exp-card-head">
-          <div class="exp-logo-slot exp-logo-white"><img decoding="async" fetchpriority="low" loading="lazy" src="assets/perf-inline/sasa-mark.png" alt="SASA logo" class="sasa-exp-logo-img"></div>
+          <div class="exp-logo-slot exp-logo-white"><img decoding="async" fetchpriority="low" loading="lazy" src="assets/perf-inline/sasa-mark-perf.webp" alt="SASA logo" class="sasa-exp-logo-img"></div>
           <div><div class="exp-date">The South Asian Student Association (SASA)</div><div class="exp-role">Marketing Publicity and Brand Development</div></div>
         </div>
         <div class="exp-org">SASA · Penn State University</div>
@@ -6751,7 +6840,7 @@ html,body{max-width:100%;overflow-x:clip}
       </div>
       <div class="exp-card reveal playable" role="button" tabindex="0" data-role="pr" style="transition-delay:.1s">
         <div class="exp-card-head">
-          <div class="exp-logo-slot exp-logo-white"><img decoding="async" fetchpriority="low" loading="lazy" src="assets/perf-inline/sasa-mark.png" alt="SASA logo" class="sasa-exp-logo-img"></div>
+          <div class="exp-logo-slot exp-logo-white"><img decoding="async" fetchpriority="low" loading="lazy" src="assets/perf-inline/sasa-mark-perf.webp" alt="SASA logo" class="sasa-exp-logo-img"></div>
           <div><div class="exp-date">Prior Role</div><div class="exp-role">Public Relations Director</div></div>
         </div>
         <div class="exp-org">South Asian Student Association · Penn State</div>
@@ -6760,7 +6849,7 @@ html,body{max-width:100%;overflow-x:clip}
       </div>
       <div class="exp-card reveal playable" role="button" tabindex="0" data-role="chair" style="transition-delay:.2s">
         <div class="exp-card-head">
-          <div class="exp-logo-slot exp-logo-white"><img decoding="async" fetchpriority="low" loading="lazy" src="assets/perf-inline/sasa-mark.png" alt="SASA logo" class="sasa-exp-logo-img"></div>
+          <div class="exp-logo-slot exp-logo-white"><img decoding="async" fetchpriority="low" loading="lazy" src="assets/perf-inline/sasa-mark-perf.webp" alt="SASA logo" class="sasa-exp-logo-img"></div>
           <div><div class="exp-date">Foundation Role</div><div class="exp-role">PR Chair</div></div>
         </div>
         <div class="exp-org">South Asian Student Association · Penn State</div>
@@ -6877,7 +6966,7 @@ html,body{max-width:100%;overflow-x:clip}
       </a>
 
             <a href="javascript:void(0)" class="work-card playable portfolio-piece new-design-piece" data-category="graphic" role="button" tabindex="0">
-        <img fetchpriority="low" loading="lazy" decoding="async" src="assets/work/feelin-the-memories.png" alt="Feelin' the Memories mixtape cover art" class="work-img" style="object-position:top">
+        <img fetchpriority="low" loading="lazy" decoding="async" src="assets/perf-thumbs/feelin-the-memories.webp" data-full-src="assets/work/feelin-the-memories.png" alt="Feelin' the Memories mixtape cover art" class="work-img" style="object-position:top">
         <div class="work-overlay">
           <span class="work-label-tag">Mixtape Cover Art &middot; Independent</span>
           <div class="work-title">Feelin' the Memories</div>
@@ -6885,7 +6974,7 @@ html,body{max-width:100%;overflow-x:clip}
         </div>
       </a>
       <a href="javascript:void(0)" class="work-card playable portfolio-piece new-design-piece" data-category="graphic" role="button" tabindex="0">
-        <img fetchpriority="low" loading="lazy" decoding="async" src="assets/work/the-road-of-life.png" alt="The Road of Life PTA Reflections cover poster" class="work-img" style="object-position:top">
+        <img fetchpriority="low" loading="lazy" decoding="async" src="assets/perf-thumbs/the-road-of-life.webp" data-full-src="assets/work/the-road-of-life.png" alt="The Road of Life PTA Reflections cover poster" class="work-img" style="object-position:top">
         <div class="work-overlay">
           <span class="work-label-tag">Award-Winning Poster &middot; PTA Reflections</span>
           <div class="work-title">The Road of Life</div>
@@ -6893,7 +6982,7 @@ html,body{max-width:100%;overflow-x:clip}
         </div>
       </a>
       <a href="javascript:void(0)" class="work-card playable portfolio-piece new-design-piece" data-category="graphic" role="button" tabindex="0">
-        <img fetchpriority="low" loading="lazy" decoding="async" src="assets/work/eleemosynary.png" alt="Eleemosynary Plano West theatre production flyer" class="work-img" style="object-position:top">
+        <img fetchpriority="low" loading="lazy" decoding="async" src="assets/perf-thumbs/eleemosynary.webp" data-full-src="assets/work/eleemosynary.png" alt="Eleemosynary Plano West theatre production flyer" class="work-img" style="object-position:top">
         <div class="work-overlay">
           <span class="work-label-tag">Theatre Campaign &middot; Plano West</span>
           <div class="work-title">Eleemosynary</div>
@@ -6902,7 +6991,7 @@ html,body{max-width:100%;overflow-x:clip}
       </a>
 
       <a href="javascript:void(0)" class="work-card playable portfolio-piece new-design-piece" data-category="graphic" role="button" tabindex="0">
-        <img fetchpriority="low" loading="lazy" decoding="async" src="assets/work/aifa-ai-hackathon.webp" alt="AIFA Foundation AI Hackathon for Social Good promotional poster" class="work-img" style="object-position:top">
+        <img fetchpriority="low" loading="lazy" decoding="async" src="assets/perf-thumbs/aifa-ai-hackathon.webp" data-full-src="assets/work/aifa-ai-hackathon.webp" alt="AIFA Foundation AI Hackathon for Social Good promotional poster" class="work-img" style="object-position:top">
         <div class="work-overlay">
           <span class="work-label-tag">Technology Campaign &middot; AIFA Foundation</span>
           <div class="work-title">AIFA AI Hackathon</div>
@@ -6918,7 +7007,7 @@ html,body{max-width:100%;overflow-x:clip}
         </div>
       </a>
       <a href="javascript:void(0)" class="work-card playable portfolio-piece new-design-piece" data-category="graphic" role="button" tabindex="0">
-        <img fetchpriority="low" loading="lazy" decoding="async" src="assets/work/aifa-meeting-promo.png" alt="AIFA AI for All meeting promotional poster" class="work-img" style="object-position:top">
+        <img fetchpriority="low" loading="lazy" decoding="async" src="assets/perf-thumbs/aifa-meeting-promo.webp" data-full-src="assets/work/aifa-meeting-promo.png" alt="AIFA AI for All meeting promotional poster" class="work-img" style="object-position:top">
         <div class="work-overlay">
           <span class="work-label-tag">Meeting Promotion &middot; AIFA Foundation</span>
           <div class="work-title">AIFA: AI for All</div>
@@ -6931,7 +7020,7 @@ html,body{max-width:100%;overflow-x:clip}
       
 
 <a href="javascript:void(0)" class="work-card playable portfolio-piece photo-piece" data-category="photo" role="button" tabindex="0">
-        <img fetchpriority="low" loading="lazy" decoding="async" src="assets/perf-inline/santorini-bloom.jpg" alt="Santorini Bloom" class="work-img photo-work-img">
+        <img fetchpriority="low" loading="lazy" decoding="async" src="assets/perf-thumbs/photo-santorini-bloom.webp" data-full-src="assets/perf-inline/santorini-bloom.jpg" alt="Santorini Bloom" class="work-img photo-work-img">
         <div class="work-overlay">
           <span class="work-label-tag">Travel Photography · Greece</span>
           <div class="work-title">Santorini Bloom</div>
@@ -6940,7 +7029,7 @@ html,body{max-width:100%;overflow-x:clip}
       </a>
 
       <a href="javascript:void(0)" class="work-card playable portfolio-piece photo-piece" data-category="photo" role="button" tabindex="0">
-        <img fetchpriority="low" loading="lazy" decoding="async" src="assets/perf-inline/meteora-horizon.jpg" alt="Meteora Horizon" class="work-img photo-work-img">
+        <img fetchpriority="low" loading="lazy" decoding="async" src="assets/perf-thumbs/photo-meteora-horizon.webp" data-full-src="assets/perf-inline/meteora-horizon.jpg" alt="Meteora Horizon" class="work-img photo-work-img">
         <div class="work-overlay">
           <span class="work-label-tag">Landscape Photography · Greece</span>
           <div class="work-title">Meteora Horizon</div>
@@ -6949,7 +7038,7 @@ html,body{max-width:100%;overflow-x:clip}
       </a>
 
       <a href="javascript:void(0)" class="work-card playable portfolio-piece photo-piece" data-category="photo" role="button" tabindex="0">
-        <img fetchpriority="low" loading="lazy" decoding="async" src="assets/perf-inline/meteora-cliffs.jpg" alt="Meteora Cliffs" class="work-img photo-work-img">
+        <img fetchpriority="low" loading="lazy" decoding="async" src="assets/perf-thumbs/photo-meteora-cliffs.webp" data-full-src="assets/perf-inline/meteora-cliffs.jpg" alt="Meteora Cliffs" class="work-img photo-work-img">
         <div class="work-overlay">
           <span class="work-label-tag">Landscape Photography · Greece</span>
           <div class="work-title">Meteora Cliffs</div>
@@ -6958,7 +7047,7 @@ html,body{max-width:100%;overflow-x:clip}
       </a>
 
       <a href="javascript:void(0)" class="work-card playable portfolio-piece photo-piece" data-category="photo" role="button" tabindex="0">
-        <img fetchpriority="low" loading="lazy" decoding="async" src="assets/perf-inline/santorini-dusk.jpg" alt="Santorini Dusk" class="work-img photo-work-img">
+        <img fetchpriority="low" loading="lazy" decoding="async" src="assets/perf-thumbs/photo-santorini-dusk.webp" data-full-src="assets/perf-inline/santorini-dusk.jpg" alt="Santorini Dusk" class="work-img photo-work-img">
         <div class="work-overlay">
           <span class="work-label-tag">Travel Photography · Greece</span>
           <div class="work-title">Santorini Dusk</div>
@@ -6967,7 +7056,7 @@ html,body{max-width:100%;overflow-x:clip}
       </a>
 
       <a href="javascript:void(0)" class="work-card playable portfolio-piece photo-piece" data-category="photo" role="button" tabindex="0">
-        <img fetchpriority="low" loading="lazy" decoding="async" src="assets/perf-inline/aegean-tide.jpg" alt="Aegean Tide" class="work-img photo-work-img">
+        <img fetchpriority="low" loading="lazy" decoding="async" src="assets/perf-thumbs/photo-aegean-tide.webp" data-full-src="assets/perf-inline/aegean-tide.jpg" alt="Aegean Tide" class="work-img photo-work-img">
         <div class="work-overlay">
           <span class="work-label-tag">Seascape Photography · Greece</span>
           <div class="work-title">Aegean Tide</div>
@@ -6976,7 +7065,7 @@ html,body{max-width:100%;overflow-x:clip}
       </a>
 
       <a href="javascript:void(0)" class="work-card playable portfolio-piece photo-piece" data-category="photo" role="button" tabindex="0">
-        <img fetchpriority="low" loading="lazy" decoding="async" src="assets/perf-inline/psu-street-gallery.jpg" alt="PSU Street Gallery" class="work-img photo-work-img">
+        <img fetchpriority="low" loading="lazy" decoding="async" src="assets/perf-thumbs/photo-psu-street-gallery.webp" data-full-src="assets/perf-inline/psu-street-gallery.jpg" alt="PSU Street Gallery" class="work-img photo-work-img">
         <div class="work-overlay">
           <span class="work-label-tag">Event Photography · Penn State</span>
           <div class="work-title">PSU Street Gallery</div>
@@ -6985,7 +7074,7 @@ html,body{max-width:100%;overflow-x:clip}
       </a>
 
       <a href="javascript:void(0)" class="work-card playable portfolio-piece photo-piece" data-category="photo" role="button" tabindex="0">
-        <img fetchpriority="low" loading="lazy" decoding="async" src="assets/perf-inline/jay-sean-spotlight.jpg" alt="Jay Sean Spotlight" class="work-img photo-work-img">
+        <img fetchpriority="low" loading="lazy" decoding="async" src="assets/perf-thumbs/photo-jay-sean-spotlight.webp" data-full-src="assets/perf-inline/jay-sean-spotlight.jpg" alt="Jay Sean Spotlight" class="work-img photo-work-img">
         <div class="work-overlay">
           <span class="work-label-tag">Concert Photography · Live Performance</span>
           <div class="work-title">Jay Sean Spotlight</div>
@@ -6994,7 +7083,7 @@ html,body{max-width:100%;overflow-x:clip}
       </a>
 
       <a href="javascript:void(0)" class="work-card playable portfolio-piece photo-piece" data-category="photo" role="button" tabindex="0">
-        <img fetchpriority="low" loading="lazy" decoding="async" src="assets/perf-inline/stage-duet.jpg" alt="Stage Duet" class="work-img photo-work-img">
+        <img fetchpriority="low" loading="lazy" decoding="async" src="assets/perf-thumbs/photo-stage-duet.webp" data-full-src="assets/perf-inline/stage-duet.jpg" alt="Stage Duet" class="work-img photo-work-img">
         <div class="work-overlay">
           <span class="work-label-tag">Concert Photography · Live Music</span>
           <div class="work-title">Stage Duet</div>
@@ -7003,7 +7092,7 @@ html,body{max-width:100%;overflow-x:clip}
       </a>
 
       <a href="javascript:void(0)" class="work-card playable portfolio-piece photo-piece" data-category="photo" role="button" tabindex="0">
-        <img fetchpriority="low" loading="lazy" decoding="async" src="assets/perf-inline/mountain-overlook.jpg" alt="Mountain Overlook" class="work-img photo-work-img">
+        <img fetchpriority="low" loading="lazy" decoding="async" src="assets/perf-thumbs/photo-mountain-overlook.webp" data-full-src="assets/perf-inline/mountain-overlook.jpg" alt="Mountain Overlook" class="work-img photo-work-img">
         <div class="work-overlay">
           <span class="work-label-tag">Landscape Photography · Colorado</span>
           <div class="work-title">Mountain Overlook</div>
@@ -7012,7 +7101,7 @@ html,body{max-width:100%;overflow-x:clip}
       </a>
 
       <a href="javascript:void(0)" class="work-card playable portfolio-piece photo-piece" data-category="photo" role="button" tabindex="0">
-        <img fetchpriority="low" loading="lazy" decoding="async" src="assets/perf-inline/thon-live-paint.jpg" alt="THON Live Paint" class="work-img photo-work-img">
+        <img fetchpriority="low" loading="lazy" decoding="async" src="assets/perf-thumbs/photo-thon-live-paint.webp" data-full-src="assets/perf-inline/thon-live-paint.jpg" alt="THON Live Paint" class="work-img photo-work-img">
         <div class="work-overlay">
           <span class="work-label-tag">Event Photography · THON</span>
           <div class="work-title">THON Live Paint</div>
@@ -7020,7 +7109,7 @@ html,body{max-width:100%;overflow-x:clip}
         </div>
       </a>
       <a href="javascript:void(0)" class="work-card playable portfolio-piece photo-piece photo-new-row-start" data-category="photo" role="button" tabindex="0">
-        <img fetchpriority="low" loading="lazy" decoding="async" src="assets/work/sasa-event-winner.webp" alt="Two guests celebrating with a prize tower on stage" class="work-img photo-work-img" style="object-position:center">
+        <img fetchpriority="low" loading="lazy" decoding="async" src="assets/perf-thumbs/photo-sasa-event-winner.webp" data-full-src="assets/work/sasa-event-winner.webp" alt="Two guests celebrating with a prize tower on stage" class="work-img photo-work-img" style="object-position:center">
         <div class="work-overlay">
           <span class="work-label-tag">Live Event Photography &middot; SASA</span>
           <div class="work-title">Event Night Celebration</div>
@@ -7028,7 +7117,7 @@ html,body{max-width:100%;overflow-x:clip}
         </div>
       </a>
       <a href="javascript:void(0)" class="work-card playable portfolio-piece photo-piece" data-category="photo" role="button" tabindex="0">
-        <img fetchpriority="low" loading="lazy" decoding="async" src="assets/work/sasa-event-table.webp" alt="Guest standing beside a decorated event table" class="work-img photo-work-img" style="object-position:center">
+        <img fetchpriority="low" loading="lazy" decoding="async" src="assets/perf-thumbs/photo-sasa-event-table.webp" data-full-src="assets/work/sasa-event-table.webp" alt="Guest standing beside a decorated event table" class="work-img photo-work-img" style="object-position:center">
         <div class="work-overlay">
           <span class="work-label-tag">Event Portrait &middot; SASA</span>
           <div class="work-title">Community Event Portrait</div>
@@ -7036,7 +7125,7 @@ html,body{max-width:100%;overflow-x:clip}
         </div>
       </a>
       <a href="javascript:void(0)" class="work-card playable portfolio-piece photo-piece" data-category="photo" role="button" tabindex="0">
-        <img fetchpriority="low" loading="lazy" decoding="async" src="assets/work/dessert-photography.webp" alt="Matcha waffle dessert with ice cream and chocolate drizzle" class="work-img photo-work-img" style="object-position:center">
+        <img fetchpriority="low" loading="lazy" decoding="async" src="assets/perf-thumbs/photo-dessert-photography.webp" data-full-src="assets/work/dessert-photography.webp" alt="Matcha waffle dessert with ice cream and chocolate drizzle" class="work-img photo-work-img" style="object-position:center">
         <div class="work-overlay">
           <span class="work-label-tag">Food Photography &middot; Editorial</span>
           <div class="work-title">Matcha Waffle</div>
@@ -7053,10 +7142,10 @@ html,body{max-width:100%;overflow-x:clip}
         <div class="social-account-explorer">
           <div class="social-account-tabs" role="tablist" aria-label="Browse social accounts">
             <button class="social-account-tab active playable" type="button" role="tab" aria-selected="true" aria-controls="socialAccountBrief" tabindex="0" data-social-account="sasa">
-              <span class="social-tab-icon"><img src="assets/perf-inline/sasa-mark.png" alt=""></span><span>SASA</span>
+              <span class="social-tab-icon"><img src="assets/perf-inline/sasa-mark-perf.webp" alt=""></span><span>SASA</span>
             </button>
             <button class="social-account-tab playable" type="button" role="tab" aria-selected="false" aria-controls="socialAccountBrief" tabindex="-1" data-social-account="live46">
-              <span class="social-tab-icon"><img src="assets/logos/46live.png" alt=""></span><span>46LIVE</span>
+              <span class="social-tab-icon"><img src="assets/perf-inline/46live-perf.webp" alt=""></span><span>46LIVE</span>
             </button>
             <button class="social-account-tab playable" type="button" role="tab" aria-selected="false" aria-controls="socialAccountBrief" tabindex="-1" data-social-account="youtube">
               <span class="social-tab-icon social-tab-icon-youtube" aria-hidden="true"></span><span>YouTube</span>
@@ -7066,7 +7155,7 @@ html,body{max-width:100%;overflow-x:clip}
             </button>
           </div>
           <div class="social-account-brief" id="socialAccountBrief" role="tabpanel" aria-live="polite">
-            <div class="social-account-mark" id="socialAccountMark"><img src="assets/perf-inline/sasa-mark.png" alt=""></div>
+            <div class="social-account-mark" id="socialAccountMark"><img src="assets/perf-inline/sasa-mark-perf.webp" alt=""></div>
             <div class="social-account-copy">
               <span class="social-account-platform" id="socialAccountPlatform">Instagram · @psu_sasa</span>
               <strong id="socialAccountTitle">South Asian Student Association</strong>
@@ -7087,7 +7176,7 @@ html,body{max-width:100%;overflow-x:clip}
               <div class="ig-post ig-post-minimal">
                 <div class="ig-post-top">
                   <div class="ig-post-account">
-                    <div class="ig-avatar sasa-profile-avatar" id="reelProfileAvatar"><img class="reel-profile-mark sasa-profile-mark" id="reelProfileImage" src="assets/perf-inline/sasa-mark.png" alt="SASA logo"></div>
+                    <div class="ig-avatar sasa-profile-avatar" id="reelProfileAvatar"><img class="reel-profile-mark sasa-profile-mark" id="reelProfileImage" src="assets/perf-inline/sasa-mark-perf.webp" alt="SASA logo"></div>
                     <div class="ig-account-copy"><strong id="reelAccountName">psu_sasa <span class="ig-verified">✓</span></strong><span id="reelAccountContext">Instagram reel</span></div>
                   </div>
                 </div>
@@ -7125,7 +7214,7 @@ html,body{max-width:100%;overflow-x:clip}
             <div class="phone-notch"></div>
             <div class="phone-screen">
               <div class="analytics-profile-row">
-                <div class="analytics-avatar sasa-profile-avatar" id="analyticsProfileAvatar"><img class="reel-profile-mark sasa-profile-mark" id="analyticsProfileImage" src="assets/perf-inline/sasa-mark.png" alt="SASA logo"></div>
+                <div class="analytics-avatar sasa-profile-avatar" id="analyticsProfileAvatar"><img class="reel-profile-mark sasa-profile-mark" id="analyticsProfileImage" src="assets/perf-inline/sasa-mark-perf.webp" alt="SASA logo"></div>
                 <div>
                   <strong id="analyticsProfileName">@psu_sasa</strong>
                   <span id="analyticsProfileContext">Campaign performance</span>
@@ -7365,7 +7454,7 @@ html,body{max-width:100%;overflow-x:clip}
           </div>
         </div>
         <div class="music-player-shell">
-          <iframe id="musicPlayerFrame" class="embed-frame-large" src="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="Spotify embedded player"></iframe>
+          <iframe id="musicPlayerFrame" class="embed-frame-large" src="about:blank" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="Spotify embedded player"></iframe>
           <div class="embed-meta">
             <div>
               <div class="embed-copy">Now playing</div>
@@ -7390,19 +7479,19 @@ html,body{max-width:100%;overflow-x:clip}
       </div>
       <div class="live-performance-grid" role="list" aria-label="Selected theater performances">
         <button class="live-performance-card playable" type="button" role="listitem" data-lightbox-group="performance" data-lightbox-kicker="Live Performances · Newsies" data-lightbox-title="Joseph Pulitzer in Newsies" data-lightbox-desc="Performing as Joseph Pulitzer strengthened my command of character voice, stage presence, and the kind of clear storytelling that can carry across a full auditorium.">
-          <img src="assets/music/live-performances/newsies-pulitzer-stage.jpg" alt="Rishabh Narayan performing as Joseph Pulitzer on stage in Newsies" loading="lazy" decoding="async" fetchpriority="low">
+          <img src="assets/perf-thumbs/live-newsies-stage.webp" data-full-src="assets/music/live-performances/newsies-pulitzer-stage.jpg" alt="Rishabh Narayan performing as Joseph Pulitzer on stage in Newsies" loading="lazy" decoding="async" fetchpriority="low">
           <span class="live-performance-caption"><span class="live-performance-number">01</span><span><strong>Joseph Pulitzer · Newsies</strong><span>Character work, vocal authority, and stage presence built for a full house.</span></span></span>
         </button>
         <button class="live-performance-card playable" type="button" role="listitem" data-lightbox-group="performance" data-lightbox-kicker="Live Performances · Newsies" data-lightbox-title="In Character: Pulitzer" data-lightbox-desc="A live scene from Newsies that brought comic authority, physical choices, and responsive ensemble timing together in one performance.">
-          <img src="assets/music/live-performances/newsies-pulitzer-scene.jpg" alt="Rishabh Narayan performing a scene as Pulitzer in Newsies" loading="lazy" decoding="async" fetchpriority="low">
+          <img src="assets/perf-thumbs/live-newsies-scene.webp" data-full-src="assets/music/live-performances/newsies-pulitzer-scene.jpg" alt="Rishabh Narayan performing a scene as Pulitzer in Newsies" loading="lazy" decoding="async" fetchpriority="low">
           <span class="live-performance-caption"><span class="live-performance-number">02</span><span><strong>In Character · Newsies</strong><span>Comic authority and ensemble timing inside a fast-moving live scene.</span></span></span>
         </button>
         <button class="live-performance-card playable" type="button" role="listitem" data-lightbox-group="performance" data-lightbox-kicker="Live Performances · Grease" data-lightbox-title="Sonny in Grease" data-lightbox-desc="Playing Sonny in Grease paired high-energy movement with comic timing and the discipline of staying connected to a large ensemble throughout a live number.">
-          <img src="assets/music/live-performances/grease-sonny.jpg" alt="Rishabh Narayan performing as Sonny with the Grease ensemble" loading="lazy" decoding="async" fetchpriority="low">
+          <img src="assets/perf-thumbs/live-grease-sonny.webp" data-full-src="assets/music/live-performances/grease-sonny.jpg" alt="Rishabh Narayan performing as Sonny with the Grease ensemble" loading="lazy" decoding="async" fetchpriority="low">
           <span class="live-performance-caption"><span class="live-performance-number">03</span><span><strong>Sonny · Grease</strong><span>High-energy choreography, comic timing, and tightly coordinated ensemble work.</span></span></span>
         </button>
         <button class="live-performance-card playable" type="button" role="listitem" data-lightbox-group="performance" data-lightbox-kicker="Live Performances · A Midsummer Night's Dream" data-lightbox-title="Oberon in A Midsummer Night's Dream" data-lightbox-desc="Playing Oberon invited me to combine regal authority, magical tension, and responsive scene work while helping build Shakespeare's enchanted world through physical and vocal character choices.">
-          <img src="assets/music/live-performances/midsummer-oberon.webp" alt="Rishabh Narayan performing as Oberon in A Midsummer Night's Dream" loading="lazy" decoding="async" fetchpriority="low">
+          <img src="assets/perf-thumbs/live-midsummer-oberon.webp" data-full-src="assets/music/live-performances/midsummer-oberon.webp" alt="Rishabh Narayan performing as Oberon in A Midsummer Night's Dream" loading="lazy" decoding="async" fetchpriority="low">
           <span class="live-performance-caption"><span class="live-performance-number">04</span><span><strong>Oberon · A Midsummer Night's Dream</strong><span>Character authority, physical storytelling, and ensemble chemistry in Shakespeare's enchanted world.</span></span></span>
         </button>
       </div>
@@ -7523,7 +7612,7 @@ html,body{max-width:100%;overflow-x:clip}
   <div class="experience-modal-backdrop"></div>
   <article class="experience-modal-panel" role="dialog" aria-modal="true" aria-label="Experience role details">
     <button type="button" class="experience-modal-close playable" id="experience-modal-close" aria-label="Close experience details">×</button>
-    <div class="experience-modal-logo exp-logo-white" id="experienceModalLogo"><img decoding="async" fetchpriority="low" loading="lazy" src="assets/perf-inline/sasa-mark.png" alt="SASA logo" class="sasa-exp-logo-img"></div>
+    <div class="experience-modal-logo exp-logo-white" id="experienceModalLogo"><img decoding="async" fetchpriority="low" loading="lazy" src="assets/perf-inline/sasa-mark-perf.webp" alt="SASA logo" class="sasa-exp-logo-img"></div>
     <div class="experience-modal-content">
       <div class="experience-modal-kicker" id="experienceModalKicker">Most Recent</div>
       <h3 id="experienceModalTitle">Professional Communications Director</h3>
@@ -7570,8 +7659,8 @@ html,body{max-width:100%;overflow-x:clip}
 <script>
 /* ─── IMAGE INJECTION ─── */
 const IMGS={
-  'img-shirt-front':{preview:'assets/perf-lossless/shirt-front.webp'},
-  'img-shirt-back':{preview:'assets/perf-lossless/shirt-back.webp'},
+  'img-shirt-front':{preview:'assets/perf-thumbs/shirt-front.webp',full:'assets/perf-lossless/shirt-front.webp'},
+  'img-shirt-back':{preview:'assets/perf-thumbs/shirt-back.webp',full:'assets/perf-lossless/shirt-back.webp'},
   'img-holi':{preview:'assets/perf-thumbs/holi.webp',full:'assets/perf-lossless/holi.webp'},
   'img-kupid':{preview:'assets/perf-thumbs/kupid.webp',full:'assets/perf-lossless/kupid.webp'},
   'img-diwali':{preview:'assets/perf-thumbs/diwali.webp',full:'assets/perf-lossless/diwali.webp'}
@@ -7610,6 +7699,7 @@ if(performanceLite)document.documentElement.classList.add('performance-lite');
 const perfSections=[...document.querySelectorAll('main>section')];
 const perfMotionSelector='.treble-clef,.hero-logo-track,.repertoire-stage,.repertoire-copy-panel,.repertoire-core,.repertoire-orbit-chip,.research-hologram,.reel-audio-pill span:last-child';
 function setSectionMotionState(section,active){
+  section.classList.toggle('motion-active',active);
   section.querySelectorAll(perfMotionSelector).forEach(element=>{
     element.style.animationPlayState=active?'running':'paused';
   });
@@ -7619,35 +7709,20 @@ const syncPageVisibility=()=>document.documentElement.classList.toggle('page-hid
 document.addEventListener('visibilitychange',syncPageVisibility,{passive:true});
 syncPageVisibility();
 
-/* Fetch every display-sized image up front so entering a section or switching a
-   work tab never starts a new batch of requests. Full lightbox assets and videos
-   remain interaction-loaded, keeping the initial transfer bounded. */
-const primedImageSources=new Set();
-const displayImagePreloads=[];
-function primeDisplayImage(image){
-  if(!(image instanceof HTMLImageElement)||image.id==='lightboxImage') return;
-  const source=image.getAttribute('src');
-  if(!source||source.startsWith('data:')) return;
-  image.loading='eager';
+/* Keep the first viewport immediate and let the browser schedule everything
+   below it. The old eager preloader fetched every image twice and made startup
+   compete with dozens of offscreen portfolio assets. */
+document.querySelectorAll('img[src]').forEach(image=>{
+  if(image.id==='lightboxImage') return;
   image.decoding='async';
-  image.fetchPriority='low';
-  if(primedImageSources.has(source)) return;
-  primedImageSources.add(source);
-  const preload=new Image();
-  preload.decoding='async';
-  preload.fetchPriority='low';
-  preload.src=source;
-  displayImagePreloads.push(preload);
-}
-document.querySelectorAll('img[src]').forEach(primeDisplayImage);
-const displayImageObserver=new MutationObserver(records=>{
-  records.forEach(record=>record.addedNodes.forEach(node=>{
-    if(!(node instanceof Element)) return;
-    if(node.matches('img[src]')) primeDisplayImage(node);
-    node.querySelectorAll?.('img[src]').forEach(primeDisplayImage);
-  }));
+  if(image.closest('#hero')||image.closest('nav')){
+    image.loading='eager';
+    image.fetchPriority='high';
+  }else{
+    image.loading='lazy';
+    image.fetchPriority='low';
+  }
 });
-displayImageObserver.observe(document.body,{childList:true,subtree:true});
 document.addEventListener('mousedown',e=>{if(!e.target.closest('input,textarea,[contenteditable="true"]')){const sel=window.getSelection&&window.getSelection();if(sel&&sel.removeAllRanges)sel.removeAllRanges();if(document.activeElement&&document.activeElement.blur&&!(document.activeElement.matches&&document.activeElement.matches('input,textarea,[contenteditable="true"]')))document.activeElement.blur();}},{passive:true});
 
 /* ─── CURSOR ─── */
@@ -7818,14 +7893,16 @@ function closeMM(){setMobileMenu(false)}
 
 /* ─── FLOATING NOTES ─── */
 const nb=document.getElementById('notes-bg');
-['𝄞','♩','♪','♫','♬','𝄽','♭','♯'].forEach((s,i)=>{
-  for(let j=0;j<(performanceLite?1:2);j++){
-    const f=document.createElement('div');f.className='fn';f.textContent=s;
-    const hues=[270,250,210,180];
-    f.style.cssText=`left:${Math.random()*100}%;color:hsl(${hues[i%4]},55%,65%);font-size:${.8+Math.random()*1.2}rem;--dur:${14+Math.random()*18}s;--delay:${-Math.random()*18}s;--rot:${-20+Math.random()*40}deg;--rot2:${-20+Math.random()*40}deg`;
-    nb.appendChild(f);
-  }
-});
+if(!document.documentElement.classList.contains('performance-first')){
+  ['𝄞','♩','♪','♫','♬','𝄽','♭','♯'].forEach((s,i)=>{
+    for(let j=0;j<(performanceLite?1:2);j++){
+      const f=document.createElement('div');f.className='fn';f.textContent=s;
+      const hues=[270,250,210,180];
+      f.style.cssText=`left:${Math.random()*100}%;color:hsl(${hues[i%4]},55%,65%);font-size:${.8+Math.random()*1.2}rem;--dur:${14+Math.random()*18}s;--delay:${-Math.random()*18}s;--rot:${-20+Math.random()*40}deg;--rot2:${-20+Math.random()*40}deg`;
+      nb.appendChild(f);
+    }
+  });
+}
 
 /* ─── SCROLL REVEAL ─── */
 const revealItems=[...document.querySelectorAll('.reveal')];
@@ -8223,8 +8300,8 @@ function goTo(id){
     card('adobe','.2s',logoImg('assets/logos/adobe.png','Adobe logo'),'Campus Ambassador &middot; 2026','Adobe Campus Ambassador','Adobe &middot; Penn State','Runs promotional events and webinars, builds social ad packages, and translates creator tools into campus-level engagement and organic growth.',['Campus Activation','Social Ads','Creator Tools']),
     card('api','.3s',logoImg('assets/logos/american-press-institute.png','American Press Institute logo'),'Social Campaigns &middot; 2025 - Present','Campaign &amp; Social Media Marketing Intern','American Press Institute','Develops campaign strategy for 32 newsroom lab members, optimizes keywords and teasers, and captures b-roll from countywide town halls with 300+ attendees.',['Digital Campaigns','SEO','B-roll']),
     card('twitch','.4s',logoImg('assets/logos/twitch.png','Twitch logo'),'Content Creation &middot; Streaming Period','Content Creator','Twitch','Generated daily content including sponsorships for 150+ viewers, grew a 3.6K+ follower community, and monetized through subscriptions, sponsorships, and ad revenue.',['Content Creation','Livestreaming','Monetization']),
-    card('live46','.5s',logoImg('assets/logos/46live.png','46LIVE logo'),'THON Media &middot; 2024 - Present','Media Advertising Coordinator','46LIVE &middot; Penn State','Creates graphics, photographs and edits THON floor content, tests engagement patterns, and supports livestream media that reached 207,000+ viewers.',['Reel Strategy','Event Media','Analytics']),
-    card('entertainment','.6s',logoImg('assets/logos/commradio.png','CommRadio logo'),'Music &amp; Campus Publicity &middot; 2024 - Present','Entertainment Publicity &amp; Content','CommRadio &middot; SPA &middot; Penn State Music Group','Promotes special event segments, sponsor reads, celebrity partnerships, venue content, campus bands, and music programming across social and live channels.',['Entertainment Marketing','Publicity','Music Content'])
+    card('live46','.5s',logoImg('assets/perf-inline/46live-perf.webp','46LIVE logo'),'THON Media &middot; 2024 - Present','Media Advertising Coordinator','46LIVE &middot; Penn State','Creates graphics, photographs and edits THON floor content, tests engagement patterns, and supports livestream media that reached 207,000+ viewers.',['Reel Strategy','Event Media','Analytics']),
+    card('entertainment','.6s',logoImg('assets/perf-inline/commradio-perf.webp','CommRadio logo'),'Music &amp; Campus Publicity &middot; 2024 - Present','Entertainment Publicity &amp; Content','CommRadio &middot; SPA &middot; Penn State Music Group','Promotes special event segments, sponsor reads, celebrity partnerships, venue content, campus bands, and music programming across social and live channels.',['Entertainment Marketing','Publicity','Music Content'])
   ].join('');
   stage.querySelectorAll('.exp-card[data-role]').forEach(expCard=>{
     expCard.classList.toggle('active',expCard.dataset.role==='smucker');
@@ -8234,7 +8311,7 @@ function goTo(id){
 /* ─── EXPERIENCE ROLE DETAIL TABS ─── */
 const expRoleData={
   professional:{
-    logo:`<img decoding="async" fetchpriority="low" loading="lazy" src="assets/perf-inline/sasa-mark.png" alt="SASA logo" class="sasa-exp-logo-img">`,
+    logo:`<img decoding="async" fetchpriority="low" loading="lazy" src="assets/perf-inline/sasa-mark-perf.webp" alt="SASA logo" class="sasa-exp-logo-img">`,
     kicker:'The South Asian Student Association (SASA)',
     title:'Marketing Publicity and Brand Development',
     copy:'A consolidated overview of my SASA leadership path across marketing, publicity, and brand development. This track includes hands-on campaign execution, creative direction, social strategy, and the formal creation of a Professional Communications role to make SASA\'s brand systems more consistent and scalable.',
@@ -8242,7 +8319,7 @@ const expRoleData={
     timeline:true
   },
   pr:{
-    logo:`<img decoding="async" fetchpriority="low" loading="lazy" src="assets/perf-inline/sasa-mark.png" alt="SASA logo" class="sasa-exp-logo-img">`,
+    logo:`<img decoding="async" fetchpriority="low" loading="lazy" src="assets/perf-inline/sasa-mark-perf.webp" alt="SASA logo" class="sasa-exp-logo-img">`,
     kicker:'2025 · Public Relations Director',
     title:'Public Relations Director',
     copy:'Led publicity strategy for SASA events, managed promotional assets, organized campaign rollouts, and helped shape how SASA showed up across social platforms and campus-facing communications.',
@@ -8255,7 +8332,7 @@ const expRoleData={
     timeline:false
   },
   chair:{
-    logo:`<img decoding="async" fetchpriority="low" loading="lazy" src="assets/perf-inline/sasa-mark.png" alt="SASA logo" class="sasa-exp-logo-img">`,
+    logo:`<img decoding="async" fetchpriority="low" loading="lazy" src="assets/perf-inline/sasa-mark-perf.webp" alt="SASA logo" class="sasa-exp-logo-img">`,
     kicker:'2024 · PR Chair',
     title:'PR Chair',
     copy:'Built foundational experience in design, posting workflows, and campaign support. Created promotional content and helped maintain SASA\'s public-facing presence through event graphics and social media.',
@@ -8339,7 +8416,7 @@ Object.assign(expRoleData,{
     timeline:false
   },
   live46:{
-    logo:'<img decoding="async" fetchpriority="low" loading="lazy" src="assets/logos/46live.png" alt="46LIVE logo" class="exp-logo-img">',
+    logo:'<img decoding="async" fetchpriority="low" loading="lazy" src="assets/perf-inline/46live-perf.webp" alt="46LIVE logo" class="exp-logo-img">',
     kicker:'Media Advertising · 2024 - Present',
     title:'Media Advertising Coordinator',
     company:'46LIVE · THON media team',
@@ -8353,7 +8430,7 @@ Object.assign(expRoleData,{
     timeline:false
   },
   entertainment:{
-    logo:'<img decoding="async" fetchpriority="low" loading="lazy" src="assets/logos/commradio.png" alt="CommRadio logo" class="exp-logo-img">',
+    logo:'<img decoding="async" fetchpriority="low" loading="lazy" src="assets/perf-inline/commradio-perf.webp" alt="CommRadio logo" class="exp-logo-img">',
     kicker:'Entertainment Publicity · 2024 - Present',
     title:'Entertainment Publicity & Content',
     company:'CommRadio · SPA · Penn State Music Group · The Coda Conduct',
@@ -9117,13 +9194,13 @@ const socialAccountData={
     platform:'Instagram · @psu_sasa',
     title:'South Asian Student Association',
     description:'Event-led social strategy, campaign creative, community storytelling, and collaborative reels.',
-    statusLabel:'SASA',mark:'assets/perf-inline/sasa-mark.png',markAlt:'SASA logo',markClass:''
+    statusLabel:'SASA',mark:'assets/perf-inline/sasa-mark-perf.webp',markAlt:'SASA logo',markClass:''
   },
   live46:{
     platform:'Instagram + livestream · 46LIVE',
     title:'46LIVE',
     description:'THON content, event-floor photography, reel strategy, and live audience storytelling.',
-    statusLabel:'46LIVE',mark:'assets/logos/46live.png',markAlt:'46LIVE logo',markClass:''
+    statusLabel:'46LIVE',mark:'assets/perf-inline/46live-perf.webp',markAlt:'46LIVE logo',markClass:''
   },
   youtube:{
     platform:'YouTube · video publishing',
@@ -9370,7 +9447,7 @@ const socialReelData={
     accountContext:'Event media reel',
     analyticsProfileName:'46LIVE',
     analyticsProfileContext:'Behind the reel',
-    profileImage:'assets/logos/46live.png',
+    profileImage:'assets/perf-inline/46live-perf.webp',
     profileAlt:'46LIVE logo',
     profileKind:'channel',
     posterImage:'assets/perf-inline/thon-live-paint.jpg',
@@ -9480,7 +9557,7 @@ setReel=function(index){
   setReelHTML('reelAccountName',data.accountName||'psu_sasa');
   setReelHTML('reelAccountContext',data.accountContext||'Instagram reel');
   const profileKind=data.profileKind||'sasa';
-  const profileImage=data.profileImage||'assets/perf-inline/sasa-mark.png';
+  const profileImage=data.profileImage||'assets/perf-inline/sasa-mark-perf.webp';
   const profileAlt=data.profileAlt||'SASA logo';
   [
     [document.getElementById('reelProfileAvatar'),document.getElementById('reelProfileImage')],
