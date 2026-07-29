@@ -6794,6 +6794,103 @@ section.section-live::after{opacity:.7}
   .reveal{opacity:1!important;transition:none!important}
   .research-detail{transition:none}
 }
+
+/* Lightweight chapter transitions: sections render lazily, then fade as a
+   single compositor layer instead of animating every child during scroll. */
+html.instant-render main>section:not(#hero)>.inner{
+  opacity:0!important;
+  transition:opacity .46s ease!important;
+}
+html.instant-render main>section:not(#hero).section-in-view>.inner{
+  opacity:1!important;
+}
+
+/* Repertoire hierarchy: organization first, role centered, supporting copy
+   kept compact so each card uses its available space intentionally. */
+#experience .exp-card{
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:flex-start!important;
+  gap:0!important;
+  padding:clamp(1.35rem,2.2vw,1.85rem)!important;
+}
+#experience .exp-org{
+  order:0;
+  min-height:0!important;
+  margin:0 0 clamp(.8rem,1.6vw,1.05rem)!important;
+  color:rgba(244,239,248,.82)!important;
+  font-family:"DM Sans",sans-serif!important;
+  font-size:clamp(.62rem,.82vw,.72rem)!important;
+  font-style:normal!important;
+  font-weight:650!important;
+  line-height:1.35!important;
+  letter-spacing:.1em!important;
+  text-align:center!important;
+  text-transform:uppercase!important;
+}
+#experience .exp-card-head{
+  order:1;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  gap:.55rem!important;
+  margin:0 0 clamp(.8rem,1.5vw,1.05rem)!important;
+  text-align:center!important;
+}
+#experience .exp-card-head>div:last-child{
+  display:contents!important;
+}
+#experience .exp-date{
+  order:2;
+  min-height:0!important;
+  margin:0!important;
+  font-size:.58rem!important;
+  letter-spacing:.14em!important;
+  line-height:1.2!important;
+  text-align:center!important;
+  text-transform:uppercase!important;
+}
+#experience .exp-role{
+  order:2;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:100%;
+  min-height:2.1em!important;
+  margin:0 0 .85rem!important;
+  font-family:"Cormorant Garamond",serif!important;
+  font-size:clamp(1.9rem,3.2vw,2.65rem)!important;
+  font-weight:400!important;
+  line-height:.9!important;
+  letter-spacing:0!important;
+  text-align:center!important;
+}
+#experience .exp-desc{
+  order:3;
+  margin:0!important;
+  color:rgba(244,239,248,.68)!important;
+  font-size:clamp(.76rem,.9vw,.86rem)!important;
+  line-height:1.58!important;
+  text-align:center!important;
+}
+#experience .exp-pills{
+  order:4;
+  justify-content:center!important;
+  margin-top:auto!important;
+  padding-top:.9rem!important;
+}
+@media(max-width:640px){
+  #experience .exp-card{padding:1.15rem!important}
+  #experience .exp-org{font-size:.57rem!important}
+  #experience .exp-role{font-size:clamp(1.62rem,7vw,2rem)!important}
+  #experience .exp-desc{font-size:.72rem!important;line-height:1.48!important}
+}
+@media(prefers-reduced-motion:reduce){
+  html.instant-render main>section:not(#hero)>.inner{
+    opacity:1!important;
+    transition:none!important;
+  }
+}
 </style>
 </head>
 <body>
@@ -8439,6 +8536,7 @@ function spawnTitleBurst(section){
 }
 const activeMotionSections=new WeakSet();
 const sectionObs=new IntersectionObserver(entries=>entries.forEach(entry=>{
+  entry.target.classList.toggle('section-in-view',entry.isIntersecting);
   if(entry.isIntersecting){
     entry.target.classList.add('section-live');
     activeMotionSections.add(entry.target);
@@ -8450,10 +8548,28 @@ const sectionObs=new IntersectionObserver(entries=>entries.forEach(entry=>{
     activeMotionSections.delete(entry.target);
     setSectionMotionState(entry.target,false);
   }
-}),{threshold:.08,rootMargin:'12% 0px 12% 0px'});
+}),{threshold:.01,rootMargin:'-4% 0px -10% 0px'});
 document.querySelectorAll('section').forEach(sec=>{
   sectionObs.observe(sec);
 });
+
+/* Warm only the next nearby chapter. This keeps the initial page light while
+   moving image fetch/decode work ahead of the moment it becomes visible. */
+if('IntersectionObserver' in window){
+  const warmedSections=new WeakSet();
+  const sectionWarmObserver=new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+      if(!entry.isIntersecting||warmedSections.has(entry.target)) return;
+      warmedSections.add(entry.target);
+      entry.target.querySelectorAll('img[loading="lazy"]').forEach(image=>{
+        image.loading='eager';
+        image.decode?.().catch(()=>{});
+      });
+      sectionWarmObserver.unobserve(entry.target);
+    });
+  },{threshold:0,rootMargin:'65% 0px 65% 0px'});
+  document.querySelectorAll('main>section').forEach(section=>sectionWarmObserver.observe(section));
+}
 document.addEventListener('visibilitychange',()=>{
   document.documentElement.classList.toggle('motion-paused',document.hidden);
 });
@@ -8618,29 +8734,23 @@ function goTo(id){
   });
 })();
 
-/* Build the resume-backed experience set while preserving the featured SASA card. */
+/* Build the resume-backed experience set with one consistent card hierarchy. */
 (function rebuildResumeExperienceCards(){
   const stage=document.getElementById('experienceCards');
   if(!stage||stage.dataset.resumeRebuilt) return;
-  const preserved=stage.querySelector('.exp-card[data-role="professional"]')?.outerHTML;
-  const fallbackProfessional=`<div class="exp-card reveal playable active" role="button" tabindex="0" data-role="professional">
-    <div class="exp-card-head"><div class="exp-logo-slot">SASA</div><div><div class="exp-date">Most Recent Role</div><div class="exp-role">Marketing Publicity and Brand Development</div></div></div>
-    <div class="exp-org">South Asian Student Association &middot; Penn State</div>
-    <div class="exp-desc">Built campaign publicity, brand systems, and professional communications for a major multicultural organization at Penn State.</div>
-    <div class="exp-pills"><span class="exp-pill">Brand Development</span><span class="exp-pill">Publicity</span><span class="exp-pill">Social Strategy</span></div>
-  </div>`;
   const logoMark=(cls,label)=>`<span class="exp-brand-mark ${cls}">${label}</span>`;
   const logoImg=(src,alt)=>`<img decoding="async" fetchpriority="low" loading="lazy" src="${src}" alt="${alt}" class="exp-logo-img">`;
   const card=(role,delay,logo,date,title,org,desc,pills)=>`<div class="exp-card reveal playable" role="button" tabindex="0" data-role="${role}" style="transition-delay:${delay}">
-    <div class="exp-card-head"><div class="exp-logo-slot">${logo}</div><div><div class="exp-date">${date}</div><div class="exp-role">${title}</div></div></div>
     <div class="exp-org">${org}</div>
+    <div class="exp-card-head"><div class="exp-logo-slot">${logo}</div><div class="exp-date">${date}</div></div>
+    <div class="exp-role">${title}</div>
     <div class="exp-desc">${desc}</div>
     <div class="exp-pills">${pills.map(pill=>`<span class="exp-pill">${pill}</span>`).join('')}</div>
   </div>`;
   stage.dataset.resumeRebuilt='true';
   stage.innerHTML=[
     card('smucker','0s',logoImg('assets/logos/smucker.png','J.M. Smucker Company logo'),'Summer 2026','Brand &amp; Behavioral Marketing Intern','J.M. Smucker Company &middot; Milk-Bone &amp; Dunkin','Designing campaign and commercial strategy while researching agency-backed consumer preferences, product-line growth, and trend-led food and pet brand storytelling.',['Brand Strategy','Consumer Research','F&amp;B']),
-    preserved||fallbackProfessional,
+    card('professional','.1s',logoImg('assets/perf-inline/sasa-mark-perf.webp','SASA logo'),'2024 - Present','Marketing Publicity and Brand Development','The South Asian Student Association (SASA) &middot; Penn State','Built campaign publicity, brand systems, and professional communications for a major multicultural organization at Penn State.',['Brand Development','Publicity','Social Strategy']),
     card('adobe','.2s',logoImg('assets/logos/adobe.png','Adobe logo'),'Campus Ambassador &middot; 2026','Adobe Campus Ambassador','Adobe &middot; Penn State','Runs promotional events and webinars, builds social ad packages, and translates creator tools into campus-level engagement and organic growth.',['Campus Activation','Social Ads','Creator Tools']),
     card('api','.3s',logoImg('assets/logos/american-press-institute.png','American Press Institute logo'),'Social Campaigns &middot; 2025 - Present','Campaign &amp; Social Media Marketing Intern','American Press Institute','Develops campaign strategy for 32 newsroom lab members, optimizes keywords and teasers, and captures b-roll from countywide town halls with 300+ attendees.',['Digital Campaigns','SEO','B-roll']),
     card('twitch','.4s',logoImg('assets/logos/twitch.png','Twitch logo'),'Content Creation &middot; Streaming Period','Content Creator','Twitch','Generated daily content including sponsorships for 150+ viewers, grew a 3.6K+ follower community, and monetized through subscriptions, sponsorships, and ad revenue.',['Content Creation','Livestreaming','Monetization']),
@@ -9266,6 +9376,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeExperienceModal
   });
   let pageScrollResumeTimer=0;
   portfolioScrollCallbacks.add(()=>{
+    if(!carouselVisible) return;
     pauseAuto();
     window.clearTimeout(pageScrollResumeTimer);
     pageScrollResumeTimer=window.setTimeout(startAuto,240);
@@ -9393,11 +9504,15 @@ function applyPortfolioFilter(filter){
   portfolioTabs.forEach(tab=>tab.classList.toggle('active',tab.dataset.filter===filter));
   portfolioTargets.forEach(item=>{
     const cats=(item.dataset.category||'').split(/\s+/).filter(Boolean);
-    item.classList.toggle('filtered-out',!cats.includes(filter));
+    const filteredOut=!cats.includes(filter);
+    item.classList.toggle('filtered-out',filteredOut);
+    item.setAttribute('aria-hidden',String(filteredOut));
   });
   if(filter==='social'){
     socialEmbedEnabled=true;
-    if(typeof setReel==='function') setReel(0);
+    requestAnimationFrame(()=>{
+      if(typeof setReel==='function') setReel(activeReelIndex||0);
+    });
   }else if(socialEmbedEnabled) suspendSocialMedia();
   /* Filtering changes the work grid height; refresh cached section offsets. */
   if(typeof measureNavSections==='function') requestAnimationFrame(measureNavSections);
@@ -9408,14 +9523,20 @@ portfolioTabs.forEach(tab=>tab.addEventListener('click',()=>{
   if(tab.dataset.filter==='photo') spawnPhotographySnap(tab);
 }));
 applyPortfolioFilter('graphic');
-const workSectionForMedia=document.getElementById('work');
-if(workSectionForMedia&&'IntersectionObserver' in window){
+const socialShowcaseForMedia=document.getElementById('social-media-content');
+if(socialShowcaseForMedia&&'IntersectionObserver' in window){
   const socialMediaObserver=new IntersectionObserver(entries=>{
     entries.forEach(entry=>{
-      if(!entry.isIntersecting&&socialEmbedEnabled) suspendSocialMedia();
+      const socialTabActive=[...portfolioTabs].some(tab=>tab.dataset.filter==='social'&&tab.classList.contains('active'));
+      if(!entry.isIntersecting&&socialEmbedEnabled){
+        suspendSocialMedia();
+      }else if(entry.isIntersecting&&socialTabActive&&!socialEmbedEnabled){
+        socialEmbedEnabled=true;
+        if(typeof setReel==='function') setReel(activeReelIndex||0);
+      }
     });
-  },{threshold:.01,rootMargin:'80px 0px'});
-  socialMediaObserver.observe(workSectionForMedia);
+  },{threshold:.01,rootMargin:'0px'});
+  socialMediaObserver.observe(socialShowcaseForMedia);
 }
 
 document.querySelector('.about-social-link')?.addEventListener('click',event=>{
