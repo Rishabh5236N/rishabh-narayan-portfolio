@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 1280" role="img" aria-labelledby="title desc">
+  <title id="title">Hamilton's The Story of Tonight Close Read</title>
+  <desc id="desc">A YouTube school project edited by Rishabh Narayan.</desc>
+  <rect width="720" height="1280" fill="#f7f9fc"/>
+  <rect x="64" y="72" width="592" height="1136" rx="28" fill="#fff" stroke="#d6e0eb" stroke-width="4"/>
+  <rect x="112" y="138" width="118" height="82" rx="22" fill="#ff0033"/>
+  <path d="m158 158 46 21-46 21Z" fill="#fff"/>
+  <text x="112" y="360" fill="#0a2540" font-family="Arial, Helvetica, sans-serif" font-size="62" font-weight="700">Hamilton's</text>
+  <text x="112" y="438" fill="#0a2540" font-family="Arial, Helvetica, sans-serif" font-size="62" font-weight="700">The Story</text>
+  <text x="112" y="516" fill="#0a2540" font-family="Arial, Helvetica, sans-serif" font-size="62" font-weight="700">of Tonight</text>
+  <line x1="112" x2="608" y1="584" y2="584" stroke="#c55d5d" stroke-width="8"/>
+  <text x="112" y="682" fill="#425466" font-family="Arial, Helvetica, sans-serif" font-size="34">Close Read</text>
+  <text x="112" y="742" fill="#67768c" font-family="Arial, Helvetica, sans-serif" font-size="26">School project</text>
+  <text x="112" y="790" fill="#67768c" font-family="Arial, Helvetica, sans-serif" font-size="26">Edited by Rishabh Narayan</text>
+  <circle cx="560" cy="1054" r="50" fill="#635bff"/>
+  <path d="m545 1028 44 26-44 26Z" fill="#fff"/>
+</svg>
