@@ -2703,7 +2703,7 @@ html.stripe-light #research .research-visual-deepfake-image img {
 }
 
 html.stripe-light #research .research-visual-deepfake-image {
-  background: linear-gradient(90deg, #050505 0 50%, #ffffff 50% 100%) !important;
+  background: linear-gradient(90deg, #000000 0 52.5%, #ffffff 52.5% 100%) !important;
 }
 
 html.stripe-light #research .research-visual-survey-image img {
@@ -4750,5 +4750,5 @@ html.stripe-light .lightbox.open .lightbox-panel {
 
 /* Preserve the supplied split-tone Deepfake Lab artwork inside its wide frame. */
 html.stripe-light #research .research-project-entry.research-project-entry-image .research-visual-deepfake-image {
-  background: linear-gradient(90deg, #050505 0 50%, #ffffff 50% 100%) !important;
+  background: linear-gradient(90deg, #000000 0 52.5%, #ffffff 52.5% 100%) !important;
 }
