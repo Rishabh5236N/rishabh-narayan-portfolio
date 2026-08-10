@@ -4996,3 +4996,21 @@ html.stripe-light #work .reel-youtube-video .reel-external-link {
     background-position: -8px 58px !important;
   }
 }
+
+/* Cursor lock: late in the cascade so dynamically inserted cards and controls
+   cannot briefly restore the operating-system pointer on fine-pointer devices. */
+@media (hover: hover) and (pointer: fine) {
+  html.stripe-light,
+  html.stripe-light body,
+  html.stripe-light body *,
+  html.stripe-light body *::before,
+  html.stripe-light body *::after {
+    cursor: none !important;
+  }
+
+  html.stripe-light #cursor,
+  html.stripe-light #cursor-ring {
+    pointer-events: none !important;
+    will-change: transform;
+  }
+}

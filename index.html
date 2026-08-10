@@ -6893,7 +6893,7 @@ html.instant-render main>section:not(#hero).section-in-view>.inner{
   }
 }
 </style>
-<link rel="stylesheet" href="assets/stripe-light-prototype-20260802.css?v=20260809-finale-youtube-hero-b">
+<link rel="stylesheet" href="assets/stripe-light-prototype-20260802.css?v=20260809-cursor-lock-c">
 </head>
 <body>
 <div id="chapter-atmosphere" aria-hidden="true"></div>
@@ -8226,10 +8226,16 @@ document.addEventListener('pointermove',e=>{
   document.documentElement.classList.add('cursor-ready');
   if(!cursorFrame) cursorFrame=requestAnimationFrame(renderCursor);
 },{passive:true});
-document.documentElement.addEventListener('pointerleave',()=>{
+/* Only hide after the pointer actually leaves the browser viewport. Focus can
+   move into an iframe without the pointer leaving the page. */
+document.addEventListener('pointerout',e=>{
+  if(e.pointerType&&e.pointerType!=='mouse') return;
+  if(e.relatedTarget!==null) return;
+  const outside=e.clientX<=0||e.clientY<=0||e.clientX>=window.innerWidth||e.clientY>=window.innerHeight;
+  if(!outside) return;
   document.documentElement.classList.remove('cursor-ready');
   setCursorInteractive(false);
-});
+},{passive:true,capture:true});
 const interactiveSelector='a,button,.work-card,.exp-card,.sasa-item,.playable,.track-chip,.music-player-shell,.embed-open,.music-link,.carousel-btn,.hint-key,#start-btn,iframe';
 function setCursorInteractive(active){
   curEl.classList.toggle('big',active);
@@ -8244,9 +8250,10 @@ document.addEventListener('pointerout',e=>{
     setCursorInteractive(Boolean(e.relatedTarget.closest(interactiveSelector)));
   }
 });
-window.addEventListener('blur',()=>{
-  setCursorInteractive(false);
-  document.documentElement.classList.remove('cursor-ready');
+/* Clicking an embedded player blurs the parent window. Keep the cursor state
+   intact so it does not flash back to the browser cursor. */
+window.addEventListener('focus',()=>{
+  if(cursorSeeded) document.documentElement.classList.add('cursor-ready');
 });
 
 /* ─── AUDIO: CHROMATIC CLICK TONES ─── */
