@@ -6893,7 +6893,7 @@ html.instant-render main>section:not(#hero).section-in-view>.inner{
   }
 }
 </style>
-<link rel="stylesheet" href="assets/stripe-light-prototype-20260802.css?v=20260809-full-score-timeline-b">
+<link rel="stylesheet" href="assets/stripe-light-prototype-20260802.css?v=20260809-finale-youtube-hero-b">
 </head>
 <body>
 <div id="chapter-atmosphere" aria-hidden="true"></div>
@@ -7974,11 +7974,10 @@ html.instant-render main>section:not(#hero).section-in-view>.inner{
         <article class="score-role"><span class="score-dot"></span><div class="score-date">2025 - Present</div><h3>Campaign &amp; Social Media Marketing Intern</h3><p><strong>American Press Institute</strong> &middot; Campaign strategy, SEO, newsroom storytelling, and event b-roll.</p></article>
         <article class="score-role"><span class="score-dot"></span><div class="score-date">2024 - Present</div><h3>Media Advertising Coordinator</h3><p><strong>46LIVE</strong> &middot; Real-time THON photography, video editing, graphics, content delivery, and engagement testing.</p></article>
         <article class="score-role"><span class="score-dot"></span><div class="score-date">2024 - Present</div><h3>Marketing, Publicity &amp; Brand Development</h3><p><strong>South Asian Student Association</strong> &middot; Brand systems and content strategy producing 3.5M+ impressions and 200% audience growth.</p></article>
-        <article class="score-role"><span class="score-dot"></span><div class="score-date">Ongoing</div><h3>Entertainment Publicity &amp; Content Creation</h3><p><strong>CommRadio, Penn State Music Group, The Coda Conduct &amp; Twitch</strong> &middot; Radio, performance marketing, livestreaming, and creator-led content.</p></article>
+        <article class="score-role"><span class="score-dot"></span><div class="score-date">2024 - Present</div><h3>Entertainment Publicity &amp; Content Creation</h3><p><strong>CommRadio, Penn State Music Group, The Coda Conduct &amp; Twitch</strong> &middot; Radio, performance marketing, livestreaming, and creator-led content.</p></article>
       </div>
     </div>
     <div class="resume-actions">
-      <a href="https://www.linkedin.com/in/rishabh-narayan-050485230/" target="_blank" rel="noopener noreferrer" class="btn btn-outline resume-linkedin" aria-label="Open Rishabh Narayan on LinkedIn"><span class="linkedin-mark" aria-hidden="true">in</span><span>LinkedIn</span></a>
       <a href="#contact" class="btn btn-grad resume-request">Request Full Résumé</a>
       <a href="mailto:rkn5236@psu.edu?subject=Resume Request" class="btn btn-outline">Email Me Directly</a>
     </div>
@@ -8026,11 +8025,6 @@ html.instant-render main>section:not(#hero).section-in-view>.inner{
       <p class="mail-note" id="mailNote">This opens your email app with the message filled in, so you can review it before sending.</p>
     </form>
 
-    <div class="contact-links reveal">
-      <a href="https://www.linkedin.com/in/rishabh-narayan-050485230/" target="_blank" rel="noopener noreferrer" class="contact-link playable">LinkedIn</a>
-      <a href="https://instagram.com/thecodaconduct" class="contact-link playable">Instagram</a>
-      <a href="#resume" class="contact-link playable">Résumé</a>
-    </div>
     </div>
   </div>
     </div>
@@ -8070,7 +8064,7 @@ html.instant-render main>section:not(#hero).section-in-view>.inner{
 
 <footer>
   <span>© 2025 Rishabh Narayan · All rights reserved</span>
-  <a class="footer-linkedin" href="https://www.linkedin.com/in/rishabh-narayan-050485230/" target="_blank" rel="noopener noreferrer" aria-label="Open Rishabh Narayan on LinkedIn"><span aria-hidden="true">in</span> LinkedIn</a>
+  <a class="footer-linkedin" href="https://instagram.com/thecodaconduct" target="_blank" rel="noopener noreferrer" aria-label="Open The Coda Conduct on Instagram">Instagram</a>
 </footer>
 
 
@@ -9971,7 +9965,7 @@ const socialReelData={
     posterImage:'assets/social-reels/youtube-story-of-tonight.svg',
     posterPosition:'center',
     videoUrl:'',
-    embedUrl:'https://www.youtube.com/embed/btj5Lz8XrtU?autoplay=1&mute=1&playsinline=1&controls=1&rel=0&modestbranding=1',
+    embedUrl:'https://www.youtube-nocookie.com/embed/btj5Lz8XrtU?playsinline=1&controls=1&rel=0&modestbranding=1&origin=https%3A%2F%2Frishabh-narayan-portfolio.pages.dev&widget_referrer=https%3A%2F%2Frishabh-narayan-portfolio.pages.dev%2F',
     externalUrl:'https://youtu.be/btj5Lz8XrtU?is=2DzS-zpsT9AeVDaq',
     storyKicker:'YOUTUBE · SCHOOL PROJECT',
     storyTitle:"Hamilton's 'The Story of Tonight' Close Read",
@@ -11083,7 +11077,7 @@ if(contactMailbox){
     const heroRect = hero.getBoundingClientRect();
     const letterRect = firstLetter.getBoundingClientRect();
     const portraitWidth = leftPortrait.getBoundingClientRect().width;
-    const nameGap = Math.max(36, Math.min(49, window.innerWidth * .024));
+    const nameGap = -18;
     const shoulderPoint = portraitWidth * .48;
     const targetLeft = Math.max(-portraitWidth * .12, letterRect.left - heroRect.left - nameGap - shoulderPoint);
     leftPortrait.style.setProperty('left', `${targetLeft.toFixed(1)}px`, 'important');

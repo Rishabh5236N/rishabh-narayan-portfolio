@@ -4800,6 +4800,7 @@ html.stripe-light #research .research-project-entry.research-project-entry-image
 }
 
 html.stripe-light #work .reel-youtube-embed {
+  display: block !important;
   position: absolute;
   inset: 0;
   z-index: 4;
@@ -4956,4 +4957,42 @@ html.stripe-light body #resume .resume-contact-chapter .mail-field textarea {
 html.stripe-light body #resume .resume-contact-chapter textarea {
   min-height: 82px !important;
   height: 96px;
+}
+
+/* Final polish: one social footer, a larger mailbox, and closer hero portrait. */
+html.stripe-light #resume .finale-page-grid {
+  grid-template-columns: minmax(0, 1.32fr) minmax(360px, .68fr) !important;
+}
+html.stripe-light #resume .resume-actions {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  max-width: 520px;
+}
+html.stripe-light #resume .resume-actions .resume-request {
+  grid-column: 1 !important;
+  grid-row: 1;
+}
+html.stripe-light #resume .resume-contact-chapter .section-title {
+  font-size: clamp(1.9rem, 2.45vw, 2.7rem) !important;
+}
+html.stripe-light body #resume .resume-contact-chapter .contact-mailbox {
+  padding: 1.2rem !important;
+}
+html.stripe-light body #resume .resume-contact-chapter textarea {
+  min-height: 100px !important;
+  height: 112px;
+}
+html.stripe-light #work .reel-youtube-video .reel-media-art { display: none; }
+html.stripe-light #work .reel-youtube-video .reel-external-link {
+  bottom: .55rem;
+  padding: .38rem .62rem;
+  font-size: .56rem;
+  opacity: .72;
+}
+@media (max-width: 980px) {
+  html.stripe-light #resume .finale-page-grid { grid-template-columns: 1fr !important; }
+}
+@media (min-width: 961px) {
+  html.stripe-light #hero > .hero-photo-ghost-left {
+    background-position: -8px 58px !important;
+  }
 }
