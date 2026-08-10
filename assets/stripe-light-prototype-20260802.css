@@ -3748,6 +3748,12 @@ html.stripe-light .footer-linkedin {
   text-decoration: none;
 }
 
+html.stripe-light .footer-social-links {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+}
+
 html.stripe-light .footer-linkedin span {
   display: grid;
   width: 1.35rem;
