@@ -4809,3 +4809,151 @@ html.stripe-light #work .reel-youtube-embed {
   background: #000;
 }
 html.stripe-light #work .reel-youtube-embed[hidden] { display: none !important; }
+
+/* Finale: resume-led scorecard with a quieter supporting mailbox. */
+html.stripe-light #resume .finale-page-grid {
+  grid-template-columns: minmax(0, 1.42fr) minmax(310px, .58fr) !important;
+  gap: clamp(2rem, 3.5vw, 3.75rem) !important;
+}
+html.stripe-light #resume .full-score-board {
+  display: grid;
+  grid-template-columns: minmax(190px, .34fr) minmax(0, .66fr);
+  gap: clamp(1.5rem, 2.5vw, 2.6rem);
+  padding: clamp(1.4rem, 2.2vw, 2.2rem);
+  text-align: left;
+}
+html.stripe-light #resume .full-score-profile {
+  position: sticky;
+  top: 7rem;
+  align-self: start;
+  padding-right: clamp(.5rem, 1.4vw, 1.25rem);
+}
+html.stripe-light #resume .full-score-summary {
+  margin: 1.1rem 0 1.25rem;
+  color: #53647a;
+  font-size: .88rem;
+  line-height: 1.65;
+}
+html.stripe-light #resume .full-score-focus {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .42rem;
+}
+html.stripe-light #resume .full-score-focus span {
+  padding: .38rem .55rem;
+  border: 1px solid #d5e0eb;
+  border-radius: 4px;
+  color: #42526a;
+  background: #f8fbff;
+  font-size: .62rem;
+  font-weight: 650;
+}
+html.stripe-light #resume .full-score-education {
+  display: grid;
+  gap: .3rem;
+  margin-top: 1.4rem;
+  padding-top: 1rem;
+  border-top: 1px solid #dde6ef;
+  color: #53647a;
+  font-size: .73rem;
+  line-height: 1.5;
+}
+html.stripe-light #resume .full-score-education strong { color: var(--navy); }
+html.stripe-light #resume .full-score-timeline {
+  position: relative;
+  display: grid;
+  gap: 0;
+  padding-left: 1.5rem;
+}
+html.stripe-light #resume .full-score-timeline::before {
+  content: "";
+  position: absolute;
+  top: .4rem;
+  bottom: .8rem;
+  left: .32rem;
+  width: 1px;
+  background: linear-gradient(#635bff, #00a8c8 58%, #dfe7ef);
+  opacity: .5;
+}
+html.stripe-light #resume .score-role {
+  position: relative;
+  padding: 0 0 1.25rem .25rem;
+}
+html.stripe-light #resume .score-role:last-child { padding-bottom: 0; }
+html.stripe-light #resume .score-dot {
+  position: absolute;
+  top: .34rem;
+  left: -1.48rem;
+  width: 9px;
+  height: 9px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: #635bff;
+  box-shadow: 0 0 0 1px rgba(99,91,255,.3);
+}
+html.stripe-light #resume .score-role:nth-child(2n) .score-dot { background: #00a8c8; }
+html.stripe-light #resume .score-date {
+  margin-bottom: .22rem;
+  color: #7b8ba0;
+  font-size: .59rem;
+  font-weight: 750;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+html.stripe-light #resume .score-role h3 {
+  margin: 0 0 .28rem;
+  color: var(--navy);
+  font-family: "Regesto Grotesk", "DM Sans", sans-serif;
+  font-size: clamp(.92rem, 1.1vw, 1.06rem);
+  line-height: 1.25;
+}
+html.stripe-light #resume .score-role p {
+  margin: 0;
+  color: #627187;
+  font-size: .76rem;
+  line-height: 1.52;
+}
+html.stripe-light #resume .score-role p strong { color: #394960; font-weight: 700; }
+html.stripe-light #resume .resume-contact-chapter .section-title {
+  font-size: clamp(2.25rem, 3.2vw, 3.4rem) !important;
+  line-height: .94;
+}
+html.stripe-light #resume .resume-contact-chapter .contact-intro {
+  max-width: 42ch;
+  margin-bottom: .8rem;
+  font-size: .82rem;
+  line-height: 1.6;
+}
+html.stripe-light #resume .resume-contact-chapter .contact-mailbox {
+  margin-top: 1rem !important;
+  padding: 1rem !important;
+}
+html.stripe-light #resume .resume-contact-chapter .mailbox-title { font-size: .92rem; }
+html.stripe-light #resume .resume-contact-chapter .mailbox-top { margin-bottom: .8rem; }
+html.stripe-light #resume .resume-contact-chapter .mail-field { gap: .3rem; }
+html.stripe-light #resume .resume-contact-chapter .mail-field input,
+html.stripe-light #resume .resume-contact-chapter .mail-field textarea { padding: .62rem .7rem; }
+html.stripe-light #resume .resume-contact-chapter textarea { min-height: 88px; }
+
+@media (max-width: 980px) {
+  html.stripe-light #resume .finale-page-grid { grid-template-columns: 1fr !important; }
+  html.stripe-light #resume .resume-contact-chapter { max-width: 680px !important; margin-inline: auto !important; }
+}
+@media (max-width: 680px) {
+  html.stripe-light #resume .full-score-board { grid-template-columns: 1fr; }
+  html.stripe-light #resume .full-score-profile { position: static; padding-right: 0; }
+}
+
+html.stripe-light body #resume .resume-contact-chapter .contact-mailbox {
+  margin-top: 1rem !important;
+  padding: 1rem !important;
+}
+html.stripe-light body #resume .resume-contact-chapter .mailbox-top { margin-bottom: .7rem !important; }
+html.stripe-light body #resume .resume-contact-chapter .mail-field input,
+html.stripe-light body #resume .resume-contact-chapter .mail-field textarea {
+  padding: .58rem .68rem !important;
+}
+html.stripe-light body #resume .resume-contact-chapter textarea {
+  min-height: 82px !important;
+  height: 96px;
+}
