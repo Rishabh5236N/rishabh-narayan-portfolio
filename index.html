@@ -6893,7 +6893,7 @@ html.instant-render main>section:not(#hero).section-in-view>.inner{
   }
 }
 </style>
-<link rel="stylesheet" href="assets/stripe-light-prototype-20260802.css?v=20260809-deepfake-blend">
+<link rel="stylesheet" href="assets/stripe-light-prototype-20260802.css?v=20260809-mobile-nav-youtube">
 </head>
 <body>
 <div id="chapter-atmosphere" aria-hidden="true"></div>
@@ -7575,6 +7575,7 @@ html.instant-render main>section:not(#hero).section-in-view>.inner{
 
                 <div class="ig-post-media reel-browser-media" id="reelMedia">
                   <video class="native-reel-video" id="reelVideo" muted loop playsinline preload="none" disablepictureinpicture controlslist="nodownload noplaybackrate noremoteplayback" aria-label="Selected PSU SASA Instagram reel"></video>
+                  <iframe class="reel-youtube-embed" id="reelYouTubeEmbed" title="Selected YouTube video" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" hidden></iframe>
                   <div class="reel-media-controls" id="reelMediaControls" role="group" aria-label="Reel playback controls">
                     <button class="reel-media-control playable" type="button" data-reel-media-control="rewind" aria-label="Rewind 10 seconds" title="Rewind 10 seconds"><span aria-hidden="true">↶</span><span class="seek-amount" aria-hidden="true">10</span></button>
                     <button class="reel-media-control playable" id="reelPlayToggle" type="button" data-reel-media-control="play" aria-label="Pause reel" title="Play or pause"><span aria-hidden="true">Ⅱ</span></button>
@@ -9801,6 +9802,7 @@ const reelData=[
 const reelButtons=document.querySelectorAll('.reel-thumb');
 const reelMedia=document.getElementById('reelMedia');
 const reelVideo=document.getElementById('reelVideo');
+const reelYouTubeEmbed=document.getElementById('reelYouTubeEmbed');
 const reelExternalLink=document.getElementById('reelExternalLink');
 const reelMediaControls=document.getElementById('reelMediaControls');
 const reelPlayToggle=document.getElementById('reelPlayToggle');
@@ -9895,6 +9897,17 @@ const syncReelVideo=(data,shouldPlay)=>{
   if(playPromise&&typeof playPromise.catch==='function') playPromise.catch(()=>{});
   updateReelMediaControls();
 };
+const syncYouTubeEmbed=(data,shouldPlay)=>{
+  if(!reelYouTubeEmbed) return;
+  const nextSource=shouldPlay&&data.embedUrl?data.embedUrl:'';
+  reelYouTubeEmbed.hidden=!nextSource;
+  if(nextSource){
+    if(reelYouTubeEmbed.getAttribute('src')!==nextSource) reelYouTubeEmbed.setAttribute('src',nextSource);
+  }else if(reelYouTubeEmbed.hasAttribute('src')){
+    reelYouTubeEmbed.removeAttribute('src');
+  }
+  if(reelMediaControls) reelMediaControls.hidden=Boolean(nextSource);
+};
 setReel=function(index){
   const data=reelData[index]||reelData[0];
   reelButtons.forEach(btn=>btn.classList.toggle('active',Number(btn.dataset.reel)===index));
@@ -9945,7 +9958,7 @@ reelExtras.splice(0,reelExtras.length,...orderedReelExtras);
 reelData.forEach((item,i)=>Object.assign(item,reelExtras[i]));
 const socialReelData={
   sasa:reelData,
-  live46:[1,2,3,4].map((clip,index)=>({
+  live46:[4,1,2,3].map((clip,index)=>({
     title:`THON Captured<br>Live ${String(clip).padStart(2,'0')}`,
     subtitle:"Penn State's THON captured by 46LIVE.",
     caption:'17K viewers live. Each video was captured directly by me, edited on the spot, uploaded, and fed through content deliverables and the livestream in real time.',
@@ -9979,6 +9992,7 @@ const socialReelData={
     posterImage:'assets/social-reels/youtube-story-of-tonight.svg',
     posterPosition:'center',
     videoUrl:'',
+    embedUrl:'https://www.youtube.com/embed/btj5Lz8XrtU?autoplay=1&mute=1&playsinline=1&controls=1&rel=0&modestbranding=1',
     externalUrl:'https://youtu.be/btj5Lz8XrtU?is=2DzS-zpsT9AeVDaq',
     storyKicker:'YOUTUBE · SCHOOL PROJECT',
     storyTitle:"Hamilton's 'The Story of Tonight' Close Read",
@@ -10036,13 +10050,15 @@ setReel=function(index){
     reelMedia.classList.add('switching');
     window.setTimeout(()=>reelMedia.classList.remove('switching'),220);
     reelMedia.classList.remove('reel-kupid','reel-holi','reel-static-poster');
-    reelMedia.classList.toggle('reel-live-video',Boolean(data.videoUrl));
-    reelMedia.classList.toggle('reel-static-poster',Boolean(!data.videoUrl&&data.posterImage));
+    reelMedia.classList.toggle('reel-live-video',Boolean(data.videoUrl||data.embedUrl));
+    reelMedia.classList.toggle('reel-youtube-video',Boolean(data.embedUrl));
+    reelMedia.classList.toggle('reel-static-poster',Boolean(!data.videoUrl&&!data.embedUrl&&data.posterImage));
     reelMedia.style.setProperty('--reel-poster',data.posterImage?`url("${data.posterImage}")`:'none');
     reelMedia.style.setProperty('--reel-poster-position',data.posterPosition||'center');
     if(data.cls) reelMedia.classList.add(data.cls);
   }
-  syncReelVideo(data,socialEmbedEnabled);
+  syncYouTubeEmbed(data,socialEmbedEnabled);
+  syncReelVideo(data,socialEmbedEnabled&&!data.embedUrl);
   document.querySelectorAll('[data-progress]').forEach((bar,i)=>bar.style.setProperty('--fill',i<activeReelIndex?'100%':i===activeReelIndex?'68%':'0%'));
   setReelHTML('reelTitle',data.title);
   setReelHTML('reelSubtitle',String(data.subtitle).replaceAll('â€¢','-'));
