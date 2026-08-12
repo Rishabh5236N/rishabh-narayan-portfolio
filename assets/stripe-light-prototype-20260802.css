@@ -3759,13 +3759,16 @@ html.stripe-light .footer-social-link svg {
   height: 1.12rem;
   flex: 0 0 auto;
   fill: none;
-  stroke: currentColor;
-  stroke-width: 1.8;
+  stroke: none;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
-html.stripe-light .footer-instagram .social-icon-dot { fill: currentColor; stroke: none; }
+html.stripe-light .footer-instagram .social-icon-brand-fill { fill: url(#footerInstagramGradient); }
+html.stripe-light .footer-instagram .social-icon-instagram-line { fill: none; stroke: #fff; stroke-width: 1.45; }
+html.stripe-light .footer-instagram .social-icon-instagram-dot { fill: #fff; }
+html.stripe-light .footer-linkedin .social-icon-linkedin-fill { fill: #0a66c2; }
+html.stripe-light .footer-linkedin .social-icon-linkedin-line { fill: none; stroke: #fff; stroke-width: 1.65; }
 
 html.stripe-light .footer-linkedin:hover,
 html.stripe-light .footer-linkedin:focus-visible {
