@@ -6895,7 +6895,7 @@ html.instant-render main>section:not(#hero).section-in-view>.inner{
   }
 }
 </style>
-<link rel="stylesheet" href="assets/stripe-light-prototype-20260802.css?v=20260812-social-brand-colors">
+<link rel="stylesheet" href="assets/stripe-light-prototype-20260802.css?v=20260812-final-hero-position">
 </head>
 <body>
 <div id="chapter-atmosphere" aria-hidden="true"></div>
@@ -11081,23 +11081,20 @@ if(contactMailbox){
   window.setTimeout(() => name.classList.remove('name-intro-twinkle'), 3900);
 
   const alignLeftPortrait = () => {
+    if (new URLSearchParams(location.search).get('editor') === 'hero-position') return;
     if (!hero || !leftPortrait || !firstLetter) return;
     if (window.innerWidth <= 960) {
       leftPortrait.style.removeProperty('left');
       return;
     }
-    const heroRect = hero.getBoundingClientRect();
-    const letterRect = firstLetter.getBoundingClientRect();
-    const portraitWidth = leftPortrait.getBoundingClientRect().width;
-    const nameGap = 2;
-    const shoulderPoint = portraitWidth * .56;
-    const targetLeft = Math.max(-portraitWidth * .12, letterRect.left - heroRect.left - nameGap - shoulderPoint);
-    leftPortrait.style.setProperty('left', `${targetLeft.toFixed(1)}px`, 'important');
+    leftPortrait.style.setProperty('left', '153px', 'important');
   };
-  requestAnimationFrame(alignLeftPortrait);
-  document.fonts?.ready?.then(alignLeftPortrait);
-  window.addEventListener('resize', alignLeftPortrait, { passive: true });
-  if ('ResizeObserver' in window && hero) new ResizeObserver(alignLeftPortrait).observe(hero);
+  if (new URLSearchParams(location.search).get('editor') !== 'hero-position') {
+    requestAnimationFrame(alignLeftPortrait);
+    document.fonts?.ready?.then(alignLeftPortrait);
+    window.addEventListener('resize', alignLeftPortrait, { passive: true });
+    if ('ResizeObserver' in window && hero) new ResizeObserver(alignLeftPortrait).observe(hero);
+  }
 })();
 </script>
 <script>

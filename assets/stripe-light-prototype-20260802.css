@@ -5012,8 +5012,12 @@ html.stripe-light #work .reel-youtube-video .reel-external-link {
     width: clamp(500px, 43vw, 620px) !important;
   }
   html.stripe-light #hero > .hero-photo-ghost-left {
-    background-size: auto 144% !important;
-    background-position: center 34px !important;
+    width: 608px !important;
+    left: 153px !important;
+    right: auto !important;
+    top: 355px !important;
+    background-size: auto 149% !important;
+    background-position: 3px 24px !important;
   }
 }
 
