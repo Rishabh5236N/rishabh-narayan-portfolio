@@ -6895,7 +6895,7 @@ html.instant-render main>section:not(#hero).section-in-view>.inner{
   }
 }
 </style>
-<link rel="stylesheet" href="assets/stripe-light-prototype-20260802.css?v=20260809-cursor-lock-c">
+<link rel="stylesheet" href="assets/stripe-light-prototype-20260802.css?v=20260812-footer-hero-align">
 </head>
 <body>
 <div id="chapter-atmosphere" aria-hidden="true"></div>
@@ -8067,8 +8067,8 @@ html.instant-render main>section:not(#hero).section-in-view>.inner{
 <footer>
   <span>© 2025 Rishabh Narayan · All rights reserved</span>
   <div class="footer-social-links" aria-label="Social profiles">
-    <a class="footer-linkedin" href="https://instagram.com/thecodaconduct" target="_blank" rel="noopener noreferrer" aria-label="Open The Coda Conduct on Instagram">Instagram</a>
-    <a class="footer-linkedin" href="https://www.linkedin.com/in/rishabh-narayan-050485230/" target="_blank" rel="noopener noreferrer" aria-label="Open Rishabh Narayan on LinkedIn"><span aria-hidden="true">in</span>LinkedIn</a>
+    <a class="footer-social-link footer-instagram" href="https://instagram.com/thecodaconduct" target="_blank" rel="noopener noreferrer" aria-label="Open The Coda Conduct on Instagram"><svg aria-hidden="true" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.25"/><circle class="social-icon-dot" cx="17.45" cy="6.65" r="1"/></svg><span>Instagram</span></a>
+    <a class="footer-social-link footer-linkedin" href="https://www.linkedin.com/in/rishabh-narayan-050485230/" target="_blank" rel="noopener noreferrer" aria-label="Open Rishabh Narayan on LinkedIn"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5.4 8.8v10.1M5.4 5.2v.1M9.9 18.9V8.8m0 4.3c.7-2.8 5.9-3.2 5.9 1.1v4.7"/></svg><span>LinkedIn</span></a>
   </div>
 </footer>
 
@@ -11089,8 +11089,8 @@ if(contactMailbox){
     const heroRect = hero.getBoundingClientRect();
     const letterRect = firstLetter.getBoundingClientRect();
     const portraitWidth = leftPortrait.getBoundingClientRect().width;
-    const nameGap = -18;
-    const shoulderPoint = portraitWidth * .48;
+    const nameGap = 2;
+    const shoulderPoint = portraitWidth * .56;
     const targetLeft = Math.max(-portraitWidth * .12, letterRect.left - heroRect.left - nameGap - shoulderPoint);
     leftPortrait.style.setProperty('left', `${targetLeft.toFixed(1)}px`, 'important');
   };

@@ -3739,10 +3739,10 @@ html.stripe-light #resume .resume-contact-chapter .inner {
   margin-inline: auto;
 }
 
-html.stripe-light .footer-linkedin {
+html.stripe-light .footer-social-link {
   display: inline-flex;
   align-items: center;
-  gap: .45rem;
+  gap: .34rem;
   color: #536178;
   font-weight: 600;
   text-decoration: none;
@@ -3751,24 +3751,30 @@ html.stripe-light .footer-linkedin {
 html.stripe-light .footer-social-links {
   display: inline-flex;
   align-items: center;
-  gap: 1rem;
+  gap: 1.35rem;
 }
 
-html.stripe-light .footer-linkedin span {
-  display: grid;
-  width: 1.35rem;
-  height: 1.35rem;
-  place-items: center;
-  border-radius: 3px;
-  background: #0a66c2;
-  color: #fff;
-  font-size: .72rem;
-  font-weight: 800;
+html.stripe-light .footer-social-link svg {
+  width: 1.12rem;
+  height: 1.12rem;
+  flex: 0 0 auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
+
+html.stripe-light .footer-instagram .social-icon-dot { fill: currentColor; stroke: none; }
 
 html.stripe-light .footer-linkedin:hover,
 html.stripe-light .footer-linkedin:focus-visible {
   color: #0a66c2;
+}
+
+html.stripe-light .footer-instagram:hover,
+html.stripe-light .footer-instagram:focus-visible {
+  color: #c43f72;
 }
 
 @media (max-width: 720px) {
@@ -4998,8 +5004,13 @@ html.stripe-light #work .reel-youtube-video .reel-external-link {
   html.stripe-light #resume .finale-page-grid { grid-template-columns: 1fr !important; }
 }
 @media (min-width: 961px) {
+  html.stripe-light #hero > .hero-photo-ghost,
   html.stripe-light #hero > .hero-photo-ghost-left {
-    background-position: -8px 58px !important;
+    width: clamp(500px, 43vw, 620px) !important;
+  }
+  html.stripe-light #hero > .hero-photo-ghost-left {
+    background-size: auto 144% !important;
+    background-position: center 34px !important;
   }
 }
 
