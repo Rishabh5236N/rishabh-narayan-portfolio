@@ -5013,11 +5013,130 @@ html.stripe-light #work .reel-youtube-video .reel-external-link {
   }
   html.stripe-light #hero > .hero-photo-ghost-left {
     width: 608px !important;
-    left: 153px !important;
+    left: calc(50% - 567px) !important;
     right: auto !important;
     top: 355px !important;
     background-size: auto 149% !important;
     background-position: 3px 24px !important;
+  }
+}
+
+/* Final responsive hero composition: the 1440px editor layout is anchored to
+   the hero center, so wider and narrower desktops retain the same portrait/name relationship. */
+html.stripe-light #hero .hero-name,
+html.stripe-light #hero .hero-title,
+html.stripe-light #hero .hero-tags,
+html.stripe-light #hero .hero-ctas {
+  width: min(100%, 1040px);
+  margin-left: auto !important;
+  margin-right: auto !important;
+  text-align: center;
+}
+
+html.stripe-light #hero .hero-role-stage,
+html.stripe-light #hero .hero-tags,
+html.stripe-light #hero .hero-ctas {
+  justify-content: center;
+  justify-items: center;
+}
+
+@media (min-width: 961px) {
+  html.stripe-light #hero > .hero-photo-ghost {
+    width: 608px !important;
+    left: auto !important;
+    right: calc(50% - 567px) !important;
+    top: 355px !important;
+  }
+
+  html.stripe-light #hero .hero-ctas .btn {
+    min-width: 190px;
+  }
+}
+
+@media (max-width: 720px) {
+  html.stripe-light #hero {
+    min-height: 900px !important;
+    padding: 18.25rem .75rem 4.25rem !important;
+    overflow: hidden !important;
+  }
+
+  html.stripe-light #hero > .treble-clef {
+    top: 14.1rem !important;
+    font-size: 2.25rem !important;
+  }
+
+  html.stripe-light #hero > .hero-photo-ghost,
+  html.stripe-light #hero > .hero-photo-ghost-left {
+    display: block !important;
+    top: 18.7rem !important;
+    width: min(66vw, 270px) !important;
+    opacity: .5 !important;
+  }
+
+  html.stripe-light #hero > .hero-photo-ghost-left {
+    left: -2.2rem !important;
+    right: auto !important;
+    background-size: auto 149% !important;
+    background-position: 3px 24px !important;
+  }
+
+  html.stripe-light #hero > .hero-photo-ghost {
+    left: auto !important;
+    right: -2.2rem !important;
+  }
+
+  html.stripe-light #hero .hero-name {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 8ch;
+    margin-top: 6.4rem !important;
+    font-size: clamp(3.45rem, 16vw, 4.25rem) !important;
+    line-height: .88 !important;
+  }
+
+  html.stripe-light #hero .hero-title {
+    width: 100% !important;
+    min-height: 2.8rem;
+    margin: .8rem auto 1rem !important;
+    font-size: 1rem !important;
+  }
+
+  html.stripe-light #hero .hero-tags {
+    width: min(100%, 390px);
+    gap: .4rem !important;
+    margin-bottom: 1.15rem !important;
+  }
+
+  html.stripe-light #hero .tag {
+    padding: .34rem .5rem !important;
+    font-size: .54rem !important;
+  }
+
+  html.stripe-light #hero .hero-ctas {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: min(100%, 410px) !important;
+    gap: .42rem !important;
+  }
+
+  html.stripe-light #hero .hero-ctas .btn {
+    display: grid;
+    min-width: 0 !important;
+    min-height: 42px !important;
+    padding: .55rem .25rem !important;
+    place-items: center;
+    font-size: .5rem !important;
+    line-height: 1.15;
+    white-space: normal;
+  }
+
+  html.stripe-light #open-piano-game.piano-side-invite {
+    right: .75rem !important;
+    bottom: .75rem !important;
+    width: 44px !important;
+    height: 44px !important;
+    padding: 0 !important;
   }
 }
 

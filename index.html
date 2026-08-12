@@ -6895,7 +6895,7 @@ html.instant-render main>section:not(#hero).section-in-view>.inner{
   }
 }
 </style>
-<link rel="stylesheet" href="assets/stripe-light-prototype-20260802.css?v=20260812-final-hero-position">
+<link rel="stylesheet" href="assets/stripe-light-prototype-20260802.css?v=20260812-responsive-hero-alignment">
 </head>
 <body>
 <div id="chapter-atmosphere" aria-hidden="true"></div>
@@ -11087,7 +11087,7 @@ if(contactMailbox){
       leftPortrait.style.removeProperty('left');
       return;
     }
-    leftPortrait.style.setProperty('left', '153px', 'important');
+    leftPortrait.style.setProperty('left', 'calc(50% - 567px)', 'important');
   };
   if (new URLSearchParams(location.search).get('editor') !== 'hero-position') {
     requestAnimationFrame(alignLeftPortrait);
